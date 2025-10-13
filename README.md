@@ -101,4 +101,4 @@ API連携
 https://www.figma.com/design/DiLjW2lwaKqhlrHJfnXFTe/Book-Image?node-id=0-1&p=f&t=7dom3R6utK3L4ff5-0
 
 ## ER図
-![ER図](https://gyazo.com/668a52905c1f566073e8549840a1bdd5)
+![ER図](https://i.gyazo.com/668a52905c1f566073e8549840a1bdd5.png)
