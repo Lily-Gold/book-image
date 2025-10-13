@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # book-image
 本の印象で導く、新しい読書体験アプリ
 =======
@@ -103,4 +102,3 @@ https://www.figma.com/design/DiLjW2lwaKqhlrHJfnXFTe/Book-Image?node-id=0-1&p=f&t
 
 ## ER図
 ![ER図](https://gyazo.com/668a52905c1f566073e8549840a1bdd5)
->>>>>>> er-diagram-update
