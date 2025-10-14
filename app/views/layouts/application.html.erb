@@ -25,15 +25,23 @@
 
   <body>
     <!-- ✅ ヘッダーここから -->
-    <header class="bg-[#004865] text-white">
+    <header class="bg-[#004865] text-white h-16 flex items-center shadow-md">
       <div class="w-full flex justify-between items-center px-10 py-3">
-        <!-- 左側：ロゴ（ページによって出し分け） -->
-        <h1 class="text-3xl font-bold font-['EB_Garamond'] tracking-wide flex items-center gap-3">
-
+        
+        <!-- 左側：ロゴ＋アイコン -->
+        <h1 class="text-3xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
           <% if current_page?(root_path) %>
-            Book Image
+            <!-- トップページでは固定 -->
+            <span class="flex items-center gap-1">
+              Book Image
+              <%= image_tag "favicon.png", alt: "Book Image アイコン", class: "h-12 w-12 object-contain translate-y-[1px]" %>
+            </span>
           <% else %>
-            <%= link_to "Book Image", root_path, class: "hover:opacity-80" %>
+            <!-- それ以外のページではリンク化 -->
+            <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
+              Book Image
+              <%= image_tag "favicon.png", alt: "Book Image アイコン", class: "h-12 w-12 object-contain translate-y-[1px]" %>
+            <% end %>
           <% end %>
         </h1>
 
