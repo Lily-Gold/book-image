@@ -30,18 +30,9 @@
         
         <!-- 左側：ロゴ＋アイコン -->
         <h1 class="text-3xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
-          <% if current_page?(root_path) %>
-            <!-- トップページでは固定 -->
-            <span class="flex items-center gap-1">
-              Book Image
-              <%= image_tag "favicon.png", alt: "Book Image アイコン", class: "h-12 w-12 object-contain translate-y-[1px]" %>
-            </span>
-          <% else %>
-            <!-- それ以外のページではリンク化 -->
-            <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
-              Book Image
-              <%= image_tag "favicon.png", alt: "Book Image アイコン", class: "h-12 w-12 object-contain translate-y-[1px]" %>
-            <% end %>
+          <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
+            Book Image
+            <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-12 w-12 object-contain translate-y-[1px]" %>
           <% end %>
         </h1>
 
@@ -54,6 +45,20 @@
     </header>
     <!-- ✅ ヘッダーここまで -->
 
+    <!-- ✅ ページごとの中身 -->
     <%= yield %>
+
+    <!-- ✅ フッターここから -->
+    <footer class="bg-[#E0E0E2] text-[#004865] text-sm border-t border-gray-300 py-4 px-10">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-6">
+          <span>利用規約</span>
+          <span>プライバシーポリシー</span>
+          <span>お問い合わせ</span>
+        </div>
+      <p>© 2025 Book Image</p>
+    </div>
+  </footer>
+    <!-- ✅ フッターここまで -->
   </body>
 </html>
