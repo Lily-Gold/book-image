@@ -1,28 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Myapp" %></title>
+    <title><%= content_for(:title) || "Book Image" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- ✅ ファビコン設定 -->
+    <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
+
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <!-- ✅ フォントとスタイルシート -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
+    <!-- ✅ ヘッダーここから -->
+    <header class="bg-[#004865] text-white h-16 flex items-center shadow-md">
+      <div class="w-full flex justify-between items-center px-10 py-3">
+        
+        <!-- 左側：ロゴ＋アイコン -->
+        <h1 class="text-3xl font-bold font-['EB_Garamond'] tracking-wide flex items-center drop-shadow-">
+          <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
+            Book Image
+            <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-12 w-auto object-contain translate-y-[1px]" %>
+          <% end %>
+        </h1>
+
+        <!-- 右側：ナビゲーション -->
+        <nav class="flex gap-8 text-base mr-2">
+          <%= link_to "ログイン", "#", class: "hover:underline" %>
+          <%= link_to "新規登録", "#", class: "hover:underline" %>
+        </nav>
+      </div>
+    </header>
+    <!-- ✅ ヘッダーここまで -->
+
+    <!-- ✅ ページごとの中身 -->
     <%= yield %>
+
+    <!-- ✅ フッターここから -->
+    <footer class="bg-[#E0E0E2] text-[#004865] text-sm border-t border-gray-300 py-4 px-10">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-6">
+          <span>利用規約</span>
+          <span>プライバシーポリシー</span>
+          <span>お問い合わせ</span>
+        </div>
+      <p>© 2025 Book Image</p>
+    </div>
+  </footer>
+    <!-- ✅ フッターここまで -->
   </body>
 </html>
