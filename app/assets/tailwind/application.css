@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@layer base {
+  /* 全体のフォント */
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  /* 見出し（例：「読む」から「感じる」へ。） */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif JP', serif;
+  }
+
+  /* ロゴ（Book Image） */
+  .logo-text {
+    font-family: 'EB Garamond', serif;
+  }
+}
