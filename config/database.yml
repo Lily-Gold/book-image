@@ -84,7 +84,15 @@ test:
 production:
   primary:
     <<: *default
-    url: <%= ENV['DATABASE_URL'] %>
+    database: <%= ENV["DB_NAME"] %>
+    url: <%= ENV["DATABASE_URL"] %>
+
   cable:
     <<: *default
-    url: <%= ENV['DATABASE_URL'] %>
+    database: <%= ENV["DB_NAME"] %>
+    url: <%= ENV["DATABASE_URL"] %>
+
+  queue:
+    <<: *default
+    database: <%= ENV["DB_NAME"] %>
+    url: <%= ENV["DATABASE_URL"] %>
