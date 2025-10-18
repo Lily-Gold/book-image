@@ -96,3 +96,8 @@ production:
     <<: *default
     database: <%= ENV["DB_NAME"] %>
     url: <%= ENV["DATABASE_URL"] %>
+
+  cache:
+    <<: *default
+    database: <%= ENV["DB_NAME"] %>
+    url: <%= ENV["DATABASE_URL"] %>
