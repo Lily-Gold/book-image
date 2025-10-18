@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -o errexit
 
 # 依存関係をインストール
