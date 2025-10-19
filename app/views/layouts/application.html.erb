@@ -40,9 +40,9 @@
         </h1>
 
         <!-- 右側：ナビゲーション -->
-        <nav class="flex gap-8 text-base mr-2">
+        <nav class="flex items-center gap-6 text-sm mr-2">
           <%= link_to "ログイン", "#", class: "hover:underline" %>
-          <%= link_to "新規登録", "#", class: "hover:underline" %>
+          <%= link_to "新規登録", "#", class: "bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm" %>
         </nav>
       </div>
     </header>
@@ -52,16 +52,20 @@
     <%= yield %>
 
     <!-- ✅ フッターここから -->
-    <footer class="bg-[#E0E0E2] text-[#004865] text-sm border-t border-gray-300 py-4 px-10">
+    <footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
       <div class="flex justify-between items-center">
-        <div class="flex gap-6">
-          <span>利用規約</span>
-          <span>プライバシーポリシー</span>
+        <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
+          <span class="relative after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400 last:after:hidden">
+            利用規約
+          </span>
+          <span class="relative after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400 last:after:hidden">
+            プライバシーポリシー
+          </span>
           <span>お問い合わせ</span>
         </div>
-      <p>© 2025 Book Image</p>
-    </div>
-  </footer>
+        <p>© 2025 Book Image</p>
+      </div>
+    </footer>
     <!-- ✅ フッターここまで -->
   </body>
 </html>
