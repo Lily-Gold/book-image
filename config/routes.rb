@@ -11,5 +11,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "homes#index"
-  devise_for :users
+  devise_for :users, controllers: {
+  sessions: "users/sessions",
+  registrations: "users/registrations"
+}
 end

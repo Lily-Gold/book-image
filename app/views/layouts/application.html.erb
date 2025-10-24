@@ -28,21 +28,21 @@
 
   <body>
     <!-- ✅ ヘッダーここから -->
-    <header class="bg-[#004865] text-white h-16 flex items-center shadow-md">
+    <header class="bg-[#004865] text-white h-14 flex items-center shadow-md">
       <div class="w-full flex justify-between items-center px-10 py-3">
         
         <!-- 左側：ロゴ＋アイコン -->
-        <h1 class="text-3xl font-bold font-['EB_Garamond'] tracking-wide flex items-center drop-shadow-">
+        <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
           <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
             Book Image
-            <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-12 w-auto object-contain translate-y-[1px]" %>
+            <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-10 w-auto object-contain translate-y-[1px]" %>
           <% end %>
         </h1>
 
         <!-- 右側：ナビゲーション -->
         <nav class="flex items-center gap-6 text-sm mr-2">
           <%= link_to "ログイン", new_user_session_path, class: "hover:underline" %>
-          <%= link_to "新規登録", new_user_registration_path, class: "bg-[#986321] text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm" %>
         </nav>
       </div>
     </header>
