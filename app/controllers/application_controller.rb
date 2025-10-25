@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     # プロフィール編集
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :introduction, :profile_image])
   end
+
+  def after_sign_in_path_for(resource)
+    reviews_path
+  end
 end
