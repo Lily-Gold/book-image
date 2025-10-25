@@ -8,13 +8,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- ✅ ファビコン設定 -->
+    <!-- ファビコン設定 -->
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
 
     <%= yield :head %>
 
-    <!-- ✅ フォントとスタイルシート -->
+    <!-- フォントとスタイルシート -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -27,11 +27,11 @@
   </head>
 
   <body>
-    <!-- ✅ ヘッダーここから -->
+    <!-- ヘッダー -->
     <header class="bg-[#004865] text-white h-14 flex items-center shadow-md">
       <div class="w-full flex justify-between items-center px-10 py-3">
         
-        <!-- 左側：ロゴ＋アイコン -->
+        <!-- ロゴ＋アイコン -->
         <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
           <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200" do %>
             Book Image
@@ -39,19 +39,49 @@
           <% end %>
         </h1>
 
-        <!-- 右側：ナビゲーション -->
-        <nav class="flex items-center gap-6 text-sm mr-2">
-          <%= link_to "ログイン", new_user_session_path, class: "hover:underline" %>
-          <%= link_to "新規登録", new_user_registration_path, class: "bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm" %>
+        <!-- ナビゲーション -->
+        <nav class="relative flex items-center gap-6 text-sm mr-2" data-controller="dropdown">
+          <% if user_signed_in? %>
+            <!-- プロフィールアイコン（クリックでメニュー開閉） -->
+            <button
+              data-action="click->dropdown#toggle"
+              class="focus:outline-none"
+            >
+              <%= image_tag(
+                    current_user.profile_image.presence || "avatar.png",
+                    alt: "プロフィール画像",
+                    class: "w-9 h-9 rounded-full object-cover border border-gray-300 hover:opacity-80 transition"
+                  ) %>
+            </button>
+
+            <!-- ドロップダウンメニュー -->
+            <div
+              data-dropdown-target="menu"
+              class="absolute right-0 mt-12 w-48 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden"
+            >
+              <%= link_to "アカウント設定", edit_user_registration_path,
+                  class: "block px-4 py-2 hover:bg-gray-100" %>
+              <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
+                  class: "w-full text-left px-4 py-2 hover:bg-gray-100" %>
+            </div>
+
+          <% else %>
+            <%= link_to "ログイン", new_user_session_path, class: "hover:underline" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm" %>
+          <% end %>
         </nav>
       </div>
     </header>
-    <!-- ✅ ヘッダーここまで -->
 
-    <!-- ✅ ページごとの中身 -->
+    <!-- フラッシュメッセージ -->
+    <!-- トースト通知 -->
+    <%= render "layouts/flash" %>
+    <%= turbo_stream_from "flash" %>
+  <main class="min-h-[70vh]">
     <%= yield %>
+  </main>
 
-    <!-- ✅ フッターここから -->
+    <!-- フッター -->
     <footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
       <div class="flex justify-between items-center">
         <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
@@ -66,6 +96,5 @@
         <p>© 2025 Book Image</p>
       </div>
     </footer>
-    <!-- ✅ フッターここまで -->
   </body>
 </html>
