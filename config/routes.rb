@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "homes#index"
   devise_for :users, controllers: {
-  sessions: "users/sessions",
-  registrations: "users/registrations"
-}
+    sessions: "users/sessions",
+    registrations: "users/registrations",
+    omniauth_callbacks: "users/omniauth_callbacks"  # ← これを追加！
+  }
 end

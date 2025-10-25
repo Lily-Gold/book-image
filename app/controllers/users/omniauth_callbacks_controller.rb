@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  def google_oauth2
+    redirect_to root_path, notice: "Googleログインは現在準備中です。"
+  end
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 

@@ -304,6 +304,7 @@ Devise.setup do |config|
   # Note: These might become the new default in future versions of Devise.
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
+  config.omniauth :google_oauth2, "DUMMY_ID", "DUMMY_SECRET", {}
 
   # ==> Configuration for :registerable
 
