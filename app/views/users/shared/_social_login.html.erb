@@ -1,5 +1,13 @@
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %><br />
+<% if devise_mapping.omniauthable? %>
+  <% resource_class.omniauth_providers.each do |provider| %>
+    <button
+      type="button"
+      disabled
+      class="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2.5 px-4 text-sm font-medium text-gray-400 bg-gray-50 cursor-not-allowed"
+      title="現在は未実装です"
+    >
+      <img src="/assets/google_icon.svg" alt="Google" class="w-5 h-5 opacity-60">
+      <span>Googleでログイン（開発中）</span>
+    </button>
   <% end %>
 <% end %>
