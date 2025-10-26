@@ -1,28 +1,43 @@
-<h2>ログイン</h2>
+<div class="flex justify-center items-center min-h-[87vh]" style="background-color: #F4F4F4;">
+  <div class="bg-white pt-8 px-8 rounded-xl shadow-lg w-full max-w-md my-[5.65rem]">
+    <h2 class="text-3xl font-bold text-center text-[#004865] mb-6">ログイン</h2>
 
-<%= render "users/shared/social_login" %>
+    <%= render "users/shared/social_login" %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="flex items-center justify-center my-5">
+      <div class="flex-grow border-t border-gray-300"></div>
+      <span class="mx-3 text-[#5D5D5D] text-sm">または</span>
+      <div class="flex-grow border-t border-gray-300"></div>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "ログイン" %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-3" }) do |f| %>
+      <div class="field">
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+              class: "w-full border border-gray-300 rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, "パスワード", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.password_field :password, autocomplete: "current-password",
+              class: "w-full border border-gray-300 rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field flex items-center gap-2 mt-10 mb-[-18px]">
+          <%= f.check_box :remember_me, class: "accent-[#004865] w-4 h-4" %>
+          <%= f.label :remember_me, "ログインしたままにする", class: "text-sm text-gray-700 select-none" %>
+        </div>
+      <% end %>
+
+      <div class="actions mt-8">
+        <%= f.submit "ログイン",
+              class: "w-full bg-[#986321] text-white text-lg py-2.5 rounded-lg hover:opacity-90 transition" %>
+      </div>
+    <% end %>
+
+    <div class="mt-7 -mb-3 text-center">
+      <%= render "users/shared/links" %>
+    </div>
   </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

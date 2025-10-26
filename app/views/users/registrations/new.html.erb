@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center min-h-[87vh]" style="background-color: #F4F4F4;">
-  <div class="bg-white pt-8 pb-6 px-8 rounded-xl shadow-lg w-full max-w-md my-[1.25rem]">
+  <div class="bg-white pt-5 pb-6 px-8 rounded-xl shadow-lg w-full max-w-md my-[2rem]">
     <h2 class="text-3xl font-bold text-center text-[#004865] mb-6">新規登録</h2>
 
     <%= render "users/shared/social_login" %>
@@ -10,7 +10,7 @@
       <div class="flex-grow border-t border-gray-300"></div>
     </div>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-3" }) do |f| %>
       <div class="field">
         <%= f.label :name, "ユーザー名", class: "block text-sm font-medium text-gray-700 mb-1" %>
         <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "w-full border border-gray-300 rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]" %>
@@ -36,7 +36,7 @@
         <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full border border-gray-300 rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]" %>
       </div>
 
-      <div class="actions mt-10">
+      <div class="actions mt-13">
         <%= f.submit "新規登録", class: "w-full bg-[#986321] text-white text-lg py-2.5 rounded-lg hover:opacity-90 transition" %>
       </div>
     <% end %>
@@ -45,12 +45,12 @@
       <%= render "users/shared/links" %>
     </div>
 
-    <div class="-mt-7 text-center text-xs text-gray-500 leading-relaxed">
+    <div class="-mt-10 text-center text-xs text-gray-400 leading-relaxed">
       <div class="inline-block text-left">
         アカウント登録をもって、
-        <span class="text-gray-700 font-medium">利用規約</span>
+        <span class="text-gray-400 font-medium">利用規約</span>
         および
-        <span class="text-gray-700 font-medium">プライバシーポリシー</span>
+        <span class="text-gray-400 font-medium">プライバシーポリシー</span>
         に<br>
         同意したものとみなします。
         <span class="text-gray-400">(※ 現在は未実装です)</span>
