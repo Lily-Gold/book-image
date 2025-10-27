@@ -1,0 +1,24 @@
+<% if user_signed_in? %>
+  <nav
+    data-controller="nav"
+    class="fixed top-14 left-0 w-full bg-[#F4F4F4] shadow-md z-40 transform transition-transform duration-300 ease-in-out border-b border-gray-200"
+  >
+    <div class="max-w-[1100px] mx-auto flex justify-center space-x-8 text-base h-12">
+      <%= link_to root_path, class: "nav-link #{current_page?(root_path) ? 'active' : ''} flex items-center" do %>
+        <span class="relative top-[2px]">トップ</span>
+      <% end %>
+
+      <%= link_to reviews_path, class: "nav-link #{current_page?(reviews_path) ? 'active' : ''} flex items-center" do %>
+        <span class="relative top-[2px]">投稿一覧</span>
+      <% end %>
+
+      <%= link_to new_review_path, class: "nav-link #{current_page?(new_review_path) ? 'active' : ''} flex items-center" do %>
+        <span class="relative top-[2px]">投稿する</span>
+      <% end %>
+
+      <%= link_to profile_path, class: "nav-link #{current_page?(profile_path) ? 'active' : ''} flex items-center" do %>
+        <span class="relative top-[2px]">マイページ</span>
+      <% end %>
+    </div>
+  </nav>
+<% end %>

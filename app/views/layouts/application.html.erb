@@ -26,9 +26,9 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <!-- ヘッダー -->
-    <header class="bg-[#004865] text-white h-14 flex items-center shadow-md">
+  <body class="font-['Noto_Sans_JP']">
+    <!-- 🟦 固定ヘッダー -->
+    <header class="bg-[#004865] text-white h-14 flex items-center shadow-md fixed top-0 left-0 w-full z-50">
       <div class="w-full flex justify-between items-center px-10 py-3">
         
         <!-- ロゴ＋アイコン -->
@@ -39,7 +39,7 @@
           <% end %>
         </h1>
 
-        <!-- ナビゲーション -->
+        <!-- ヘッダー右ナビゲーション -->
         <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
           <% if user_signed_in? %>
             <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
@@ -47,7 +47,6 @@
                 data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
                 class="relative"
               >
-
                 <!-- プロフィール画像 -->
                 <div
                   class="transition duration-200 cursor-pointer"
@@ -68,7 +67,7 @@
                       ) %>
                 </div>
 
-                <!-- ▼ ドロップダウンメニュー（上に・左に・アイコン半分かかる位置） -->
+                <!-- ▼ ドロップダウンメニュー -->
                 <div
                   data-dropdown-target="menu"
                   class="absolute left-[-5rem] top-[1.8rem] w-40 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden text-center transition transform opacity-0 scale-95 z-50"
@@ -89,15 +88,21 @@
       </div>
     </header>
 
-    <!-- フラッシュメッセージ -->
+    <!-- 💬 フラッシュメッセージ -->
     <%= render "layouts/flash" %>
     <%= turbo_stream_from "flash" %>
 
-    <main class="min-h-[70vh]">
+    <!-- 🩶 スクロールで出入りするナビバー -->
+    <div class="relative z-40">
+      <%= render "layouts/nav" %>
+    </div>
+
+    <!-- 📘 メイン -->
+    <main class="<%= user_signed_in? ? 'pt-[7rem]' : 'pt-[3.5rem]' %>">
       <%= yield %>
     </main>
 
-    <!-- フッター -->
+    <!-- 🩵 フッター -->
     <footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
       <div class="flex justify-between items-center">
         <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
