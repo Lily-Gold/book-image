@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
+
+import NavController from "./nav_controller"
+application.register("nav", NavController)

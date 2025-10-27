@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@layer components {
+  .nav-link {
+    @apply text-gray-800 border-b-2 border-transparent 
+           hover:text-[#986321] hover:font-medium hover:border-[#986321] pb-1;
+  }
+
+  .nav-link.active {
+    @apply text-[#986321] font-medium border-b-2 border-[#986321] pb-1;
+  }
+
+  nav {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+}
