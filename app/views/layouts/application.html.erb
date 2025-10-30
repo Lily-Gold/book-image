@@ -61,7 +61,7 @@
                   "
                 >
                   <%= image_tag(
-                        current_user.profile_image.presence || 'avatar.png',
+                        current_user.avatar_url.presence || 'avatar.png',
                         alt: 'プロフィール画像',
                         class: 'w-[4.8rem] h-[4.8rem] object-cover rounded-full cursor-pointer'
                       ) %>

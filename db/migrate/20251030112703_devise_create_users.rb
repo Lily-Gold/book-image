@@ -6,7 +6,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.0]
       ## Basic Info
       t.string :name, null: false
       t.string :introduction, limit: 200
-      t.string :profile_image
+      t.string :avatar_url
       t.string :provider
       t.string :uid
 
