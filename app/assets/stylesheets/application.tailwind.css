@@ -1,6 +1,31 @@
 @import "tailwindcss";
 
+/* --- base（共通フォントなど） --- */
+@layer base {
+  body,
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .logo-text {
+    font-family: 'EB Garamond', serif;
+  }
+}
+
+/* --- components（独自クラス） --- */
 @layer components {
+  /* キャッチコピー */
+  .catch-copy {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #004865;
+    text-align: center;
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+  }
+
+  /* ナビゲーションリンク */
   .nav-link {
     @apply text-gray-800 border-b-2 border-transparent 
            hover:text-[#986321] hover:font-medium hover:border-[#986321] pb-1;
