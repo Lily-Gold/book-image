@@ -24,4 +24,6 @@ class User < ApplicationRecord
   def from_omniauth?
     provider.present? && uid.present?
   end
+
+  has_one_attached :avatar
 end
