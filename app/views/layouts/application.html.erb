@@ -22,12 +22,12 @@
       rel="stylesheet"
     />
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload", rel: "stylesheet" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body class="font-['Noto_Sans_JP']">
-    <!-- 🟦 固定ヘッダー -->
+    <!-- 固定ヘッダー -->
     <header class="bg-[#004865] text-white h-14 flex items-center shadow-md fixed top-0 left-0 w-full z-50">
       <div class="w-full flex justify-between items-center px-10 py-3">
         
@@ -88,21 +88,21 @@
       </div>
     </header>
 
-    <!-- 💬 フラッシュメッセージ -->
+    <!-- フラッシュメッセージ -->
     <%= render "layouts/flash" %>
     <%= turbo_stream_from "flash" %>
 
-    <!-- 🩶 スクロールで出入りするナビバー -->
+    <!-- スクロールで出入りするナビバー -->
     <div class="relative z-40">
       <%= render "layouts/nav" %>
     </div>
 
-    <!-- 📘 メイン -->
+    <!-- メイン -->
     <main class="<%= user_signed_in? ? 'pt-[7rem]' : 'pt-[3.5rem]' %>">
       <%= yield %>
     </main>
 
-    <!-- 🩵 フッター -->
+    <!-- フッター -->
     <footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
       <div class="flex justify-between items-center">
         <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
