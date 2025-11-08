@@ -4,8 +4,10 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  name: "爽やか"
+  color: "#4AB3F4"
+
+two:
+  name: "情熱的"
+  color: "#E74C3C"
