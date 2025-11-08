@@ -2,12 +2,12 @@ one:
   user: one
   book: one
   image_tag: one
-  body: MyText
-  rating: 1
+  content: "この本の表現がとても美しかった"
+  is_spoiler: false
 
 two:
   user: two
   book: two
   image_tag: two
-  body: MyText
-  rating: 1
+  content: "物語の構成が秀逸で印象に残った"
+  is_spoiler: true
