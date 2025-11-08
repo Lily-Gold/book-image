@@ -12,7 +12,7 @@ one:
   published_on: 1914-09-01
   description: "人間の心の葛藤を描いた名作"
   cover_url: "https://example.com/kokoro.jpg"
-  user: one
+  user_id: 1
 
 two:
   id: 2
@@ -22,4 +22,4 @@ two:
   published_on: 1934-01-01
   description: "幻想的な列車の旅を通して生命と友情を描く"
   cover_url: "https://example.com/ginga.jpg"
-  user: two
+  user_id: 2
