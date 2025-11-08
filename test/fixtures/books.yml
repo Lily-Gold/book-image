@@ -4,8 +4,22 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  id: 1
+  title: "こころ"
+  author: "夏目漱石"
+  publisher: "岩波書店"
+  published_on: 1914-09-01
+  description: "人間の心の葛藤を描いた名作"
+  cover_url: "https://example.com/kokoro.jpg"
+  user: one
+
+two:
+  id: 2
+  title: "銀河鉄道の夜"
+  author: "宮沢賢治"
+  publisher: "新潮社"
+  published_on: 1934-01-01
+  description: "幻想的な列車の旅を通して生命と友情を描く"
+  cover_url: "https://example.com/ginga.jpg"
+  user: two
