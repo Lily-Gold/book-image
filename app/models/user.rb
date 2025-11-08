@@ -2,12 +2,13 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
+
+  has_one_attached :avatar
+
+  has_many :books, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   # 通常登録のときは必須。Googleログイン時はnilでもOK
   validates :name, presence: true, length: { maximum: 15 }, unless: :from_omniauth?
