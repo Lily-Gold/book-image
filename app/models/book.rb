@@ -14,6 +14,7 @@ class Book < ApplicationRecord
   scope :search, ->(keyword) {
     where("title ILIKE :kw OR author ILIKE :kw OR isbn ILIKE :kw", kw: "%#{keyword}%") if keyword.present?
   }
-
-  has_one_attached :cover
+  def cover_variant(size: [400, 400])
+    cover.variant(resize_to_limit: size).processed
+  end
 end

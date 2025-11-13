@@ -6,10 +6,10 @@
 #
 one:
   id: 1
-  name: "爽やか"
-  color: "#4AB3F4"
+  name: "情熱"
+  color: "#CA1028"
 
 two:
-  id: 2
-  name: "情熱的"
-  color: "#E74C3C"
+  id: 3
+  name: "楽しい"
+  color: "#D9760F"

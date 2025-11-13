@@ -1,0 +1,4 @@
+<h1><%= @book.title %></h1>
+<% @reviews.each do |review| %>
+  <p><%= review.content.truncate(100) %></p>
+<% end %>

@@ -1,4 +1,29 @@
-<div>
-  <h1 class="font-bold text-4xl">Reviews#index</h1>
-  <p>Find me in app/views/reviews/index.html.erb</p>
+<h1 class="text-3xl font-bold text-[#004865] mb-6 text-center">レビュー一覧</h1>
+
+<div class="space-y-6 max-w-3xl mx-auto">
+
+  <% @reviews.each do |review| %>
+    <div class="bg-white p-6 rounded-xl shadow">
+
+      <h2 class="text-xl font-semibold text-[#004865] mb-2">
+        <%= review.book.title %>
+      </h2>
+
+      <p class="text-gray-600 text-sm mb-1">
+        著者：<%= review.book.author.presence || "不明" %>
+      </p>
+
+      <p class="text-base mb-3">
+        <%= truncate(review.content, length: 100) %>
+      </p>
+
+      <p class="text-sm text-gray-500">
+        投稿日：<%= l(review.created_at, format: :short) %>
+      </p>
+
+      <%= link_to "詳細を見る", review_path(review),
+            class: "text-[#004865] underline text-sm mt-2 inline-block" %>
+    </div>
+  <% end %>
+
 </div>

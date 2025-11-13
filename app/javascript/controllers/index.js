@@ -4,14 +4,17 @@
 
 import { application } from "./application"
 
+import ColorTagController from "./color_tag_controller"
+application.register("color-tag", ColorTagController)
+
+import CoverPreviewController from "./cover_preview_controller"
+application.register("cover-preview", CoverPreviewController)
+
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import NavController from "./nav_controller"
+application.register("nav", NavController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
-
-import NavController from "./nav_controller"
-application.register("nav", NavController)

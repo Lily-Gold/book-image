@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :books, only: [:index, :show]
   resource :profile, only: :show
   devise_for :users, controllers: {
     sessions: "users/sessions",
