@@ -1,66 +1,83 @@
-<div class="max-w-4xl mx-auto my-10 px-4">
+<div class="bg-[#F4F4F4] pt-[1.5rem] min-h-[87vh]">
 
-  <!-- タイトル -->
-  <h1 class="text-3xl font-bold text-[#004865] mb-8 text-center">
-    レビュー一覧
-  </h1>
+  <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
+    投稿一覧
+    <span class="text-lg text-[#004865] font-semibold">( <%= @reviews.count %> 件 )</span>
+  </h2>
 
-  <!-- レビューが 0 件の場合 -->
-  <% if @reviews.empty? %>
-    <p class="text-center text-gray-500">まだレビューがありません。</p>
-  <% end %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7">
 
-  <!-- レビュー一覧 -->
-  <div class="space-y-6">
     <% @reviews.each do |review| %>
-      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+      <% tag_color = review.image_tag&.color || "#cccccc" %>
+      <% text_color = text_color_for(tag_color) %>
 
-        <!-- 上部：本の情報 -->
-        <div class="flex items-start gap-4">
+      <div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-8"
+           style="transform: scale(0.92); transform-origin: top center;">
 
-          <!-- 書影 -->
-          <% if review.book.cover_url.present? %>
-            <img src="<%= review.book.cover_url %>"
-                 class="w-20 h-28 object-cover rounded shadow">
+        <div class="w-1/3 p-4 flex flex-col items-center"
+             style="background-color: <%= tag_color %>;">
+          
+          <% if review.book.cover.attached? %>
+            <%= image_tag review.book.cover.variant(resize_to_fill: [120, 170]),
+                  class: "shadow-md mb-3 w-[120px] h-[170px] object-cover" %>
           <% else %>
-            <div class="w-20 h-28 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">
-              No Image
-            </div>
+            <%= image_tag "no_cover.png",
+                  class: "shadow-md mb-3 w-[120px] h-[170px] object-cover" %>
           <% end %>
 
-          <!-- 本のタイトル・著者 -->
-          <div>
-            <h2 class="text-xl font-semibold text-[#004865]">
-              <%= review.book.title %>
-            </h2>
+          <% if review.image_tag.present? %>
+            <span class="text-xs font-medium px-3 py-1 rounded-full shadow-sm self-start"
+              style="
+                background-color:<%= tag_color %>;
+                color:<%= text_color %>;
+                border: 2px solid <%= text_color %>;
+              ">
+              <%= review.image_tag.name %>
+            </span>
+          <% end %>
+        </div>
 
-            <p class="text-sm text-gray-600">
-              <%= review.book.author %>
-            </p>
+        <div class="w-2/3 px-5 pt-4 pb-5 flex flex-col">
 
-            <p class="text-sm mt-1">
-              <span class="px-2 py-1 text-white text-xs rounded"
-                    style="background-color: <%= review.image_tag.color %>;">
-                <%= review.image_tag.name %>
-              </span>
+          <div class="flex flex-col gap-3">
+
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+
+                <% if review.user.avatar.attached? %>
+                  <%= image_tag review.user.avatar.variant(resize_to_fill: [36, 36]),
+                        class: "w-9 h-9 rounded-full object-cover" %>
+                <% else %>
+                  <%= image_tag "avatar.png", class: "w-9 h-9 rounded-full object-cover" %>
+                <% end %>
+
+                <p class="text-sm font-medium text-gray-700"><%= review.user.name %></p>
+              </div>
+
+              <p class="text-sm text-gray-500 whitespace-nowrap">
+                <%= review.created_at.strftime("%Y/%m/%d") %>
+              </p>
+            </div>
+
+            <div class="mt-1">
+              <p class="text-lg font-semibold"><%= review.book.title %></p>
+              <p class="text-sm text-gray-500"><%= review.book.author %></p>
+            </div>
+
+            <p class="text-sm text-gray-700 line-clamp-2">
+              <%= review.content %>
             </p>
           </div>
+
+          <div class="flex justify-end mt-auto">
+            <%= link_to "詳細を見る", review_path(review),
+                  class: "px-4 py-2 bg-[#986321] text-white text-sm rounded-lg hover:opacity-90 transition" %>
+          </div>
+
         </div>
-
-        <!-- レビュー本文（50文字で切る） -->
-        <p class="mt-4 text-gray-700">
-          <%= truncate(review.content, length: 80, separator: " ") %>
-        </p>
-
-        <!-- 詳細ページへ -->
-        <div class="mt-4 text-right">
-          <%= link_to "続きを読む →",
-                      review_path(review),
-                      class: "text-[#986321] font-semibold hover:underline" %>
-        </div>
-
       </div>
-    <% end %>
-  </div>
 
+    <% end %>
+
+  </div>
 </div>

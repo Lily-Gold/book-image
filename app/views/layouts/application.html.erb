@@ -98,7 +98,7 @@
     </div>
 
     <!-- メイン -->
-    <main class="<%= user_signed_in? ? 'pt-[7rem]' : 'pt-[3.5rem]' %> <%= (controller_name == 'reviews' && action_name == 'new') ? 'bg-[#F4F4F4]' : 'bg-white' %> min-h-screen">
+    <main class="<%= user_signed_in? ? 'pt-[7rem]' : 'pt-[3.5rem]' %> bg-[#F4F4F4] min-h-screen">
       <%= yield %>
     </main>
 
