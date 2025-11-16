@@ -1,13 +1,19 @@
 require "test_helper"
 
 class BooksControllerTest < ActionDispatch::IntegrationTest
+  def setup
+    @user = users(:one)
+    sign_in @user
+  end
+
   test "should get index" do
-    get books_index_url
+    get books_url
     assert_response :success
   end
 
   test "should get show" do
-    get books_show_url
+    book = books(:one)
+    get book_url(book)
     assert_response :success
   end
 end

@@ -6,5 +6,5 @@ class Review < ApplicationRecord
   accepts_nested_attributes_for :book
 
   validates :content, presence: true, length: { maximum: 5000 }
-  validates :is_spoiler, inclusion: { in: [true, false] }
+  validates :is_spoiler, inclusion: { in: [ true, false ] }
 end
