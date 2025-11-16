@@ -1,0 +1,104 @@
+<div class="flex justify-center items-center min-h-[87vh] bg-[#F4F4F4]">
+  <div class="w-full max-w-3xl my-[1.5rem] pb-[1.5rem]">
+
+    <!-- ▼ ページタイトル（カード外） -->
+    <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
+      レビュー詳細
+    </h2>
+
+    <!-- ▼ 白カード -->
+    <div class="bg-white pt-8 pb-12 px-10 rounded-xl shadow-lg">
+
+      <!-- ▼ 上段：書影 + 本の情報 -->
+      <div class="flex gap-8 mb-10">
+
+        <!-- 書影 -->
+        <div class="w-1/3">
+          <% if @review.book.cover.attached? %>
+            <%= image_tag @review.book.cover.variant(resize_to_fill: [240, 340]),
+                  class: "rounded shadow-md w-full h-auto object-cover" %>
+          <% else %>
+            <%= image_tag "no_cover.png",
+                  class: "rounded shadow-md w-full h-auto object-cover" %>
+          <% end %>
+        </div>
+
+        <!-- 本情報 -->
+        <div class="w-2/3 space-y-2">
+          <h3 class="text-2xl font-bold text-[#004865] leading-snug">
+            <%= @review.book.title %>
+          </h3>
+
+          <p class="text-lg text-gray-800">著者名：<%= @review.book.author %></p>
+
+          <% if @review.book.publisher.present? %>
+            <p class="text-sm text-gray-600">出版社：<%= @review.book.publisher %></p>
+          <% end %>
+
+          <% if @review.book.published_on.present? %>
+            <p class="text-sm text-gray-600">発行日：<%= @review.book.published_on %></p>
+          <% end %>
+
+          <% if @review.book.isbn.present? %>
+            <p class="text-sm text-gray-600">ISBN：<%= @review.book.isbn %></p>
+          <% end %>
+
+          <% if @review.book.description.present? %>
+            <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+              <%= @review.book.description %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- ▼ 印象カラー -->
+      <div class="flex items-center gap-3 mb-8">
+        <span class="w-5 h-5 rounded-full border shadow-sm"
+              style="background-color:<%= @review.image_tag.color %>;"></span>
+        <p class="text-sm font-medium text-gray-700">
+          印象カラー：<%= @review.image_tag.name %>
+        </p>
+      </div>
+
+      <!-- ▼ 投稿者情報 -->
+      <div class="flex items-center justify-between mb-10">
+        <div class="flex items-center gap-3">
+          <% if @review.user.avatar.attached? %>
+            <%= image_tag @review.user.avatar.variant(resize_to_fill: [36, 36]),
+                  class: "w-9 h-9 rounded-full object-cover" %>
+          <% else %>
+            <%= image_tag "avatar.png", class: "w-9 h-9 rounded-full object-cover" %>
+          <% end %>
+
+          <p class="text-sm font-medium text-gray-700"><%= @review.user.name %></p>
+        </div>
+
+        <p class="text-sm text-gray-500">
+          投稿日：<%= @review.created_at.strftime("%Y/%m/%d") %>
+        </p>
+      </div>
+
+      <!-- ▼ 本文 -->
+      <div class="mb-10">
+        <h3 class="text-xl font-semibold text-[#004865] mb-3">レビュー本文</h3>
+
+        <% if @review.is_spoiler %>
+          <span class="text-xs text-white bg-red-500 px-2 py-1 rounded-md mb-3 inline-block">
+            ネタバレあり
+          </span>
+        <% end %>
+
+        <p class="text-gray-800 leading-relaxed whitespace-pre-line">
+          <%= @review.content %>
+        </p>
+      </div>
+
+      <!-- ▼ 戻る -->
+      <div class="text-center">
+        <%= link_to "一覧に戻る", reviews_path,
+              class: "px-6 py-3 bg-[#986321] text-white rounded-lg hover:opacity-90 transition" %>
+      </div>
+
+    </div><!-- /白カード -->
+  </div>
+</div>
