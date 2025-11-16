@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
       :content,
       :is_spoiler,
       :image_tag_id,
-      book_attributes: [:title, :author, :publisher, :published_on, :isbn, :description, :cover]
+      book_attributes: [ :title, :author, :publisher, :published_on, :isbn, :description, :cover ]
     )
   end
 end
