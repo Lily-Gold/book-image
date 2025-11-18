@@ -8,22 +8,28 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Turbo 読み込み（Rails 8 では必須） -->
+    <%= turbo_include_tags %>
+
+    <!-- スタイルシート -->
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <!-- ESBuild 用 JavaScript（Rails 8ではこれでOK） -->
+    <%= javascript_include_tag "application", type: "module", "data-turbo-track": "reload" %>
+
     <!-- ファビコン設定 -->
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
 
     <%= yield :head %>
 
-    <!-- フォントとスタイルシート -->
+    <!-- フォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body class="font-['Noto_Sans_JP']">
@@ -90,6 +96,7 @@
 
     <!-- フラッシュメッセージ -->
     <%= render "layouts/flash" %>
+    <%= turbo_stream_from "flash" %>
 
     <!-- スクロールで出入りするナビバー -->
     <div class="relative z-40">
