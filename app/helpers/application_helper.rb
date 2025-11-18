@@ -12,6 +12,6 @@ module ApplicationHelper
     # W3C推奨の輝度計算
     brightness = (r * 299 + g * 587 + b * 114) / 1000
 
-    brightness > 150 ? "#000" : "#FFF" 
+    brightness > 150 ? "#000" : "#FFF"
   end
 end
