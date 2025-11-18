@@ -1,8 +1,10 @@
 class Book < ApplicationRecord
-  belongs_to :user, optional: true  # ← 自作投稿時のみユーザー紐付け
+  belongs_to :user, optional: true
 
   has_many :reviews, dependent: :destroy
   has_one_attached :cover
+
+  attr_accessor :remove_cover
 
   validates :title, presence: true, length: { maximum: 120 }
   validates :author, length: { maximum: 100 }
@@ -14,7 +16,8 @@ class Book < ApplicationRecord
   scope :search, ->(keyword) {
     where("title ILIKE :kw OR author ILIKE :kw OR isbn ILIKE :kw", kw: "%#{keyword}%") if keyword.present?
   }
-  def cover_variant(size: [ 400, 400 ])
+
+  def cover_variant(size: [400, 400])
     cover.variant(resize_to_limit: size).processed
   end
 end

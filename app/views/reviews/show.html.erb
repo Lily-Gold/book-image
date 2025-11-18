@@ -1,104 +1,147 @@
-<div class="flex justify-center items-center min-h-[87vh] bg-[#F4F4F4]">
+<div class="flex justify-center items-center min-h-[87vh]">
   <div class="w-full max-w-3xl my-[1.5rem] pb-[1.5rem]">
 
-    <!-- ▼ ページタイトル（カード外） -->
+    <!-- ▼ ページタイトル -->
     <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
       レビュー詳細
     </h2>
 
     <!-- ▼ 白カード -->
-    <div class="bg-white pt-8 pb-12 px-10 rounded-xl shadow-lg">
+    <div class="bg-white pt-8 pb-8 px-10 rounded-xl shadow-lg">
 
-      <!-- ▼ 上段：書影 + 本の情報 -->
-      <div class="flex gap-8 mb-10">
+      <!-- ▼ 上段：書影 + 本情報 -->
+      <div class="flex gap-8 mb-10 items-start">
 
-        <!-- 書影 -->
+        <!-- ▼ 書影 + 印象カラー -->
         <div class="w-1/3">
-          <% if @review.book.cover.attached? %>
-            <%= image_tag @review.book.cover.variant(resize_to_fill: [240, 340]),
-                  class: "rounded shadow-md w-full h-auto object-cover" %>
-          <% else %>
-            <%= image_tag "no_cover.png",
-                  class: "rounded shadow-md w-full h-auto object-cover" %>
-          <% end %>
-        </div>
 
-        <!-- 本情報 -->
-        <div class="w-2/3 space-y-2">
-          <h3 class="text-2xl font-bold text-[#004865] leading-snug">
-            <%= @review.book.title %>
-          </h3>
+          <!-- ▼ 画像表示サイズを完全統一（レスポンシブ対応） -->
+          <div class="w-full aspect-[2/3] mx-auto mb-4">
+            <% if @review.book.cover.attached? %>
+              <%= image_tag @review.book.cover,
+                    class: "w-full h-full object-cover rounded shadow-md" %>
+            <% else %>
+              <%= image_tag "no_cover.png",
+                    class: "w-full h-full object-cover rounded shadow-md" %>
+            <% end %>
+          </div>
 
-          <p class="text-lg text-gray-800">著者名：<%= @review.book.author %></p>
+          <div class="flex items-center gap-3 mt-2">
+            <p class="text-base font-normal text-gray-600">印象カラー：</p>
 
-          <% if @review.book.publisher.present? %>
-            <p class="text-sm text-gray-600">出版社：<%= @review.book.publisher %></p>
-          <% end %>
+            <span class="w-5 h-5 rounded-full border border-gray-300 shadow-sm"
+                  style="background-color:<%= @review.image_tag.color %>;"></span>
 
-          <% if @review.book.published_on.present? %>
-            <p class="text-sm text-gray-600">発行日：<%= @review.book.published_on %></p>
-          <% end %>
-
-          <% if @review.book.isbn.present? %>
-            <p class="text-sm text-gray-600">ISBN：<%= @review.book.isbn %></p>
-          <% end %>
-
-          <% if @review.book.description.present? %>
-            <p class="text-sm text-gray-600 mt-2 leading-relaxed">
-              <%= @review.book.description %>
+            <p class="text-base font-medium text-gray-800">
+              <%= @review.image_tag.name %>
             </p>
-          <% end %>
+          </div>
+        </div>
+
+        <!-- ▼ 本情報 -->
+        <div class="w-2/3 space-y-4 -mt-2">
+
+          <!-- 投稿者情報 -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <% if @review.user.avatar.attached? %>
+                <%= image_tag @review.user.avatar.variant(resize_to_fill: [48, 48]),
+                      class: "w-12 h-12 rounded-full object-cover" %>
+              <% else %>
+                <%= image_tag "avatar.png", class: "w-12 h-12 rounded-full object-cover" %>
+              <% end %>
+
+              <p class="text-base font-medium text-gray-800">
+                <%= @review.user.name %>
+              </p>
+            </div>
+
+            <p class="text-sm text-gray-600">
+              投稿日：<%= @review.created_at.strftime("%Y/%m/%d") %>
+            </p>
+          </div>
+
+          <!-- ▼ 本情報詳細 -->
+          <div class="space-y-1 -mt-2">
+            <p class="text-base font-normal text-gray-600">本のタイトル</p>
+            <p class="text-lg font-medium text-gray-800 pl-4"><%= @review.book.title %></p>
+
+            <p class="text-base font-normal text-gray-600">著者名</p>
+            <p class="text-lg font-medium text-gray-800 pl-4">
+              <%= @review.book.author.presence || "未設定" %>
+            </p>
+          </div>
+
+          <!-- ▼ 出版情報 -->
+          <div class="space-y-2 text-gray-800 mt-7">
+            <div>
+              <p class="text-sm font-normal text-gray-600">出版社</p>
+              <p class="text-sm font-medium text-gray-800 pl-4"><%= @review.book.publisher.presence || "未設定" %></p>
+            </div>
+
+            <div>
+              <p class="text-sm font-normal text-gray-600">発行日</p>
+              <p class="text-sm font-medium text-gray-800 pl-4">
+                <%= @review.book.published_on&.strftime("%Y年%m月%d日") || "未設定" %>
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm font-normal text-gray-600">ISBN</p>
+              <p class="text-sm font-medium text-gray-800 pl-4"><%= @review.book.isbn.presence || "未設定" %></p>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- ▼ 印象カラー -->
-      <div class="flex items-center gap-3 mb-8">
-        <span class="w-5 h-5 rounded-full border shadow-sm"
-              style="background-color:<%= @review.image_tag.color %>;"></span>
-        <p class="text-sm font-medium text-gray-700">
-          印象カラー：<%= @review.image_tag.name %>
-        </p>
-      </div>
-
-      <!-- ▼ 投稿者情報 -->
-      <div class="flex items-center justify-between mb-10">
-        <div class="flex items-center gap-3">
-          <% if @review.user.avatar.attached? %>
-            <%= image_tag @review.user.avatar.variant(resize_to_fill: [36, 36]),
-                  class: "w-9 h-9 rounded-full object-cover" %>
-          <% else %>
-            <%= image_tag "avatar.png", class: "w-9 h-9 rounded-full object-cover" %>
-          <% end %>
-
-          <p class="text-sm font-medium text-gray-700"><%= @review.user.name %></p>
-        </div>
-
-        <p class="text-sm text-gray-500">
-          投稿日：<%= @review.created_at.strftime("%Y/%m/%d") %>
-        </p>
-      </div>
-
-      <!-- ▼ 本文 -->
+      <!-- ▼ あらすじ -->
       <div class="mb-10">
-        <h3 class="text-xl font-semibold text-[#004865] mb-3">レビュー本文</h3>
+        <p class="text-base font-normal text-gray-600 leading-tight">あらすじ</p>
+        <p class="text-base font-medium text-gray-800 leading-tight whitespace-pre-line">
+          <%= @review.book.description.present? ? @review.book.description : "未設定" %>
+        </p>
+      </div>
 
-        <% if @review.is_spoiler %>
-          <span class="text-xs text-white bg-red-500 px-2 py-1 rounded-md mb-3 inline-block">
-            ネタバレあり
-          </span>
-        <% end %>
+      <!-- ▼ レビュー本文 -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 leading-tight">
+          <p class="text-base font-normal text-gray-600 leading-tight">レビュー本文</p>
 
-        <p class="text-gray-800 leading-relaxed whitespace-pre-line">
+          <% if @review.is_spoiler %>
+            <span class="text-red-500 font-semibold text-sm">[ネタバレ]</span>
+          <% end %>
+        </div>
+
+        <p class="text-base font-medium text-gray-800 leading-tight whitespace-pre-line">
           <%= @review.content %>
         </p>
       </div>
 
-      <!-- ▼ 戻る -->
-      <div class="text-center">
-        <%= link_to "一覧に戻る", reviews_path,
-              class: "px-6 py-3 bg-[#986321] text-white rounded-lg hover:opacity-90 transition" %>
-      </div>
+      <!-- ▼ 編集・削除・シェア -->
+      <% if current_user == @review.user %>
+        <div class="flex justify-between items-center mt-6">
 
-    </div><!-- /白カード -->
+          <!-- 左：編集・削除 -->
+          <div class="flex gap-4">
+            <%= link_to "編集", edit_review_path(@review),
+                  class: "px-4 py-2 bg-[#986321] text-white text-sm rounded-lg hover:opacity-90 transition" %>
+
+            <%= link_to "削除", review_path(@review),
+                  data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                  class: "px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:opacity-90 transition" %>
+          </div>
+
+          <!-- 右：シェア -->
+          <%= link_to "𝕏 でシェア", 
+                "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode("『#{@review.book.title}』のレビューを投稿しました！")} &url=#{review_url(@review)}",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                class: "px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90 transition" %>
+
+        </div>
+      <% end %>
+
+    </div>
   </div>
 </div>
