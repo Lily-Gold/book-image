@@ -1,7 +1,30 @@
-<section class="h-[180vh] flex flex-col justify-start items-center text-center text-[#004865] pt-24">
+<% content_for :main_height do %>
+  h-auto
+<% end %>
+
+<% content_for :main_bg do %>
+  bg-white
+<% end %>
+
+<section class="flex flex-col items-center text-center text-[#004865] pt-14 pb-12 bg-white">
   <h2 class="catch-copy text-5xl font-bold mb-6">「知る」から「感じる」へ。</h2>
+
   <p class="text-[22px] leading-relaxed max-w-2xl mt-4">
     色彩心理が映し出す“本の色”を通して、<br>
     感性でつながる新しい読書体験を。
   </p>
 </section>
+
+<div class="bg-[#F4F4F4] pt-10 pb-14 w-full mt-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7 pt-2">
+    <% @first_reviews.each do |review| %>
+      <%= render "reviews/review_card", review: review %>
+    <% end %>
+  </div>
+
+  <div class="w-full flex justify-center mt-1">
+    <%= link_to "レビューをもっと見る",
+        reviews_path,
+        class: "px-6 py-3 bg-[#986321] text-white text-lg rounded-lg hover:opacity-90 transition" %>
+  </div>
+</div>

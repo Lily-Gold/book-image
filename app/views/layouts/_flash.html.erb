@@ -1,10 +1,13 @@
-<div class="fixed top-5 right-5 space-y-3 z-50">
+<div class="fixed top-14 right-5 space-y-3 z-50">
   <% flash.each do |key, message| %>
     <% color_class =
       case key
-      when "notice" then "bg-green-100 border-l-4 border-green-500 text-green-800"
-      when "alert"  then "bg-red-100 border-l-4 border-red-500 text-red-800"
-      else "bg-blue-100 border-l-4 border-blue-500 text-blue-800"
+      when "notice"
+        "bg-[#E7F6EA] border-l-4 border-[#43A047] text-[#2E7D32]"
+      when "alert"
+        "bg-[#FDECEA] border-l-4 border-[#E57373] text-[#C62828]"
+      else
+        "bg-[#E3F2FD] border-l-4 border-[#64B5F6] text-[#1E88E5]"
       end %>
 
     <div
