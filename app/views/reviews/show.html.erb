@@ -6,8 +6,8 @@
       レビュー詳細
     </h2>
 
-    <!-- ▼ 白カード -->
-    <div class="bg-white pt-8 pb-8 px-10 rounded-xl shadow-lg">
+    <!-- ▼ 白カード（自分のレビュー→pb-8 / 他人のレビュー→pb-4） -->
+    <div class="bg-white pt-8 px-10 rounded-xl shadow-lg <%= current_user == @review.user ? 'pb-8' : 'pb-1' %>">
 
       <!-- ▼ 上段：書影 + 本情報 -->
       <div class="flex gap-8 mb-10 items-start">
