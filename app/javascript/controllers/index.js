@@ -18,3 +18,6 @@ application.register("nav", NavController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
+
+import ProfileTabsController from "./profile_tabs_controller"
+application.register("profile-tabs", ProfileTabsController)

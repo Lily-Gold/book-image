@@ -1,0 +1,74 @@
+<% tag_color = review.image_tag&.color || "#cccccc" %>
+<% text_color = text_color_for(tag_color) %>
+
+<div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top">
+  
+  <!-- 左：書影 -->
+  <div class="w-1/3 p-3 flex flex-col items-center"
+       style="background-color: <%= tag_color %>;">
+    
+    <% if review.book.cover.attached? %>
+      <%= image_tag review.book.cover.variant(resize_to_fill: [120, 170]),
+            class: "shadow-md mb-2 w-full aspect-[120/170] object-cover rounded" %>
+    <% else %>
+      <%= image_tag "no_cover.png",
+            class: "shadow-md mb-2 w-full aspect-[120/170] object-cover rounded" %>
+    <% end %>
+
+    <% if review.image_tag.present? %>
+      <span class="text-[10px] font-medium px-2 py-0.5 rounded-full shadow-sm self-start"
+        style="
+          background-color:<%= tag_color %>;
+          color:<%= text_color %>;
+          border: 1px solid <%= text_color %>;
+        ">
+        <%= review.image_tag.name %>
+      </span>
+    <% end %>
+  </div>
+
+  <!-- 右：内容 -->
+  <div class="w-2/3 px-4 pt-3 pb-4 flex flex-col text-xs">
+
+    <div class="flex justify-between items-center mb-1">
+      <div class="flex items-center gap-1 ml-[-4px]">
+        <% if review.user.avatar.attached? %>
+          <%= image_tag review.user.avatar.variant(resize_to_fill: [26, 26]),
+                class: "w-[26px] h-[26px] rounded-full object-cover" %>
+        <% else %>
+          <%= image_tag "avatar.png", class: "w-[26px] h-[26px] rounded-full object-cover" %>
+        <% end %>
+        <p class="text-[12px] font-medium text-gray-700"><%= review.user.name %></p>
+      </div>
+
+      <p class="text-[10px] text-gray-500 whitespace-nowrap">
+        <%= review.created_at.strftime("%Y/%m/%d") %>
+      </p>
+    </div>
+
+    <!-- タイトル -->
+    <p class="text-sm font-semibold truncate"><%= review.book.title %></p>
+    <p class="text-[11px] text-gray-500 truncate">
+      <%= review.book.author.presence || "未設定" %>
+    </p>
+
+    <!-- 本文 -->
+    <p class="text-[11px] text-gray-700 mt-3 line-clamp-2">
+      <% preview = truncate_for_two_lines(review.content) %>
+      <% if review.is_spoiler %>
+        <span class="text-red-500 font-semibold">[ネタバレ]</span>
+        <span class="opacity-10 hover:opacity-100 transition-opacity duration-200">
+          <%= preview %>
+        </span>
+      <% else %>
+        <%= preview %>
+      <% end %>
+    </p>
+
+    <div class="flex justify-end mt-auto">
+      <%= link_to "詳細", review_path(review),
+            class: "px-3 py-1.5 bg-[#986321] text-white text-[11px] rounded hover:opacity-90 transition" %>
+    </div>
+
+  </div>
+</div>
