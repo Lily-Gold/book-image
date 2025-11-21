@@ -132,16 +132,16 @@
                   class: "px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:opacity-90 transition" %>
           </div>
 
-          <!-- 右：シェア（バナーと完全統一版） -->
+          <!-- 右：シェア（バナーと統一版） -->
           <%= link_to(
-                "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode("『#{@review.book.title}』のレビューを投稿しました！")} &url=#{review_url(@review)}",
+                "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_text(@review))}&url=#{ERB::Util.url_encode(review_url(@review))}",
                 target: "_blank",
                 rel: "noopener noreferrer",
                 class: "flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"
-              ) do %>
+             ) do %>
 
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-               viewBox="0 0 24 24" width="18" height="18">
+                 viewBox="0 0 24 24" width="18" height="18">
               <path d="M18.244 2H21.5l-7.42 8.495L23 22h-6.828l-5.364-7.044L4.896 22H1.64l7.93-9.073L2 2h6.91l4.713 6.231L18.244 2Zm-2.42 18h1.884L7.24 4H5.27l10.554 16Z"/>
             </svg>
 
