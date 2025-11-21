@@ -21,3 +21,6 @@ application.register("toast", ToastController)
 
 import ProfileTabsController from "./profile_tabs_controller"
 application.register("profile-tabs", ProfileTabsController)
+
+import PostBannerController from "./post_banner_controller"
+application.register("post-banner", PostBannerController)

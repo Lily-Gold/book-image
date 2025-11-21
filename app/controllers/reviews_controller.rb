@@ -1,8 +1,31 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :require_owner, only: [:edit, :update, :destroy]
 
   def index
-    @reviews = Review.includes(:book, :user).order(created_at: :desc)
+    @reviews = Review.includes(:book, :user, :image_tag)
+
+    # ▼ キーワード検索
+    if params[:q].present?
+      normalized = params[:q].tr("　", " ")
+      keywords = normalized.split(" ")
+
+      keywords.each do |word|
+        like = "%#{word}%"
+        @reviews = @reviews.joins(:book).where(
+          "books.title LIKE ? OR books.author LIKE ? OR books.isbn LIKE ?",
+          like, like, like
+        )
+      end
+    end
+
+    # ▼ 印象カラー絞り込み
+    if params[:color].present?
+      @reviews = @reviews.where(image_tag_id: params[:color])
+    end
+
+    # ▼ 並び順
+    @reviews = @reviews.order(created_at: :desc)
   end
 
   def show
@@ -17,7 +40,8 @@ class ReviewsController < ApplicationController
     @review = current_user.reviews.build(review_params)
 
     if @review.save
-      redirect_to reviews_path, notice: "レビューを投稿しました。"
+      flash[:notice] = "レビューを投稿しました。"        # ←右上の成功フラッシュ
+      redirect_to reviews_path(just_posted: true)         # ←バナー用パラメータ
     else
       render :new, status: :unprocessable_entity
     end
@@ -27,7 +51,6 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    # ★ ここが超重要：remove_cover を見て削除する
     if params[:review][:book_attributes][:remove_cover] == "1"
       @review.book.cover.purge if @review.book.cover.attached?
     end
@@ -50,6 +73,13 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
   end
 
+  # 他人の編集は禁止
+  def require_owner
+    unless @review.user_id == current_user.id
+      redirect_to review_path(@review), alert: "他のユーザーのレビューは編集できません。"
+    end
+  end
+
   def review_params
     rp = params.require(:review).permit(
       :content,
@@ -58,16 +88,11 @@ class ReviewsController < ApplicationController
       book_attributes: [
         :id,
         :title, :author, :publisher, :published_on,
-        :isbn, :description,
-        :cover,
-        :remove_cover
+        :isbn, :description, :cover, :remove_cover
       ]
     )
 
-    if rp[:book_attributes][:cover].blank?
-      rp[:book_attributes].delete(:cover)
-    end
-
+    rp[:book_attributes].delete(:cover) if rp[:book_attributes][:cover].blank?
     rp
   end
 end

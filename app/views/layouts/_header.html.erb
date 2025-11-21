@@ -1,0 +1,59 @@
+<!-- 固定ヘッダー -->
+<header class="bg-[#004865] text-white h-14 flex items-center shadow-md fixed top-0 left-0 w-full z-50">
+  <div class="w-full flex justify-between items-center px-10 py-3">
+
+    <!-- ▼ ロゴ -->
+    <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
+      <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200 cursor-pointer" do %>
+        Book Image
+        <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-10 w-auto object-contain translate-y-[1px]" %>
+      <% end %>
+    </h1>
+
+    <!-- ▼ 右側：検索フォーム置く場所 & プロフィール -->
+    <div class="flex items-center gap-6">
+
+      <%# ▼ 検索フォーム %>
+      <%= render "layouts/search_form" if user_signed_in? %>
+
+      <%# ▼ プロフィール or ログイン %>
+      <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
+        <% if user_signed_in? %>
+          <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
+            <div
+              data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
+              class="relative"
+            >
+              <div
+                class="transition duration-200 cursor-pointer"
+                style="width: 2.8rem; height: 2.8rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;"
+              >
+                <%= image_tag(
+                      current_user.avatar_url.presence || 'avatar.png',
+                      alt: 'プロフィール画像',
+                      class: 'w-[4.8rem] h-[4.8rem] object-cover rounded-full cursor-pointer'
+                    ) %>
+              </div>
+
+              <div
+                data-dropdown-target="menu"
+                class="absolute left-[-5rem] top-[1.8rem] w-40 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden text-center transition transform opacity-0 scale-95 z-50"
+              >
+                <div class="block px-4 py-2 text-gray-400 cursor-not-allowed select-none">
+                  設定（開発中）
+                </div>
+                <%= button_to 'ログアウト', destroy_user_session_path, method: :delete,
+                  class: 'w-full text-center px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2' %>
+              </div>
+            </div>
+          </div>
+
+        <% else %>
+          <%= link_to 'ログイン', new_user_session_path, class: 'hover:underline cursor-pointer' %>
+          <%= link_to '新規登録', new_user_registration_path, class: 'bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity duration-200 no-underline text-sm cursor-pointer' %>
+        <% end %>
+      </nav>
+
+    </div>
+  </div>
+</header>

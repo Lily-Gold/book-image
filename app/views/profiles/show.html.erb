@@ -60,14 +60,14 @@
 
         <div class="w-px bg-[#CDD5DF]"></div>
 
-        <!-- 読書傾向 -->
+        <!-- 印象カラー傾向 -->
         <button
           data-profile-tabs-target="tab"
           data-index="2"
           data-action="click->profile-tabs#switch"
           class="flex-1 px-4 py-2 text-center cursor-pointer
                  bg-white text-gray-600 text-sm font-normal">
-          読書傾向
+          印象カラー傾向
         </button>
       </div>
 
@@ -81,18 +81,7 @@
 
             <div class="mt-6">
               <%= link_to "最初のレビューを投稿する", new_review_path,
-                  class: "inline-block px-4 py-2 bg-[#986321] text-white rounded-lg text-sm hover:bg-[#7a4f1d] transition" %>
-            </div>
-          </div>
-        <% else %>
-        <% if @reviews.empty? %>
-          <div class="text-center py-16 text-gray-500 leading-relaxed">
-            まだレビューがありません。<br>
-            あなたの最初の“本の色”を投稿してみませんか？
-
-            <div class="mt-6">
-              <%= link_to "最初のレビューを投稿する", new_review_path,
-                  class: "inline-block px-4 py-2 bg-[#004865] text-white rounded-lg text-sm hover:bg-[#00354c] transition" %>
+                  class: "inline-block px-4 py-2 bg-[#986321] text-white rounded-lg text-sm hover:opacity-90 transition cursor-pointer" %>
             </div>
           </div>
         <% else %>
@@ -101,18 +90,17 @@
             <%= render "reviews/review_card_small", review: review %>
           <% end %>
         </div>
-        <% end %>
-        <% end %>
+      <% end %>
       </div>
 
       <!-- ▼ パネル：ブックマーク -->
       <div class="hidden text-center py-20 text-gray-500" data-profile-tabs-target="panel">
-        準備中（ブックマーク機能ができたらここに表示）
+        準備中
       </div>
 
-      <!-- ▼ パネル：読書傾向 -->
+      <!-- ▼ パネル：印象カラー傾向 -->
       <div class="hidden text-center py-20 text-gray-500" data-profile-tabs-target="panel">
-        準備中（読書傾向グラフなどを予定）
+        準備中
       </div>
 
     </div>

@@ -1,5 +1,10 @@
 <div class="bg-[#F4F4F4] pt-[1.5rem] min-h-[87vh]">
 
+  <!-- ▼ 投稿後のバナー -->
+  <% if params[:just_posted].present? %>
+    <%= render "reviews/post_banner" %>
+  <% end %>
+
   <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
     投稿一覧
     <span class="text-lg text-[#004865] font-semibold">( <%= @reviews.count %> 件 )</span>
