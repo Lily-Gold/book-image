@@ -14,4 +14,12 @@ module ApplicationHelper
 
     brightness > 150 ? "#000" : "#FFF"
   end
+
+  # ▼ X シェア文言
+  def share_text(review)
+    title = review.book.title
+    color = review.image_tag.name
+
+    "『#{title}』をレビューしました！\n私の印象カラーは “#{color}” です。\n\n#BookImage"
+  end
 end

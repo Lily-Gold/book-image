@@ -14,6 +14,22 @@
 
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
+    
+    <!-- ▼ OGP共通設定 -->
+    <meta property="og:title"
+          content="<%= content_for?(:og_title) ? yield(:og_title) : 'Book Image' %>">
+
+    <meta property="og:description"
+          content="<%= content_for?(:og_description) ? yield(:og_description) : '色から本を直感で選べるレビューアプリ Book Image' %>">
+
+    <meta property="og:type" content="website">
+
+    <meta property="og:image" content="<%= asset_url('ogp.png') %>">
+
+    <meta property="og:url" content="<%= request.original_url %>">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="<%= asset_url('ogp.png') %>">
 
     <%= yield :head %>
 
@@ -27,57 +43,13 @@
 
   <body class="font-['Noto_Sans_JP'] bg-[#F4F4F4]">
 
-    <!-- 固定ヘッダー -->
-    <header class="bg-[#004865] text-white h-14 flex items-center shadow-md fixed top-0 left-0 w-full z-50">
-      <div class="w-full flex justify-between items-center px-10 py-3">
-        <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
-          <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200 cursor-pointer" do %>
-            Book Image
-            <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-10 w-auto object-contain translate-y-[1px]" %>
-          <% end %>
-        </h1>
+    <!-- ▼ ヘッダー -->
+    <%= render "layouts/header" %>
 
-        <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
-          <% if user_signed_in? %>
-            <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
-              <div
-                data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
-                class="relative"
-              >
-                <div
-                  class="transition duration-200 cursor-pointer"
-                  style="width: 2.8rem; height: 2.8rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;"
-                >
-                  <%= image_tag(
-                        current_user.avatar_url.presence || 'avatar.png',
-                        alt: 'プロフィール画像',
-                        class: 'w-[4.8rem] h-[4.8rem] object-cover rounded-full cursor-pointer'
-                      ) %>
-                </div>
-
-                <div
-                  data-dropdown-target="menu"
-                  class="absolute left-[-5rem] top-[1.8rem] w-40 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden text-center transition transform opacity-0 scale-95 z-50"
-                >
-                  <div class="block px-4 py-2 text-gray-400 cursor-not-allowed select-none">
-                    設定（開発中）
-                  </div>
-                  <%= button_to 'ログアウト', destroy_user_session_path, method: :delete,
-                    class: 'w-full text-center px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2' %>
-                </div>
-              </div>
-            </div>
-          <% else %>
-            <%= link_to 'ログイン', new_user_session_path, class: 'hover:underline cursor-pointer' %>
-            <%= link_to '新規登録', new_user_registration_path, class: 'bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity duration-200 no-underline text-sm cursor-pointer' %>
-          <% end %>
-        </nav>
-      </div>
-    </header>
-
+    <!-- ▼ フラッシュ -->
     <%= render "layouts/flash" %>
-    <%= turbo_stream_from "flash" %>
 
+    <!-- ▼ ナビメニュー -->
     <div class="relative z-40">
       <%= render "layouts/nav" %>
     </div>
@@ -88,24 +60,13 @@
     <%# ▼ ページごとの背景色 ▼ %>
     <% main_bg_class = content_for?(:main_bg) ? yield(:main_bg) : "" %>
 
-    <main class="<%= user_signed_in? ? 'pt-[7rem]' : 'pt-[3.5rem]' %> <%= main_height_class %> <%= main_bg_class %>">
+    <!-- ▼ メインコンテンツ -->
+    <main class="pt-[7rem] <%= main_height_class %> <%= main_bg_class %>">
       <%= yield %>
     </main>
 
-    <footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
-      <div class="flex justify-between items-center">
-        <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
-          <span class="relative cursor-pointer after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400 last:after:hidden">
-            利用規約
-          </span>
-          <span class="relative cursor-pointer after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400 last:after:hidden">
-            プライバシーポリシー
-          </span>
-          <span class="cursor-pointer">お問い合わせ</span>
-        </div>
-        <p>© 2025 Book Image</p>
-      </div>
-    </footer>
+    <!-- ▼ フッター -->
+    <%= render "layouts/footer" %>
 
   </body>
 </html>
