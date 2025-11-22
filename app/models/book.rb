@@ -22,7 +22,7 @@ class Book < ApplicationRecord
   def cover_variant(size: [ 400, 400 ])
     cover.variant(resize_to_limit: size).processed
   end
-  
+
   validate :validate_cover_format_and_size
 
   private
