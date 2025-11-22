@@ -23,6 +23,8 @@ class Book < ApplicationRecord
     cover.variant(resize_to_limit: size).processed
   end
 
+  validate :validate_cover_format_and_size
+
   private
 
   def normalize_text_fields

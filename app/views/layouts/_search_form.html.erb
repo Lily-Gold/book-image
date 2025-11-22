@@ -13,6 +13,23 @@
               focus:outline-none focus:ring-[1.5px] focus:ring-[#986321]"
     %>
 
+    <!-- ▼ ネタバレ絞り込み（追加） -->
+    <%= f.select :spoiler,
+      options_for_select(
+        [
+          ["すべて", ""],
+          ["ネタバレあり", "1"],
+          ["ネタバレなし", "0"]
+        ],
+        params[:spoiler]
+      ),
+      {},
+      class: "px-3 py-1.5 rounded-md text-sm
+              bg-white text-gray-500
+              border border-gray-300
+              focus:outline-none focus:ring-[1.5px] focus:ring-[#986321]"
+    %>
+
     <!-- ▼ 入力欄 -->
     <%= f.text_field :q,
       value: params[:q],

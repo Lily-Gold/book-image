@@ -52,14 +52,13 @@
       <%= review.book.author.presence || "未設定" %>
     </p>
 
-    <!-- 本文 -->
+    <!-- 本文（ネタバレ防止なし） -->
     <p class="text-[11px] text-gray-700 mt-3 line-clamp-2">
       <% preview = truncate_for_two_lines(review.content) %>
+
       <% if review.is_spoiler %>
         <span class="text-red-500 font-semibold">[ネタバレ]</span>
-        <span class="opacity-10 hover:opacity-100 transition-opacity duration-200">
-          <%= preview %>
-        </span>
+        <span><%= preview %></span>
       <% else %>
         <%= preview %>
       <% end %>
