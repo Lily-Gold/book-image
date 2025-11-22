@@ -1,2 +1,18 @@
 ja:
+  activerecord:
+    attributes:
+      book:
+        title: タイトル
+        author: 著者名
+        publisher: 出版社
+        published_on: 発行日
+        isbn: ISBN
+        google_books_id: Google Books ID
+        description: あらすじ
+        cover: 書影
+        cover_url: 書影URL
 
+      review:
+        content: レビュー本文
+        image_tag_id: 印象カラー
+        is_spoiler: ネタバレ

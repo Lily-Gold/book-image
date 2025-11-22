@@ -7,4 +7,6 @@ class Review < ApplicationRecord
 
   validates :content, presence: true, length: { maximum: 5000 }
   validates :is_spoiler, inclusion: { in: [ true, false ] }
+
+  validates :image_tag_id, presence: true
 end

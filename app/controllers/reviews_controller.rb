@@ -24,6 +24,16 @@ class ReviewsController < ApplicationController
     # ▼ 印象カラー絞り込み
     @reviews = @reviews.where(image_tag_id: params[:color]) if params[:color].present?
 
+    # ▼ ネタバレ絞り込み
+    if params[:spoiler].present?
+      case params[:spoiler]
+      when "1"
+        @reviews = @reviews.where(is_spoiler: true)
+      when "0"
+        @reviews = @reviews.where(is_spoiler: false)
+      end
+    end
+
     # ▼ 並び順
     @reviews = @reviews.order(created_at: :desc)
   end
@@ -42,6 +52,9 @@ class ReviewsController < ApplicationController
       flash[:notice] = "レビューを投稿しました。"
       redirect_to reviews_path(just_posted: true, id: @review.id)
     else
+      # ★ エラー時に book が消えないように再生成
+      @review.build_book if @review.book.nil?
+
       render :new, status: :unprocessable_entity
     end
   end
@@ -49,6 +62,7 @@ class ReviewsController < ApplicationController
   def edit; end
 
   def update
+    # ★ 画像削除チェック
     if params.dig(:review, :book_attributes, :remove_cover) == "1"
       @review.book.cover.purge if @review.book.cover.attached?
     end
@@ -88,7 +102,9 @@ class ReviewsController < ApplicationController
       ]
     )
 
+    # cover が空のとき ActiveStorage の更新を避ける
     rp[:book_attributes].delete(:cover) if rp[:book_attributes][:cover].blank?
+
     rp
   end
 end
