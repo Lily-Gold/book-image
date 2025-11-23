@@ -14,7 +14,7 @@
 
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
-    
+
     <!-- ▼ OGP共通設定 -->
     <meta property="og:title"
           content="<%= content_for?(:og_title) ? yield(:og_title) : 'Book Image' %>">
@@ -25,7 +25,6 @@
     <meta property="og:type" content="website">
 
     <meta property="og:image" content="<%= root_url %>ogp.png">
-
     <meta property="og:url" content="<%= request.original_url %>">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -39,6 +38,17 @@
       href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ▼ Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QE47R0X7W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8QE47R0X7W');
+    </script>
+    <!-- ▲ Google Analytics (GA4) -->
+
   </head>
 
   <body class="font-['Noto_Sans_JP'] bg-[#F4F4F4]">
