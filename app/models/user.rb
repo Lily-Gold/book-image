@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include ImageProcessable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -25,6 +26,4 @@ class User < ApplicationRecord
   def from_omniauth?
     provider.present? && uid.present?
   end
-
-  has_one_attached :avatar
 end

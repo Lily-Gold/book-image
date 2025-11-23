@@ -1,4 +1,6 @@
 class Book < ApplicationRecord
+  include ImageProcessable
+
   belongs_to :user, optional: true
 
   has_many :reviews, dependent: :destroy
@@ -19,16 +21,16 @@ class Book < ApplicationRecord
     where("title ILIKE :kw OR author ILIKE :kw OR isbn ILIKE :kw", kw: "%#{keyword}%") if keyword.present?
   }
 
-  def cover_variant(size: [ 400, 400 ])
-    cover.variant(resize_to_limit: size).processed
-  end
+  # ★ Cloudinary では不要（ActiveStorage の variant）
+  # def cover_variant(size: [400, 400])
+  #   cover.variant(resize_to_limit: size).processed
+  # end
 
   validate :validate_cover_format_and_size
 
   private
 
   def normalize_text_fields
-    # 本情報に関する文字列をまとめて正規化
     %i[title author publisher description isbn].each do |field|
       next if self[field].blank?
 
@@ -44,7 +46,7 @@ class Book < ApplicationRecord
   def validate_cover_format_and_size
     return unless cover.attached?
 
-    acceptable_types = [ "image/jpeg", "image/png" ]
+    acceptable_types = ["image/jpeg", "image/png"]
 
     unless acceptable_types.include?(cover.blob.content_type)
       errors.add(:cover, "は jpg / jpeg / png のみアップロードできます。")

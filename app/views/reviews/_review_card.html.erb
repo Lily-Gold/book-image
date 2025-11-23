@@ -8,8 +8,10 @@
   <div class="w-1/3 p-4 flex flex-col items-center"
        style="background-color: <%= tag_color %>;">
     
-    <% if review.book.cover.attached? %>
-      <%= image_tag review.book.cover.variant(resize_to_fill: [120, 170]),
+    <% cover_url = display_image_url(review.book, size: :cover_thumb, image_attribute: :cover) %>
+
+    <% if cover_url.present? %>
+      <%= image_tag cover_url,
             class: "shadow-md mb-3 w-[120px] h-[170px] object-cover" %>
     <% else %>
       <%= image_tag "no_cover.png",
@@ -35,8 +37,11 @@
 
       <div class="flex justify-between items-center -ml-2">
         <div class="flex items-center gap-2">
-          <% if review.user.avatar.attached? %>
-            <%= image_tag review.user.avatar.variant(resize_to_fill: [40, 40]),
+
+          <% avatar_url = display_image_url(review.user, size: :avatar_40, image_attribute: :avatar) %>
+
+          <% if avatar_url.present? %>
+            <%= image_tag avatar_url,
                   class: "w-10 h-10 rounded-full object-cover" %>
           <% else %>
             <%= image_tag "avatar.png", class: "w-10 h-10 rounded-full object-cover" %>

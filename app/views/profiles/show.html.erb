@@ -11,7 +11,7 @@
 
       <div class="shrink-0">
         <% if current_user.avatar.attached? %>
-          <%= image_tag current_user.avatar.variant(resize_to_fill: [120, 120]),
+          <%= image_tag display_image_url(current_user, size: :avatar_120, image_attribute: :avatar),
                 class: "w-[120px] h-[120px] rounded-full object-cover" %>
         <% else %>
           <%= image_tag "avatar.png",
