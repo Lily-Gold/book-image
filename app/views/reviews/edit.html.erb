@@ -140,6 +140,10 @@
                     class: "w-full border rounded-lg p-2 text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004865]
                     #{ @review.book.errors[:cover].present? ? 'border-red-500' : 'border-gray-300' }" %>
 
+              <%= b.hidden_field :remove_cover,
+                    value: "0",
+                    data: { "cover-preview-target": "removeField" } %>
+
               <div class="flex items-start gap-3 mt-3">
 
                 <% if @review.book.cover.attached? && @review.book.cover.blob.persisted? %>

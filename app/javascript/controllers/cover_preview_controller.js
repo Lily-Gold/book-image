@@ -13,7 +13,10 @@ export default class extends Controller {
       this.previewTarget.classList.remove("hidden")
       this.removeButtonTarget.classList.remove("hidden")
 
-      this.removeFieldTarget.value = "0"
+      // ★ removeField が存在する場合だけ
+      if (this.hasRemoveFieldTarget) {
+        this.removeFieldTarget.value = "0"
+      }
     }
     reader.readAsDataURL(file)
   }
@@ -26,6 +29,9 @@ export default class extends Controller {
 
     this.removeButtonTarget.classList.add("hidden")
 
-    this.removeFieldTarget.value = "1"
+    // ★ removeField が存在する場合だけ
+    if (this.hasRemoveFieldTarget) {
+      this.removeFieldTarget.value = "1"
+    }
   }
 }
