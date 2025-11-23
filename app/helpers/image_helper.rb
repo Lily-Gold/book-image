@@ -44,7 +44,7 @@ module ImageHelper
     dim = image_dimensions(size)
 
     rails_representation_url(
-      blob.variant(resize_to_fill: [dim[:width], dim[:height]])
+      blob.variant(resize_to_fill: [ dim[:width], dim[:height] ])
     )
   rescue => e
     Rails.logger.error "ActiveStorageフォールバックエラー: #{e.message}"

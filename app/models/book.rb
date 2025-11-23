@@ -46,7 +46,7 @@ class Book < ApplicationRecord
   def validate_cover_format_and_size
     return unless cover.attached?
 
-    acceptable_types = ["image/jpeg", "image/png"]
+    acceptable_types = [ "image/jpeg", "image/png" ]
 
     unless acceptable_types.include?(cover.blob.content_type)
       errors.add(:cover, "は jpg / jpeg / png のみアップロードできます。")
