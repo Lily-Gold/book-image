@@ -72,3 +72,5 @@ end
   gem "aws-sdk-s3", require: false
   gem "ruby-vips"
   gem "image_processing", "~> 1.14"
+  gem "cloudinary"
+  gem "activestorage-cloudinary-service"
