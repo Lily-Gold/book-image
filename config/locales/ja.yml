@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       book:
-        title: タイトル
+        title: 本のタイトル
         author: 著者名
         publisher: 出版社
         published_on: 発行日
@@ -16,3 +16,6 @@ ja:
         content: レビュー本文
         image_tag_id: 印象カラー
         is_spoiler: ネタバレ
+
+      user:
+        name: ユーザー名
