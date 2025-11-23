@@ -27,6 +27,10 @@ class ApplicationController < ActionController::Base
     # レビュー一覧 & レビュー詳細は公開
     return true if controller_name == "reviews" && action_name.in?(%w[index show])
 
+    # ▼ Devise の公開アクション
+    return true if controller_name == "registrations" && action_name.in?(%w[new create])
+    return true if controller_name == "sessions" && action_name.in?(%w[new create])
+
     false
   end
 
