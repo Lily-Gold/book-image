@@ -1,0 +1,70 @@
+<div class="space-y-4">
+
+  <!-- === 印象カラー === -->
+  <div>
+    <%= f.label :image_tag_id, "印象カラー", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <p class="text-xs text-gray-500 mb-1">
+      この本から受けた印象に最も合うタグを1つ選んでください。
+    </p>
+
+    <% if f.object.errors[:image_tag_id].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1 ml-8">
+        <%= f.object.errors.full_messages_for(:image_tag_id).first %>
+      </p>
+    <% end %>
+
+    <div class="flex items-center gap-3" data-controller="color-tag">
+      <span
+        data-color-tag-target="preview"
+        class="w-5 h-5 rounded-full border shadow-sm
+               <%= f.object.errors[:image_tag_id].present? ? 'border-red-500' : 'border-gray-300' %>"
+        style="background-color:<%= f.object.image_tag&.color %>;">
+      </span>
+
+      <select
+        data-color-tag-target="select"
+        data-action="change->color-tag#updatePreview"
+        name="review[image_tag_id]"
+        id="review_image_tag_id"
+        class="flex-1 border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+               <%= f.object.errors[:image_tag_id].present? ? 'border-red-500' : 'border-gray-300' %>"
+      >
+        <option value="">印象カラーを選択</option>
+
+        <% ImageTag.all.each do |tag| %>
+          <option
+            value="<%= tag.id %>"
+            data-color="<%= tag.color %>"
+            <%= "selected" if tag.id == f.object.image_tag_id %>>
+            <%= tag.name %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <!-- === レビュー本文 + ネタバレ === -->
+  <div>
+    <div class="flex items-center gap-3 mb-1">
+      <%= f.label :content, "レビュー本文", class: "block text-sm font-medium text-gray-700" %>
+
+      <div class="flex items-center gap-1">
+        <%= f.check_box :is_spoiler, class: "accent-[#004865] w-4 h-4" %>
+        <%= f.label :is_spoiler, "ネタバレを含む", class: "text-sm text-gray-700 select-none" %>
+      </div>
+    </div>
+
+    <% if f.object.errors[:content].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1">
+        <%= f.object.errors.full_messages_for(:content).first %>
+      </p>
+    <% end %>
+
+    <%= f.text_area :content, rows: 6,
+          placeholder: "読んだ感想や印象を書いてください",
+          class: "w-full border rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ f.object.errors[:content].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+</div>

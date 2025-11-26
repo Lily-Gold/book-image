@@ -1,0 +1,67 @@
+<div class="space-y-4">
+
+  <!-- 出版社 -->
+  <div>
+    <%= b.label :publisher, "出版社", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <% if b.object.errors[:publisher].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1">
+        <%= b.object.errors.full_messages_for(:publisher).first %>
+      </p>
+    <% end %>
+
+    <%= b.text_field :publisher,
+          placeholder: "例：岩波文庫",
+          class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ b.object.errors[:publisher].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+  <!-- 発行日 -->
+  <div>
+    <%= b.label :published_on, "発行日", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <% if b.object.errors[:published_on].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1">
+        <%= b.object.errors.full_messages_for(:published_on).first %>
+      </p>
+    <% end %>
+
+    <%= b.date_field :published_on,
+          class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ b.object.errors[:published_on].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+  <!-- ISBN -->
+  <div>
+    <%= b.label :isbn, "ISBN", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <% if b.object.errors[:isbn].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1">
+        <%= b.object.errors.full_messages_for(:isbn).first %>
+      </p>
+    <% end %>
+
+    <%= b.text_field :isbn,
+          placeholder: "例：9784003101018",
+          class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ b.object.errors[:isbn].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+  <!-- あらすじ -->
+  <div>
+    <%= b.label :description, "あらすじ", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <% if b.object.errors[:description].present? %>
+      <p class="text-red-600 text-sm font-medium mb-1">
+        <%= b.object.errors.full_messages_for(:description).first %>
+      </p>
+    <% end %>
+
+    <%= b.text_area :description, rows: 3,
+          placeholder: "作品の内容を簡単に紹介してください",
+          class: "w-full border rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ b.object.errors[:description].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+  <div class="mt-10"></div>
+</div>
