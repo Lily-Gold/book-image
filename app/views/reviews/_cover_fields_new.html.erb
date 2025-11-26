@@ -1,0 +1,39 @@
+<div data-controller="cover-preview">
+
+  <!-- ラベル + 対応形式 -->
+  <div class="flex items-center gap-3 mb-1">
+    <%= b.label :cover, "書影（画像ファイル）", class: "text-sm font-medium text-gray-700" %>
+    <p class="text-xs text-gray-500">対応形式：jpg / jpeg / png（5MBまで）</p>
+  </div>
+
+  <% if b.object.errors[:cover].present? %>
+    <p class="text-red-600 text-sm font-medium mb-1">
+      <%= b.object.errors.full_messages_for(:cover).first %>
+    </p>
+  <% end %>
+
+  <!-- ファイル選択 -->
+  <div>
+    <%= b.file_field :cover,
+          data: {
+            action: "change->cover-preview#show",
+            "cover-preview-target": "input"
+          },
+          class: "w-full border rounded-lg p-2 text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004865]
+                 #{ b.object.errors[:cover].present? ? 'border-red-500' : 'border-gray-300' }" %>
+  </div>
+
+  <!-- プレビュー + 削除ボタン（new は常に hidden） -->
+  <div class="flex items-start gap-3 mt-5 mb-6">
+    <img data-cover-preview-target="preview"
+         class="hidden max-h-52 rounded shadow-sm">
+
+    <button type="button"
+            data-cover-preview-target="removeButton"
+            data-action="cover-preview#remove"
+            class="hidden -mt-1 text-gray-800 text-lg hover:text-black cursor-pointer select-none">
+      ×
+    </button>
+  </div>
+
+</div>
