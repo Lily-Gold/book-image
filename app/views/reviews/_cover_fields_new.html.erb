@@ -15,6 +15,7 @@
   <!-- ファイル選択 -->
   <div>
     <%= b.file_field :cover,
+          direct_upload: true,
           data: {
             action: "change->cover-preview#show",
             "cover-preview-target": "input"
