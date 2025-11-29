@@ -11,7 +11,7 @@
 
       <%# ⑤ 書影（new/edit切り替え） %>
       <% if review.new_record? %>
-        <%= render "reviews/cover_fields_new",  b: b, review: review %>
+        <%= render "reviews/cover_fields_new", b: b, review: review %>
       <% else %>
         <%= render "reviews/cover_fields_edit", b: b, review: review %>
       <% end %>
@@ -31,11 +31,23 @@
   <% end %>
 
   <div class="actions mt-8">
-    <%= f.submit submit_label,
-          data: {
-            turbo_submits_with: review.new_record? ? "投稿中…" : "更新中…"
-          },
-          class: "w-full bg-[#986321] text-white text-lg py-3 rounded-lg hover:opacity-90 cursor-pointer" %>
+    <button
+      type="submit"
+      data-controller="submit"
+      data-action="submit->submit#submit"
+      data-submit-loading-text="<%= review.new_record? ? '投稿中…' : '更新中…' %>"
+      data-submit-target="button"
+      class="w-full bg-[#986321] text-white text-lg py-3 rounded-lg hover:opacity-90 cursor-pointer flex items-center justify-center gap-2"
+    >
+      <!-- スピナー（初期は非表示） -->
+      <div
+        class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"
+        data-submit-target="spinner"
+      ></div>
+
+      <!-- ボタンラベル -->
+      <span data-submit-target="label"><%= submit_label %></span>
+    </button>
   </div>
 
 <% end %>

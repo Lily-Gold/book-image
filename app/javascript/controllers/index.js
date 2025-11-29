@@ -24,3 +24,6 @@ application.register("profile-tabs", ProfileTabsController)
 
 import PostBannerController from "./post_banner_controller"
 application.register("post-banner", PostBannerController)
+
+import SubmitController from "./submit_controller"
+application.register("submit", SubmitController)
