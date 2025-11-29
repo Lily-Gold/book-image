@@ -1,51 +1,37 @@
-<%= form_with(model: review) do |f| %>
+<%= form_with(
+      model: review,
+      data: {
+        controller: "submit",
+        action: "submit->submit#submit",
+        submit_loading_text: (review.new_record? ? "投稿中…" : "更新中…")
+      }
+    ) do |f| %>
 
   <%= f.fields_for :book do |b| %>
-
     <div class="space-y-4">
-      <%# ① タイトル + ② 著者 %>
       <%= render "reviews/book_fields", b: b, review: review %>
-
-      <%# ④ 印象カラー + 本文（review側） %>
       <%= render "reviews/review_fields", f: f, review: review %>
-
-      <%# ⑤ 書影（new/edit切り替え） %>
       <% if review.new_record? %>
         <%= render "reviews/cover_fields_new", b: b, review: review %>
       <% else %>
         <%= render "reviews/cover_fields_edit", b: b, review: review %>
       <% end %>
-
-      <!-- ★ プレビュー直下に区切り線 -->
       <div class="border-b border-gray-300 pb-6"></div>
-
-      <!-- ★ 見出し -->
-      <h3 class="text-xl font-semibold text-[#004865] mb-2 mt-8">
-        本の詳細（任意）
-      </h3>
-
-      <%# ⑥〜⑨ 出版社/発行日/ISBN/あらすじ %>
+      <h3 class="text-xl font-semibold text-[#004865] mb-2 mt-8">本の詳細（任意）</h3>
       <%= render "reviews/book_meta_fields", b: b, review: review %>
     </div>
-
   <% end %>
 
   <div class="actions mt-8">
     <button
       type="submit"
-      data-controller="submit"
-      data-action="submit->submit#submit"
-      data-submit-loading-text="<%= review.new_record? ? '投稿中…' : '更新中…' %>"
       data-submit-target="button"
       class="w-full bg-[#986321] text-white text-lg py-3 rounded-lg hover:opacity-90 cursor-pointer flex items-center justify-center gap-2"
     >
-      <!-- スピナー（初期は非表示） -->
       <div
         class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"
         data-submit-target="spinner"
       ></div>
-
-      <!-- ボタンラベル -->
       <span data-submit-target="label"><%= submit_label %></span>
     </button>
   </div>
