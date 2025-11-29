@@ -7,8 +7,13 @@ export default class extends Controller {
   submit() {
     // ボタン無効化
     if (this.hasButtonTarget) {
-      this.buttonTarget.disabled = true
-      this.buttonTarget.classList.add("opacity-70", "cursor-not-allowed")
+      const btn = this.buttonTarget
+
+      btn.disabled = true
+      btn.classList.add("opacity-70", "cursor-not-allowed")
+
+      // hover状態と指カーソルを無効化
+      btn.classList.remove("hover:opacity-90", "cursor-pointer")
     }
 
     // テキストを「投稿中… / 更新中…」に変更
