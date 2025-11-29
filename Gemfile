@@ -38,6 +38,16 @@ gem "kamal", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
+gem "devise"
+gem "rails-i18n"
+gem "devise-i18n"
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-google-oauth2"
+gem "ruby-vips"
+gem "image_processing", "~> 1.14"
+gem "cloudinary"
+gem "activestorage-cloudinary-service"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -63,14 +73,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-  gem "devise"
-  gem "rails-i18n"
-  gem "devise-i18n"
-  gem "omniauth"
-  gem "omniauth-rails_csrf_protection"
-  gem "omniauth-google-oauth2"
-  gem "aws-sdk-s3", require: false
-  gem "ruby-vips"
-  gem "image_processing", "~> 1.14"
-  gem "cloudinary"
-  gem "activestorage-cloudinary-service"
