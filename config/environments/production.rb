@@ -93,17 +93,17 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    address: 'smtp.sendgrid.net',
+    address: "smtp.sendgrid.net",
     port: 587,
-    domain: 'book-image.onrender.com',
-    user_name: 'apikey',
-    password: ENV['SENDGRID_API_KEY'],
+    domain: "book-image.onrender.com",
+    user_name: "apikey",
+    password: ENV["SENDGRID_API_KEY"],
     authentication: :plain,
     enable_starttls_auto: true
   }
 
   config.action_mailer.default_url_options = {
-    host: 'book-image.onrender.com',
-    protocol: 'https'
+    host: "book-image.onrender.com",
+    protocol: "https"
   }
 end
