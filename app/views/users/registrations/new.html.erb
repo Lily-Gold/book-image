@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center py-10" style="background-color: #F4F4F4;">
+<div class="flex justify-center items-center" style="background-color: #F4F4F4;">
   <div class="bg-white pt-5 pb-6 px-8 rounded-xl shadow-lg w-full max-w-md my-[2rem]">
 
     <h2 class="text-3xl font-bold text-center text-[#004865] mb-6">新規登録</h2>
@@ -96,11 +96,14 @@
 
     <% end %>
 
-    <div class="mt-4 text-center">
-      <%= render "users/shared/links" %>
+    <div class="mt-6 text-center">
+      <%= link_to new_session_path(resource_name),
+            class: "text-sm text-[#986321] hover:underline hover:opacity-90" do %>
+        すでにアカウントをお持ちの方はこちら
+      <% end %>
     </div>
 
-    <div class="-mt-10 text-center text-xs text-gray-400 leading-relaxed">
+    <div class="mt-6 text-center text-xs text-gray-400 leading-relaxed">
       <div class="inline-block text-left">
         アカウント登録をもって、
         <span class="text-gray-400 font-medium">利用規約</span>
