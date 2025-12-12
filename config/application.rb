@@ -18,6 +18,10 @@ module Myapp
 
     config.i18n.default_locale = :ja
     config.active_storage.variant_processor = :vips
+  
+    config.action_mailer.default_options = {
+      from: "Book Image <no-reply@book-image.com>"
+    }
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
