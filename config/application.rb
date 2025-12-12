@@ -18,7 +18,7 @@ module Myapp
 
     config.i18n.default_locale = :ja
     config.active_storage.variant_processor = :vips
-  
+
     config.action_mailer.default_options = {
       from: "Book Image <no-reply@book-image.com>"
     }
