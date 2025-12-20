@@ -1,6 +1,9 @@
 <% tag_color = review.image_tag&.color || "#cccccc" %>
 <% text_color = text_color_for(tag_color) %>
 
+<% avatar_url = display_image_url(review.user, size: :avatar_40, image_attribute: :avatar) %>
+<% avatar_missing = avatar_url.blank? %>
+
 <div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-8"
      style="transform: scale(0.92); transform-origin: top center;">
   
@@ -31,23 +34,25 @@
   </div>
 
   <!-- 右：内容 -->
-  <div class="w-2/3 px-5 pt-2 pb-5 flex flex-col">
+  <div class="w-2/3 px-5 pt-2 pb-5 flex flex-col relative
+              <%= avatar_missing ? 'top-[-6px]' : 'top-[4px]' %>">
 
     <div class="flex flex-col gap-2.5">
 
-      <div class="flex justify-between items-center -ml-2">
-        <div class="flex items-center gap-2">
+      <div class="flex justify-between items-center -ml-0.5">
+        <div class="flex items-center gap-2 <%= avatar_missing ? '-translate-x-3.5' : '' %>">
 
           <% avatar_url = display_image_url(review.user, size: :avatar_40, image_attribute: :avatar) %>
 
           <% if avatar_url.present? %>
             <%= image_tag avatar_url,
-                  class: "w-10 h-10 rounded-full object-cover" %>
+                  class: "w-8 h-8 rounded-full object-cover border border-gray-400/60" %>
           <% else %>
-            <%= image_tag "avatar.png", class: "w-10 h-10 rounded-full object-cover" %>
+            <%= image_tag "avatar.png",
+                  class: "w-14 h-14 rounded-full object-cover" %>
           <% end %>
 
-          <p class="text-base font-medium text-gray-700">
+          <p class="text-base font-medium text-gray-700 <%= avatar_missing ? '-translate-x-2.5' : '' %>">
             <%= review.user.name %>
           </p>
         </div>
@@ -57,7 +62,7 @@
         </p>
       </div>
 
-      <div class="mt-0">
+      <div class="<%= avatar_missing ? '-mt-2.5' : 'mt-1' %>">
         <p class="text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
           <%= review.book.title %>
         </p>

@@ -7,25 +7,61 @@
   <div class="max-w-5xl mx-auto px-1">
 
     <!-- プロフィールカード -->
-    <div class="bg-white rounded-xl shadow-md p-2 flex items-center gap-6 mb-14">
+    <div class="bg-white rounded-xl shadow-md p-2 pl-6 flex items-center gap-6 mb-14 relative">
 
-      <div class="shrink-0">
+      <div class="shrink-0 ml-5">
         <% if current_user.avatar.attached? %>
           <%= image_tag display_image_url(current_user, size: :avatar_120, image_attribute: :avatar),
-                class: "w-[120px] h-[120px] rounded-full object-cover" %>
+                class: "w-[120px] h-[120px] rounded-full object-cover scale-90 border border-gray-400/60" %>
         <% else %>
           <%= image_tag "avatar.png",
-                class: "w-[120px] h-[120px] rounded-full object-cover" %>
+                class: "w-[120px] h-[120px] rounded-full object-cover scale-175" %>
         <% end %>
       </div>
 
-      <div class="flex-1 mt-[-2px]">
+      <div class="flex-1 mt-[-2px] pl-6">
         <p class="text-xl font-semibold text-[#004865]"><%= current_user.name %></p>
         <p class="text-sm text-gray-600 mt-1"><%= current_user.email %></p>
 
-        <div class="flex gap-6 mt-6 text-sm text-gray-700">
-          <span>登録日：<%= current_user.created_at.strftime('%Y/%m/%d') %></span>
+        <div class="text-sm text-gray-700 mt-4 leading-relaxed max-w-[700px]">
+          <%= simple_format(current_user.introduction, {}, wrapper_tag: "div") %>
         </div>
+
+        <div class="flex items-center gap-3 mt-4 -mt-18 text-sm text-gray-700">
+          <span>登録日：<%= current_user.created_at.strftime('%Y/%m/%d') %></span>
+
+          <!-- ▼ X シェアボタン（アプリ紹介） -->
+          <%= link_to(
+                "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_app_text)}&url=#{ERB::Util.url_encode(root_url)}",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                class: "inline-flex items-center justify-center
+                        w-8 h-8
+                        bg-black rounded-md
+                        hover:opacity-80 transition"
+              ) do %>
+
+            <!-- X ロゴ（黒背景＋白） -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="currentColor"
+                 viewBox="0 0 24 24"
+                 class="w-4 h-4 text-white">
+              <path d="M18.244 2H21.5l-7.42 8.495L23 22h-6.828l-5.364-7.044L4.896 22H1.64l7.93-9.073L2 2h6.91l4.713 6.231L18.244 2Zm-2.42 18h1.884L7.24 4H5.27l10.554 16Z"/>
+            </svg>
+
+          <% end %>
+        </div>
+
+        <%= link_to edit_user_registration_path,
+              class: "absolute bottom-4 right-5
+                      flex items-center gap-1.5
+                      text-sm text-gray-500
+                      hover:text-[#986321]
+                      hover:underline
+                      underline-offset-4
+                      transition" do %>
+          アカウント設定
+        <% end %>
       </div>
     </div>
 
@@ -33,7 +69,7 @@
     <!-- ▼▼ タブ切り替えエリア ▼▼ -->
     <div data-controller="profile-tabs">
 
-      <!-- ★ 全幅タブバー（シャドウ控えめ） -->
+      <!-- ★ 全幅タブバー -->
       <div class="flex mb-10 border border-[#CDD5DF] bg-white rounded-lg overflow-hidden w-full shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
 
         <!-- 投稿したレビュー -->

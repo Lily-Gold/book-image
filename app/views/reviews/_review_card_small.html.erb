@@ -1,6 +1,9 @@
 <% tag_color = review.image_tag&.color || "#cccccc" %>
 <% text_color = text_color_for(tag_color) %>
 
+<% avatar_url = display_image_url(review.user, size: :avatar_26, image_attribute: :avatar) %>
+<% avatar_missing = avatar_url.blank? %>
+
 <div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top">
   
   <!-- 左：書影 -->
@@ -30,21 +33,24 @@
   </div>
 
   <!-- 右：内容 -->
-  <div class="w-2/3 px-4 pt-3 pb-4 flex flex-col text-xs">
+  <div class="w-2/3 px-4 pt-3 pb-4 flex flex-col text-xs <%= avatar_missing ? '-mt-2' : '' %>">
 
     <div class="flex justify-between items-center mb-1">
-      <div class="flex items-center gap-1 ml-[-4px]">
+      <div class="flex items-center gap-1 ml-[-2px] <%= avatar_missing ? '-translate-x-[9px]' : '' %>">
 
         <% avatar_url = display_image_url(review.user, size: :avatar_26, image_attribute: :avatar) %>
 
         <% if avatar_url.present? %>
           <%= image_tag avatar_url,
-                class: "w-[26px] h-[26px] rounded-full object-cover" %>
+                class: "w-[26px] h-[26px] rounded-full object-cover border border-gray-400/60 scale-[0.90]" %>
         <% else %>
-          <%= image_tag "avatar.png", class: "w-[26px] h-[26px] rounded-full object-cover" %>
+          <%= image_tag "avatar.png",
+              class: "w-[43px] h-[43px] rounded-full object-cover" %>
         <% end %>
 
-        <p class="text-[12px] font-medium text-gray-700"><%= review.user.name %></p>
+        <p class="text-[12px] font-medium text-gray-700 <%= avatar_missing ? '-translate-x-[8px]' : '' %>">
+          <%= review.user.name %>
+        </p>
       </div>
 
       <p class="text-[10px] text-gray-500 whitespace-nowrap">
@@ -52,23 +58,24 @@
       </p>
     </div>
 
-    <!-- タイトル -->
-    <p class="text-sm font-semibold truncate"><%= review.book.title %></p>
-    <p class="text-[11px] text-gray-500 truncate">
-      <%= review.book.author.presence || "未設定" %>
-    </p>
+    <!-- タイトル〜本文（ここだけ動かす） -->
+    <div class="<%= avatar_missing ? '-mt-2.5 pt-[1px]'  : '-mt-0' %>">
+      <p class="text-sm font-semibold truncate"><%= review.book.title %></p>
 
-    <!-- 本文（ネタバレ防止なし） -->
-    <p class="text-[11px] text-gray-700 mt-3 line-clamp-2">
-      <% preview = truncate_for_two_lines(review.content) %>
+      <p class="text-[11px] text-gray-500 truncate">
+        <%= review.book.author.presence || "未設定" %>
+      </p>
 
-      <% if review.is_spoiler %>
-        <span class="text-red-500 font-semibold">[ネタバレ]</span>
-        <span><%= preview %></span>
-      <% else %>
-        <%= preview %>
-      <% end %>
-    </p>
+      <p class="text-[11px] text-gray-700 mt-3 line-clamp-2">
+        <% preview = truncate_for_two_lines(review.content) %>
+        <% if review.is_spoiler %>
+          <span class="text-red-500 font-semibold">[ネタバレ]</span>
+          <span><%= preview %></span>
+        <% else %>
+          <%= preview %>
+        <% end %>
+      </p>
+    </div>
 
     <div class="flex justify-end mt-auto">
       <%= link_to "詳細", review_path(review),

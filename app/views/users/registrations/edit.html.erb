@@ -1,43 +1,255 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="flex justify-center items-center min-h-[87vh]" style="background-color: #F4F4F4;">
+  <div class="w-full max-w-xl mt-6 mb-8 pb-[1.5rem]">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+    <!-- ▼ 見出し -->
+    <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
+      アカウント設定
+    </h2>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <!-- ▼ 白枠 -->
+    <div class="bg-white pt-6 pb-8 px-10 rounded-xl shadow-lg">
+
+      <%= form_for(
+            resource,
+            as: resource_name,
+            url: registration_path(resource_name),
+            html: {
+              method: :put,
+              class: "space-y-8",
+              data: {
+                controller: "submit",
+                action: "submit->submit#submit",
+                submit_loading_text_value: "更新中…"
+              }
+            }
+          ) do |f| %>
+
+        <%= render "users/shared/error_messages", resource: resource %>
+
+        <!-- ===================== -->
+        <!-- ▼ プロフィール情報 -->
+        <!-- ===================== -->
+        <div>
+          <p class="text-xl font-semibold text-[#004865] mb-5">
+            プロフィール編集
+          </p>
+
+          <!-- ▼ アイコン -->
+          <div
+            class="flex items-center gap-4 mb-5 mt-2"
+            data-controller="avatar-preview"
+          >
+
+            <!-- プレビュー + 削除ボタン -->
+            <div class="relative inline-block">
+
+              <% if resource.avatar.attached? && resource.avatar.blob.persisted? %>
+                <!-- 編集（画像あり） -->
+                <img src="<%= url_for(resource.avatar) %>"
+                     data-avatar-preview-target="preview"
+                     data-default-src="<%= asset_path('avatar.png') %>"
+                     class="w-20 h-20 rounded-full object-cover border border-gray-300">
+
+                <button type="button"
+                        data-avatar-preview-target="removeButton"
+                        data-action="avatar-preview#remove"
+                        class="absolute -top-1 -right-1 w-5 h-5 rounded-full
+                               bg-gray-700 text-white text-xs
+                               flex items-center justify-center hover:opacity-90">
+                  ×
+                </button>
+
+              <% else %>
+                <!-- 画像なし（デフォルト） -->
+                <img src="<%= asset_path('avatar.png') %>"
+                     data-avatar-preview-target="preview"
+                     data-default-src="<%= asset_path('avatar.png') %>"
+                     class="w-20 h-20 rounded-full object-cover scale-195">
+
+                <button type="button"
+                        data-avatar-preview-target="removeButton"
+                        data-action="avatar-preview#remove"
+                        class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full
+                               bg-gray-700 text-white text-xs
+                               flex items-center justify-center hover:opacity-90">
+                  ×
+                </button>
+              <% end %>
+
+            </div>
+
+            <!-- ファイル選択（★ input target 追加） -->
+            <%= f.file_field :avatar,
+                  data: {
+                    action: "change->avatar-preview#previewImage",
+                    "avatar-preview-target": "input"
+                  },
+                  class: "text-sm text-gray-600" %>
+
+            <!-- 削除フラグ -->
+            <%= f.hidden_field :remove_avatar,
+                  value: "0",
+                  data: { "avatar-preview-target": "removeField" } %>
+
+          </div>
+          <!-- ▼ ユーザー名 -->
+          <div class="field mb-5">
+
+            <%= f.label :name, "ユーザー名",
+                class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+            <% if resource.errors[:name].present? %>
+              <p class="text-red-600 text-sm font-medium mb-1">
+                <%= resource.errors.full_messages_for(:name).first %>
+              </p>
+            <% end %>
+
+            <%= f.text_field :name,
+                class: "w-full border rounded-lg p-2 text-base
+                       focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                       (resource.errors[:name].present? ? "border-red-500" : "border-gray-300") %>
+          </div>
+
+          <!-- ▼ 自己紹介 -->
+          <div class="field">
+            <%= f.label :introduction, "自己紹介",
+                  class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+            <%= f.text_area :introduction,
+                  rows: 4,
+                  class: "w-full border rounded-lg p-2 text-base
+                         focus:outline-none focus:ring-2 focus:ring-[#004865]
+                         border-gray-300" %>
+          </div>
+        </div>
+
+        <!-- ===================== -->
+        <!-- ▼ アカウント情報 -->
+        <!-- ===================== -->
+        <div class="pt-8 border-t border-gray-300">
+          <p class="text-xl font-semibold text-[#004865] mb-4">
+            アカウント情報
+          </p>
+
+          <!-- ▼ メールアドレス -->
+          <div class="field mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              メールアドレス
+            </label>
+
+            <div class="w-full border border-gray-300 rounded-lg p-2 text-base bg-gray-50 text-gray-800">
+              <%= resource.email %>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-1">
+              ※ 現在、メールアドレスの変更は対応していません。
+            </p>
+          </div>
+
+          <% if resource.provider.blank? %>
+            <!-- ▼ パスワード変更（通常登録のみ） -->
+            <div class="space-y-5">
+
+              <!-- 新しいパスワード -->
+              <div class="field">
+                <div class="flex items-center justify-between mb-1">
+                  <%= f.label :password, "新しいパスワード",
+                        class: "text-sm font-medium text-gray-700" %>
+
+                  <% if @minimum_password_length %>
+                    <span class="text-xs text-[#5D5D5D]">
+                      ※ <%= @minimum_password_length %>文字以上
+                    </span>
+                  <% end %>
+                </div>
+
+                <% if resource.errors[:password].present? %>
+                  <p class="text-red-600 text-sm font-medium mb-1">
+                    <%= resource.errors.full_messages_for(:password).first %>
+                  </p>
+                <% end %>
+
+                <%= f.password_field :password,
+                      autocomplete: "new-password",
+                      class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                            (resource.errors[:password].present? ? "border-red-500" : "border-gray-300") %>
+              </div>
+
+              <!-- 新しいパスワード（確認） -->
+              <div class="field">
+                <%= f.label :password_confirmation, "新しいパスワード（確認用）",
+                      class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+                <% if resource.errors[:password_confirmation].present? %>
+                  <p class="text-red-600 text-sm font-medium mb-1">
+                    <%= resource.errors.full_messages_for(:password_confirmation).first %>
+                  </p>
+                <% end %>
+
+                <%= f.password_field :password_confirmation,
+                      autocomplete: "new-password",
+                      class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                            (resource.errors[:password_confirmation].present? ? "border-red-500" : "border-gray-300") %>
+              </div>
+
+              <!-- 現在のパスワード -->
+              <div class="field">
+                <%= f.label :current_password, "現在のパスワード",
+                      class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+                <% if resource.errors[:current_password].present? %>
+                  <p class="text-red-600 text-sm font-medium mb-1">
+                    <%= resource.errors.full_messages_for(:current_password).first %>
+                  </p>
+                <% end %>
+
+                <%= f.password_field :current_password,
+                      autocomplete: "current-password",
+                      class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                            (resource.errors[:current_password].present? ? "border-red-500" : "border-gray-300") %>
+
+                <p class="text-xs text-gray-500 mt-1">
+                  ※ パスワードを変更する場合のみ、現在のパスワードが必要です。
+                </p>
+              </div>
+            </div>
+          <% else %>
+            <!-- ▼ Googleログイン時の説明 -->
+            <div class="space-y-2 pt-2">
+              <p class="text-sm text-gray-700">
+                このアカウントは Google アカウントでログインしています。
+              </p>
+              <p class="text-sm text-gray-700">
+                パスワードは Google 側で管理されています。
+              </p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- ▼ 保存ボタン -->
+        <div class="pt-2">
+          <button
+            type="submit"
+            data-submit-target="button"
+            class="w-full bg-[#986321] text-white text-lg py-2.5 rounded-lg
+                   hover:opacity-90 transition cursor-pointer
+                   flex items-center justify-center gap-2"
+  >
+            <!-- スピナー -->
+            <div
+              class="hidden animate-spin h-5 w-5
+                     border-2 border-white border-t-transparent rounded-full"
+              data-submit-target="spinner"
+            ></div>
+
+            <!-- ラベル -->
+            <span data-submit-target="label">
+              変更を保存する
+            </span>
+          </button>
+        </div>
+
+      <% end %>
+    </div>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>

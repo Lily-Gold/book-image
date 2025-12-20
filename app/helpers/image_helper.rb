@@ -65,6 +65,8 @@ module ImageHelper
       { width: 40, height: 40 }
     when :avatar_26
       { width: 26, height: 26 }
+    when :avatar_header
+      { width: 48, height: 48 }
 
     # ───── Book Cover ─────
     when :cover_thumb

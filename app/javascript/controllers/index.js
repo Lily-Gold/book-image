@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AvatarPreviewController from "./avatar_preview_controller"
+application.register("avatar-preview", AvatarPreviewController)
+
 import ColorTagController from "./color_tag_controller"
 application.register("color-tag", ColorTagController)
 
@@ -13,17 +16,20 @@ application.register("cover-preview", CoverPreviewController)
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 
+import HelloController from "./hello_controller"
+application.register("hello", HelloController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
-
-import ToastController from "./toast_controller"
-application.register("toast", ToastController)
-
-import ProfileTabsController from "./profile_tabs_controller"
-application.register("profile-tabs", ProfileTabsController)
 
 import PostBannerController from "./post_banner_controller"
 application.register("post-banner", PostBannerController)
 
+import ProfileTabsController from "./profile_tabs_controller"
+application.register("profile-tabs", ProfileTabsController)
+
 import SubmitController from "./submit_controller"
 application.register("submit", SubmitController)
+
+import ToastController from "./toast_controller"
+application.register("toast", ToastController)

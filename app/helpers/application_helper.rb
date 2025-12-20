@@ -20,6 +20,10 @@ module ApplicationHelper
     title = review.book.title
     color = review.image_tag.name
 
-    "『#{title}』をレビューしました！\n私の印象カラーは “#{color}” です。\n\n#BookImage"
+    "『#{title}』をレビューしました！\n私の印象カラーは “#{color}” です。📚🎨\n\n#BookImage"
+  end
+
+  def share_app_text
+    "本の印象を“色”で表現する、新しい読書体験📚🎨\n\n#BookImage"
   end
 end

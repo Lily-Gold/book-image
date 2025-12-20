@@ -39,25 +39,27 @@
         </div>
 
         <!-- ▼ 本情報 -->
-        <div class="w-2/3 space-y-4 -mt-2">
+        <% avatar_url = display_image_url(@review.user, size: :avatar_48, image_attribute: :avatar) %>
+        <% avatar_missing = avatar_url.blank? %>
+
+        <div class="w-2/3 space-y-4 <%= avatar_missing ? '-mt-6' : '-mt-2' %>">
 
           <!-- ▼ 投稿者情報 -->
           <div class="flex items-center justify-between">
-
             <div class="flex items-center gap-3">
-              <% avatar_url = display_image_url(@review.user, size: :avatar_48, image_attribute: :avatar) %>
 
               <% if avatar_url.present? %>
                 <%= image_tag avatar_url,
-                      class: "w-12 h-12 rounded-full object-cover" %>
+                      class: "w-12 h-12 rounded-full object-cover border border-gray-400/60 scale-[0.85]" %>
               <% else %>
                 <%= image_tag "avatar.png",
-                      class: "w-12 h-12 rounded-full object-cover" %>
+                      class: "w-19.5 h-19.5 rounded-full object-cover -translate-x-3.5" %>
               <% end %>
 
-              <p class="text-base font-medium text-gray-800">
+              <p class="text-lg font-medium text-gray-800 <%= avatar_missing ? '-translate-x-7.5' : '' %>">
                 <%= @review.user.name %>
               </p>
+
             </div>
 
             <p class="text-sm text-gray-600">
@@ -66,7 +68,7 @@
           </div>
 
           <!-- ▼ 本の詳細 -->
-          <div class="space-y-1 -mt-2">
+          <div class="space-y-1 <%= avatar_missing ? '-mt-6' : '-mt-2.5' %>">
             <p class="text-base font-normal text-gray-600">本のタイトル</p>
             <p class="text-lg font-medium text-gray-800 pl-4"><%= @review.book.title %></p>
 

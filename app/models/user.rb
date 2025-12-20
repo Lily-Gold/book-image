@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   has_one_attached :avatar
+  attr_accessor :remove_avatar
   has_many :books, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
@@ -13,9 +14,14 @@ class User < ApplicationRecord
   validates :introduction, length: { maximum: 200 }
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: :from_omniauth?
 
-  # ★ これを忘れない
+  before_validation :set_default_introduction, on: :create
+
   def from_omniauth?
     provider.present? && uid.present?
+  end
+
+  def set_default_introduction
+    self.introduction ||= "よろしくお願いします。"
   end
 
   def self.from_omniauth(auth)
