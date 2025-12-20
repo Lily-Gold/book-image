@@ -9,4 +9,6 @@ class Review < ApplicationRecord
   validates :is_spoiler, inclusion: { in: [ true, false ] }
 
   validates :image_tag_id, presence: true
+
+  validates_associated :book
 end
