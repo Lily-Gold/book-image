@@ -92,7 +92,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    rp = params.require(:review).permit(
+    params.require(:review).permit(
       :content,
       :is_spoiler,
       :image_tag_id,
@@ -101,10 +101,5 @@ class ReviewsController < ApplicationController
         isbn description cover remove_cover
       ]
     )
-
-    # cover が空のとき ActiveStorage の更新を避ける
-    rp[:book_attributes].delete(:cover) if rp[:book_attributes][:cover].blank?
-
-    rp
   end
 end

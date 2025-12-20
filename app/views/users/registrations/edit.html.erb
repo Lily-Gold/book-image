@@ -24,8 +24,6 @@
             }
           ) do |f| %>
 
-        <%= render "users/shared/error_messages", resource: resource %>
-
         <!-- ===================== -->
         <!-- ▼ プロフィール情報 -->
         <!-- ===================== -->
@@ -35,10 +33,24 @@
           </p>
 
           <!-- ▼ アイコン -->
-          <div
-            class="flex items-center gap-4 mb-5 mt-2"
-            data-controller="avatar-preview"
-          >
+          <div class="mb-5" data-controller="avatar-preview">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-sm font-medium text-gray-700">
+                プロフィール画像
+              </p>
+
+              <span class="ml-3 text-xs text-gray-500">
+                対応形式：jpg / jpeg / png（5MBまで）
+              </span>
+            </div>
+
+            <% if resource.errors[:avatar].present? %>
+              <p class="text-red-600 text-sm font-medium mb-1">
+                <%= resource.errors.full_messages_for(:avatar).first %>
+              </p>
+            <% end %>
+
+            <div class="flex items-center gap-4 mt-2">
 
             <!-- プレビュー + 削除ボタン -->
             <div class="relative inline-block">
@@ -48,7 +60,8 @@
                 <img src="<%= url_for(resource.avatar) %>"
                      data-avatar-preview-target="preview"
                      data-default-src="<%= asset_path('avatar.png') %>"
-                     class="w-20 h-20 rounded-full object-cover border border-gray-300">
+                     class="w-20 h-20 rounded-full object-cover border
+                            <%= resource.errors[:avatar].present? ? 'border-red-500' : 'border-gray-300' %>">
 
                 <button type="button"
                         data-avatar-preview-target="removeButton"
@@ -61,11 +74,15 @@
 
               <% else %>
                 <!-- 画像なし（デフォルト） -->
-                <img src="<%= asset_path('avatar.png') %>"
-                     data-avatar-preview-target="preview"
-                     data-default-src="<%= asset_path('avatar.png') %>"
-                     class="w-20 h-20 rounded-full object-cover scale-195">
-
+                <div
+                  class="w-20 h-20 rounded-full overflow-hidden border
+                         <%= resource.errors[:avatar].present? ? 'border-red-500' : 'border-gray-300' %>">
+                  <img
+                    src="<%= asset_path('avatar.png') %>"
+                    data-avatar-preview-target="preview"
+                    data-default-src="<%= asset_path('avatar.png') %>"
+                    class="w-full h-full object-cover scale-195">
+                </div>
                 <button type="button"
                         data-avatar-preview-target="removeButton"
                         data-action="avatar-preview#remove"
@@ -78,7 +95,7 @@
 
             </div>
 
-            <!-- ファイル選択（★ input target 追加） -->
+            <!-- ファイル選択 -->
             <%= f.file_field :avatar,
                   data: {
                     action: "change->avatar-preview#previewImage",
@@ -90,7 +107,7 @@
             <%= f.hidden_field :remove_avatar,
                   value: "0",
                   data: { "avatar-preview-target": "removeField" } %>
-
+            </div>
           </div>
           <!-- ▼ ユーザー名 -->
           <div class="field mb-5">

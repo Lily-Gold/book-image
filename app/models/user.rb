@@ -7,12 +7,15 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   attr_accessor :remove_avatar
+
   has_many :books, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 15 }, unless: :from_omniauth?
   validates :introduction, length: { maximum: 200 }
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: :from_omniauth?
+
+  validate :validate_avatar_format_and_size
 
   before_validation :set_default_introduction, on: :create
 
@@ -28,11 +31,9 @@ class User < ApplicationRecord
     email = auth.info.email
     return nil if email.blank?
 
-    # ① Googleログイン済み
     user = find_by(provider: auth.provider, uid: auth.uid)
     return user if user
 
-    # ② 通常登録 → Google紐づけ
     user = find_by(email: email)
     if user
       user.update!(
@@ -42,7 +43,6 @@ class User < ApplicationRecord
       return user
     end
 
-    # ③ Google初回
     create!(
       provider: auth.provider,
       uid: auth.uid,
@@ -50,5 +50,22 @@ class User < ApplicationRecord
       name: auth.info.name || "Googleユーザー",
       password: Devise.friendly_token[0, 20]
     )
+  end
+
+  private
+
+  # ▼ プロフィール画像のバリデーション
+  def validate_avatar_format_and_size
+    return unless avatar.attached?
+
+    acceptable_types = [ "image/jpeg", "image/png" ]
+
+    unless acceptable_types.include?(avatar.blob.content_type)
+      errors.add(:avatar, "は jpg / jpeg / png のみアップロードできます。")
+    end
+
+    if avatar.blob.byte_size > 5.megabytes
+      errors.add(:avatar, "のサイズは5MB以下にしてください。")
+    end
   end
 end
