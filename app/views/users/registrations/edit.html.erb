@@ -97,6 +97,7 @@
 
             <!-- ファイル選択 -->
             <%= f.file_field :avatar,
+                direct_upload: true,
                   data: {
                     action: "change->avatar-preview#previewImage",
                     "avatar-preview-target": "input"
