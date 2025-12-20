@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   has_one_attached :avatar
   attr_accessor :remove_avatar
@@ -58,7 +58,7 @@ class User < ApplicationRecord
   def validate_avatar_format_and_size
     return unless avatar.attached?
 
-    acceptable_types = ["image/jpeg", "image/png"]
+    acceptable_types = [ "image/jpeg", "image/png" ]
 
     unless acceptable_types.include?(avatar.blob.content_type)
       errors.add(:avatar, "は jpg / jpeg / png のみアップロードできます。")
