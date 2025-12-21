@@ -26,7 +26,6 @@ module ImageHelper
       height: dim[:height],
       crop:   :fill,
       quality: image_quality(size),
-      fetch_format: :auto
     )
   rescue => e
     Rails.logger.error "Cloudinary画像URL生成エラー: #{e.message}"
