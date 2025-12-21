@@ -25,7 +25,8 @@ module ImageHelper
       width:  dim[:width],
       height: dim[:height],
       crop:   :fill,
-      quality: :auto
+      quality: image_quality(size),
+      fetch_format: :auto
     )
   rescue => e
     Rails.logger.error "Cloudinary画像URL生成エラー: #{e.message}"
@@ -76,5 +77,13 @@ module ImageHelper
     else
       { width: 200, height: 200 }
     end
+  end
+
+  def avatar_size?(size)
+    size.to_s.start_with?("avatar")
+  end
+
+  def image_quality(size)
+    avatar_size?(size) ? :auto_low : :auto
   end
 end
