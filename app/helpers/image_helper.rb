@@ -19,11 +19,11 @@ module ImageHelper
     dim = image_dimensions(size)
 
     cl_image_path(
-      attachment.key, # ← Cloudinary が理解できる key
+      attachment.blob.key,   # ★ ここを attachment.key → attachment.blob.key に
       width:  dim[:width],
       height: dim[:height],
       crop:   :fill,
-      quality: image_quality(size)
+      fetch_format: :auto    # ★ これを必ず追加
     )
   rescue => e
     Rails.logger.error "Cloudinary画像URL生成エラー: #{e.message}"
@@ -61,16 +61,5 @@ module ImageHelper
     when :cover_detail then { width: 240, height: 340 }
     else { width: 200, height: 200 }
     end
-  end
-
-  # ============================
-  # 品質
-  # ============================
-  def avatar_size?(size)
-    size.to_s.start_with?("avatar")
-  end
-
-  def image_quality(size)
-    avatar_size?(size) ? :auto_low : :auto
   end
 end
