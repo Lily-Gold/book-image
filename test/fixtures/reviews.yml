@@ -4,7 +4,7 @@ one:
   image_tag_id: 1
   content: "この本の表現がとても美しかった"
   is_spoiler: false
-  public_id: "testreview0000001"
+  public_id: "testreview000001"
 
 two:
   user_id: 2
@@ -12,5 +12,4 @@ two:
   image_tag_id: 2
   content: "物語の構成が秀逸で印象に残った"
   is_spoiler: true
-  public_id: "testreview0000002"
-  
+  public_id: "testreview000002"
