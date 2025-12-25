@@ -82,7 +82,7 @@ class ReviewsController < ApplicationController
   private
 
   def set_review
-    @review = Review.find(params[:id])
+    @review = Review.find_by!(public_id: params[:public_id])
   end
 
   def require_owner
@@ -101,5 +101,9 @@ class ReviewsController < ApplicationController
         isbn description cover remove_cover
       ]
     )
+  end
+
+  def normalize_query(query)
+    query.tr("　", " ").strip
   end
 end
