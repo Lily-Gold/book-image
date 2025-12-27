@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   }
 
   resources :reviews, param: :public_id do
-    resource :like, only: [:create, :destroy]
+    resource :like, only: [ :create, :destroy ]
   end
 
   root "homes#index"
