@@ -77,7 +77,11 @@
       </p>
     </div>
 
-    <div class="flex justify-end mt-auto">
+    <div class="flex items-center justify-between mt-auto">
+      <div class="flex items-center gap-1 text-[#986321]">
+        <%= render "likes/button", review: review %>
+      </div>
+
       <%= link_to "詳細", review_path(review),
             class: "px-3 py-1.5 bg-[#986321] text-white text-[11px] rounded hover:opacity-90 transition" %>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_26_120524) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_27_083645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_26_120524) do
     t.index ["name"], name: "index_image_tags_on_name", unique: true
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "review_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_likes_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_likes_on_user_id_and_review_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "book_id", null: false
@@ -110,6 +120,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_26_120524) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "books", "users"
+  add_foreign_key "likes", "reviews"
+  add_foreign_key "likes", "users"
   add_foreign_key "reviews", "books"
   add_foreign_key "reviews", "image_tags"
   add_foreign_key "reviews", "users"

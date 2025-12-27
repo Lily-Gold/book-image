@@ -10,8 +10,9 @@ class User < ApplicationRecord
 
   has_many :books, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 15 }, unless: :from_omniauth?
+  validates :name, presence: true, length: { maximum: 15 }
   validates :introduction, length: { maximum: 200 }
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: :from_omniauth?
 
@@ -47,9 +48,13 @@ class User < ApplicationRecord
       provider: auth.provider,
       uid: auth.uid,
       email: email,
-      name: auth.info.name || "Googleユーザー",
+      name: auth.info.name.to_s.first(15),
       password: Devise.friendly_token[0, 20]
     )
+  end
+
+  def liked?(review)
+    likes.exists?(review_id: review.id)
   end
 
   private

@@ -52,7 +52,7 @@
                   class: "w-14 h-14 rounded-full object-cover" %>
           <% end %>
 
-          <p class="text-base font-medium text-gray-700 <%= avatar_missing ? '-translate-x-2.5' : '' %>">
+          <p class="text-base font-medium text-gray-700 <%= avatar_missing ? '-translate-x-2' : '' %>">
             <%= review.user.name %>
           </p>
         </div>
@@ -87,7 +87,13 @@
 
     </div>
 
-    <div class="flex justify-end mt-auto">
+    <div class="flex items-center justify-between mt-auto">
+      <!-- 左：いいね -->
+      <div class="flex items-center gap-1 text-[#986321]">
+        <%= render "likes/button", review: review %>
+      </div>
+
+      <!-- 右：詳細 -->
       <%= link_to "詳細を見る", review_path(review),
             class: "px-4 py-2 bg-[#986321] text-white text-sm rounded-lg hover:opacity-90 transition" %>
     </div>

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  resources :reviews, param: :public_id
+  resources :reviews, param: :public_id do
+    resource :like, only: [:create, :destroy]
+  end
 
   root "homes#index"
 
