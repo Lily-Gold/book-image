@@ -3,7 +3,7 @@
     <!-- いいね済み -->
     <%= button_to review_like_path(review),
                   method: :delete,
-                  class: "flex items-center gap-1 text-[#986321]" do %>
+                  class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
       <svg xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 24 24"
            fill="currentColor"
@@ -21,7 +21,7 @@
     <!-- 未いいね -->
     <%= button_to review_like_path(review),
                   method: :post,
-                  class: "flex items-center gap-1 text-[#986321]" do %>
+                  class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
       <svg xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 24 24"
            fill="none"
@@ -40,7 +40,9 @@
   <% end %>
 <% else %>
   <!-- 未ログイン時 -->
-  <%= link_to new_user_session_path, class: "flex items-center gap-1 text-[#986321]" do %>
+  <%= button_to review_like_path(review),
+              method: :post,
+              class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
     <svg xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 24 24"
          fill="none"
