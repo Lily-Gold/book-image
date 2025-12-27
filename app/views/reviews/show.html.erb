@@ -42,10 +42,10 @@
         <% avatar_url = display_image_url(@review.user, size: :avatar_48, image_attribute: :avatar) %>
         <% avatar_missing = avatar_url.blank? %>
 
-        <div class="w-2/3 space-y-4 <%= avatar_missing ? '-mt-6' : '-mt-2' %>">
+        <div class="w-2/3 <%= avatar_missing ? '-mt-6' : '-mt-2' %>">
 
           <!-- ▼ 投稿者情報 -->
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between mb-8">
             <div class="flex items-center gap-3">
 
               <% if avatar_url.present? %>
@@ -65,6 +65,17 @@
             <p class="text-sm text-gray-600">
               投稿日：<%= @review.created_at.strftime("%Y/%m/%d") %>
             </p>
+          </div>
+
+          <!-- いいね・ブックマーク行 -->
+          <div
+            class="
+              flex items-center gap-4
+              mt-1
+              <%= avatar_missing ? '-translate-y-9' : '-translate-y-5' %>
+            "
+          >
+            <%= render "likes/button", review: @review %>
           </div>
 
           <!-- ▼ 本の詳細 -->

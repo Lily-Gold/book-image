@@ -1,5 +1,9 @@
 class HomesController < ApplicationController
   def index
-    @first_reviews = Review.order(created_at: :asc).limit(3)
+    @top_reviews = Review
+      .left_joins(:likes)
+      .group(:id)
+      .order(Arel.sql("COUNT(likes.id) DESC, reviews.created_at DESC"))
+      .limit(3)
   end
 end

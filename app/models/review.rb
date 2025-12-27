@@ -3,6 +3,8 @@ class Review < ApplicationRecord
   belongs_to :book, optional: true
   belongs_to :image_tag
 
+  has_many :likes, dependent: :destroy
+
   accepts_nested_attributes_for :book
 
   validates :content, presence: true, length: { maximum: 5000 }
@@ -16,6 +18,10 @@ class Review < ApplicationRecord
 
   def to_param
     public_id
+  end
+
+  def likes_count
+    likes.count
   end
 
   private
