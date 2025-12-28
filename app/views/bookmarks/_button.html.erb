@@ -1,0 +1,50 @@
+<div id="bookmark-button-<%= review.public_id %>">
+  <% if user_signed_in? %>
+    <% if current_user.bookmarked?(review) %>
+      <!-- ブックマーク済み -->
+      <%= button_to review_bookmark_path(review),
+                    method: :delete,
+                    data: { turbo_stream: true },
+                    class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="currentColor"
+             class="w-5 h-5">
+          <path d="M6 2c-1.1 0-2 .9-2 2v18l8-5.5L20 22V4
+                   c0-1.1-.9-2-2-2H6z"/>
+        </svg>
+      <% end %>
+    <% else %>
+      <!-- 未ブックマーク -->
+      <%= button_to review_bookmark_path(review),
+                    method: :post,
+                    data: { turbo_stream: true },
+                    class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             class="w-5 h-5">
+          <path d="M6 2h12a2 2 0 0 1 2 2v18l-8-5.5L4 22V4
+                   a2 2 0 0 1 2-2z"/>
+        </svg>
+      <% end %>
+    <% end %>
+  <% else %>
+    <!-- 未ログイン時 -->
+    <%= button_to review_bookmark_path(review),
+                method: :post,
+                class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           class="w-5 h-5">
+        <path d="M6 2h12a2 2 0 0 1 2 2v18l-8-5.5L4 22V4
+                 a2 2 0 0 1 2-2z"/>
+      </svg>
+    <% end %>
+  <% end %>
+</div>
