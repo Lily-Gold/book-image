@@ -1,0 +1,25 @@
+<div id="bookmarks-list">
+
+  <div id="bookmarks-empty"
+       class="text-center py-16 text-gray-500 leading-relaxed
+              <%= @bookmarked_reviews.any? ? 'hidden' : '' %>">
+    まだブックマークがありません。<br>
+    気になるレビューを保存してみましょう。
+
+    <div class="mt-6">
+      <%= link_to "レビュー一覧を見る", reviews_path,
+          class: "inline-block px-4 py-2 bg-[#986321] text-white rounded-lg text-sm hover:opacity-90 transition" %>
+    </div>
+  </div>
+
+  <div id="bookmarks-grid"
+       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2
+              <%= @bookmarked_reviews.empty? ? 'hidden' : '' %>">
+    <% @bookmarked_reviews.each do |review| %>
+      <%= render "reviews/review_card_small",
+            review: review,
+            panel_id: "bookmarks" %>
+    <% end %>
+  </div>
+
+</div>

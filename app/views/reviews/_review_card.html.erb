@@ -88,9 +88,10 @@
     </div>
 
     <div class="flex items-center justify-between mt-auto">
-      <!-- 左：いいね -->
-      <div class="flex items-center gap-1 text-[#986321]">
+      <!-- 左：いいね＋ブックマーク -->
+      <div class="flex items-center gap-3 text-[#986321]">
         <%= render "likes/button", review: review %>
+        <%= render "bookmarks/button", review: review %>
       </div>
 
       <!-- 右：詳細 -->

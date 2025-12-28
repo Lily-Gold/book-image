@@ -1,10 +1,12 @@
+<% panel_id ||= "default" %>
 <% tag_color = review.image_tag&.color || "#cccccc" %>
 <% text_color = text_color_for(tag_color) %>
 
 <% avatar_url = display_image_url(review.user, size: :avatar_26, image_attribute: :avatar) %>
 <% avatar_missing = avatar_url.blank? %>
 
-<div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top">
+<div id="review-card-<%= panel_id %>-<%= review.public_id %>"
+     class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top">
   
   <!-- 左：書影 -->
   <div class="w-1/3 p-3 flex flex-col items-center"
@@ -78,8 +80,21 @@
     </div>
 
     <div class="flex items-center justify-between mt-auto">
+
       <div class="flex items-center gap-1 text-[#986321]">
-        <%= render "likes/button", review: review %>
+
+        <div id="like-button-<%= panel_id %>-<%= review.public_id %>">
+          <%= render "likes/button",
+                review: review,
+                panel_id: panel_id %>
+        </div>
+
+        <div id="bookmark-button-<%= panel_id %>-<%= review.public_id %>">
+          <%= render "bookmarks/button",
+                review: review,
+                panel_id: panel_id %>
+        </div>
+
       </div>
 
       <%= link_to "詳細", review_path(review),

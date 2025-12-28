@@ -4,6 +4,8 @@ class Review < ApplicationRecord
   belongs_to :image_tag
 
   has_many :likes, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_users, through: :bookmarks, source: :user
 
   accepts_nested_attributes_for :book
 

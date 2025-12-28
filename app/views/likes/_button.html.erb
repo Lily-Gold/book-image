@@ -1,8 +1,9 @@
-<div id="like-button-<%= review.public_id %>">
+<% panel_id ||= "default" %>
+<div id="like-button-<%= panel_id %>-<%= review.public_id %>">
   <% if user_signed_in? %>
     <% if current_user.liked?(review) %>
       <!-- いいね済み -->
-      <%= button_to review_like_path(review),
+      <%= button_to review_like_path(review, panel_id: panel_id),
                     method: :delete,
                     data: { turbo_stream: true },
                     class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
@@ -21,7 +22,7 @@
       <% end %>
     <% else %>
       <!-- 未いいね -->
-      <%= button_to review_like_path(review),
+      <%= button_to review_like_path(review, panel_id: panel_id),
                     method: :post,
                     data: { turbo_stream: true },
                     class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>

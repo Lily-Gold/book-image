@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_reviews, through: :bookmarks, source: :review
 
   validates :name, presence: true, length: { maximum: 15 }
   validates :introduction, length: { maximum: 200 }
@@ -55,6 +57,10 @@ class User < ApplicationRecord
 
   def liked?(review)
     likes.exists?(review_id: review.id)
+  end
+
+  def bookmarked?(review)
+    bookmarks.exists?(review_id: review.id)
   end
 
   private

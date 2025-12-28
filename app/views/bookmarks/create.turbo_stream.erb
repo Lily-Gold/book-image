@@ -1,0 +1,29 @@
+<%# ① 押した場所のボタン更新 %>
+<%= turbo_stream.replace "bookmark-button-#{params[:panel_id]}-#{@review.public_id}" do %>
+  <%= render "bookmarks/button",
+        review: @review,
+        panel_id: params[:panel_id] %>
+<% end %>
+
+<%# ② ブックマーク一覧にカード追加 %>
+<%= turbo_stream.prepend "bookmarks-grid" do %>
+  <%= render "reviews/review_card_small",
+        review: @review,
+        panel_id: "bookmarks" %>
+<% end %>
+
+<%# ③ empty メッセージを「hidden付きHTML」に置き換える %>
+<%= turbo_stream.replace "bookmarks-empty" do %>
+  <div id="bookmarks-empty" class="hidden"></div>
+<% end %>
+
+<%# ④ grid を表示状態にする %>
+<%= turbo_stream.replace "bookmarks-grid" do %>
+  <div id="bookmarks-grid"
+       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+    <%= render partial: "reviews/review_card_small",
+          collection: current_user.bookmarked_reviews.order(created_at: :desc),
+          as: :review,
+          locals: { panel_id: "bookmarks" } %>
+  </div>
+<% end %>
