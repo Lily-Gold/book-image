@@ -1,17 +1,29 @@
-<%# ① 押した場所がブックマーク一覧ならカードを消す %>
+<%# ① ブックマーク一覧で押された場合はカードを消す %>
 <% if params[:panel_id] == "bookmarks" %>
   <%= turbo_stream.remove "review-card-bookmarks-#{@review.public_id}" %>
 <% end %>
 
-<%# ② 押した場所のブックマークボタンを更新 %>
+<%# ② 押した場所のボタンを更新 %>
 <%= turbo_stream.replace "bookmark-button-#{params[:panel_id]}-#{@review.public_id}" do %>
   <%= render "bookmarks/button",
         review: @review,
         panel_id: params[:panel_id] %>
 <% end %>
 
-<%# ③ 【最重要】ブックマーク一覧は常に再描画 %>
-<%= turbo_stream.replace "bookmarks-list" do %>
-  <%= render "profiles/bookmarked_reviews",
-        bookmarked_reviews: @bookmarked_reviews %>
+<%# ③ 反対側のパネルのボタンも更新 %>
+<% other_panel_id =
+     params[:panel_id] == "bookmarks" ? "my_reviews" : "bookmarks" %>
+
+<%= turbo_stream.replace "bookmark-button-#{other_panel_id}-#{@review.public_id}" do %>
+  <%= render "bookmarks/button",
+        review: @review,
+        panel_id: other_panel_id %>
+<% end %>
+
+<%# ④ ブックマーク一覧は「空になった時だけ」再描画 %>
+<% if @bookmarked_reviews.empty? %>
+  <%= turbo_stream.replace "bookmarks-list" do %>
+    <%= render "profiles/bookmarked_reviews",
+          bookmarked_reviews: @bookmarked_reviews %>
+  <% end %>
 <% end %>
