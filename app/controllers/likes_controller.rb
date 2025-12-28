@@ -4,13 +4,18 @@ class LikesController < ApplicationController
 
   def create
     current_user.likes.find_or_create_by!(review: @review)
-    redirect_back(fallback_location: reviews_path)
+
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   def destroy
-    like = current_user.likes.find_by(review: @review)
-    like&.destroy
-    redirect_back(fallback_location: reviews_path)
+    current_user.likes.find_by!(review: @review).destroy!
+
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   private
