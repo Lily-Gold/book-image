@@ -5,6 +5,10 @@ class BookmarksController < ApplicationController
   def create
     current_user.bookmarks.find_or_create_by!(review: @review)
 
+    @bookmarked_reviews = current_user.bookmarked_reviews
+                                     .includes(:user, :book, :image_tag)
+                                     .order(created_at: :desc)
+
     respond_to do |format|
       format.turbo_stream
     end
@@ -12,6 +16,10 @@ class BookmarksController < ApplicationController
 
   def destroy
     current_user.bookmarks.find_by!(review: @review).destroy!
+
+    @bookmarked_reviews = current_user.bookmarked_reviews
+                                       .includes(:user, :book, :image_tag)
+                                       .order(created_at: :desc)
 
     respond_to do |format|
       format.turbo_stream

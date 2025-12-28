@@ -123,15 +123,17 @@
         <% else %>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             <% @reviews.each do |review| %>
-            <%= render "reviews/review_card_small", review: review %>
+            <%= render "reviews/review_card_small",
+                       review: review,
+                       panel_id: "my_reviews" %>
           <% end %>
         </div>
       <% end %>
       </div>
 
       <!-- ▼ パネル：ブックマーク -->
-      <div class="hidden text-center py-20 text-gray-500" data-profile-tabs-target="panel">
-        準備中
+      <div class="hidden" data-profile-tabs-target="panel">
+        <%= render "profiles/bookmarked_reviews" %>
       </div>
 
       <!-- ▼ パネル：印象カラー傾向 -->

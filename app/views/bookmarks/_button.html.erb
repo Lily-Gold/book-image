@@ -1,8 +1,9 @@
-<div id="bookmark-button-<%= review.public_id %>">
+<% panel_id ||= "default" %>
+<div id="bookmark-button-<%= panel_id %>-<%= review.public_id %>">
   <% if user_signed_in? %>
     <% if current_user.bookmarked?(review) %>
       <!-- ブックマーク済み -->
-      <%= button_to review_bookmark_path(review),
+      <%= button_to review_bookmark_path(review, panel_id: panel_id),
                     method: :delete,
                     data: { turbo_stream: true },
                     class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
@@ -16,7 +17,7 @@
       <% end %>
     <% else %>
       <!-- 未ブックマーク -->
-      <%= button_to review_bookmark_path(review),
+      <%= button_to review_bookmark_path(review, panel_id: panel_id),
                     method: :post,
                     data: { turbo_stream: true },
                     class: "flex items-center gap-1 text-[#986321] cursor-pointer" do %>
