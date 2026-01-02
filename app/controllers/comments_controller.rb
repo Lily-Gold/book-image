@@ -12,32 +12,32 @@ class CommentsController < ApplicationController
       @review.reload
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to review_path(@review), notice: 'コメントを投稿しました' }
+        format.html { redirect_to review_path(@review) }
       end
     else
       respond_to do |format|
-        format.turbo_stream { 
+        format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
-            'comment-form', 
-            partial: 'comments/form', 
+            "comment-form",
+            partial: "comments/form",
             locals: { review: @review, comment: @comment }
           )
-        }
-        format.html { 
+        end
+        format.html do
           @comments = @review.comments.includes(:user).order(created_at: :desc)
-          flash.now[:alert] = 'コメントの投稿に失敗しました'
-          render 'reviews/show', status: :unprocessable_entity 
-        }
+          render "reviews/show", status: :unprocessable_entity
+        end
       end
     end
   end
 
   def destroy
-    @comment.destroy!
+    @comment.destroy
     @review.reload
+
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to review_path(@review), notice: 'コメントを削除しました', status: :see_other }
+      format.html { redirect_to review_path(@review), status: :see_other }
     end
   end
 
@@ -56,7 +56,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream { head :forbidden }
-      format.html { redirect_to review_path(@review), alert: 'コメントを削除できませんでした', status: :see_other }
+      format.html { redirect_to review_path(@review), status: :see_other }
     end
   end
 

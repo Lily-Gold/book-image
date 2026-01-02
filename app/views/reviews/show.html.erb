@@ -177,7 +177,10 @@
       <!-- コメント件数 -->
       <div class="mb-6">
         <h3 class="text-lg font-semibold text-[#004865]">
-          コメント <span id="comments-count"><%= @review.comments.count %></span>件
+          コメント
+          <span class="comments-count">
+            <%= @review.comments.count %>
+          </span>件
         </h3>
       </div>
 

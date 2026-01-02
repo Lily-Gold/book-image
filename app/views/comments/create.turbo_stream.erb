@@ -9,6 +9,6 @@
 <% end %>
 
 <%# 3. コメント件数を更新 %>
-<%= turbo_stream.update "comments-count" do %>
+<%= turbo_stream.update_all ".comments-count" do %>
   <%= @review.comments.count %>
 <% end %>
