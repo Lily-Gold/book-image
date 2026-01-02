@@ -20,3 +20,7 @@ ja:
       user:
         name: ユーザー名
         avatar: プロフィール画像
+        introduction: 自己紹介
+
+      comment:
+        body: コメント

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_28_090846) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_31_064938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_28_090846) do
     t.index ["google_books_id"], name: "index_books_on_google_books_id", unique: true
     t.index ["isbn"], name: "index_books_on_isbn"
     t.index ["user_id"], name: "index_books_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "review_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_comments_on_review_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "image_tags", force: :cascade do |t|
@@ -132,6 +142,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_28_090846) do
   add_foreign_key "bookmarks", "reviews"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "books", "users"
+  add_foreign_key "comments", "reviews"
+  add_foreign_key "comments", "users"
   add_foreign_key "likes", "reviews"
   add_foreign_key "likes", "users"
   add_foreign_key "reviews", "books"

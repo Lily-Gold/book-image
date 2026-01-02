@@ -1,0 +1,14 @@
+<%# 1. コメント一覧に追加 %>
+<%= turbo_stream.prepend "comments-list" do %>
+  <%= render "comments/comment", comment: @comment %>
+<% end %>
+
+<%# 2. フォームをリセット %>
+<%= turbo_stream.replace "comment-form" do %>
+  <%= render "comments/form", review: @review, comment: Comment.new %>
+<% end %>
+
+<%# 3. コメント件数を更新 %>
+<%= turbo_stream.update "comments-count" do %>
+  <%= @review.comments.count %>
+<% end %>

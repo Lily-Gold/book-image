@@ -24,7 +24,7 @@
                  #{ b.object.errors[:cover].present? ? 'border-red-500' : 'border-gray-300' }" %>
   </div>
 
-  <!-- プレビュー + 削除ボタン（new は常に hidden） -->
+  <!-- プレビュー + 削除ボタン -->
   <div class="flex items-start gap-3 mt-5 mb-6">
     <img data-cover-preview-target="preview"
          class="hidden max-h-52 rounded shadow-sm">
@@ -32,7 +32,7 @@
     <button type="button"
             data-cover-preview-target="removeButton"
             data-action="cover-preview#remove"
-            class="hidden -mt-1 text-gray-800 text-lg hover:text-black cursor-pointer select-none">
+            class="hidden -mt-1 text-gray-600 text-lg hover:text-black cursor-pointer select-none">
       ×
     </button>
   </div>
