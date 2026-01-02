@@ -1,0 +1,43 @@
+<div id="comment-<%= comment.id %>" class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
+
+  <!-- 上段 -->
+  <div class="flex items-start justify-between">
+    <div class="flex items-center gap-3">
+      <% avatar_url =
+           display_image_url(comment.user,
+             size: :avatar_40,
+             image_attribute: :avatar) %>
+
+      <%= image_tag(
+            avatar_url.presence || asset_path("avatar.png"),
+            class: avatar_url.present? ?
+              "w-10 h-10 rounded-full object-cover border border-gray-300" :
+              "w-10 h-10 rounded-full object-cover scale-195"
+          ) %>
+
+      <p class="text-base font-medium text-gray-800">
+        <%= comment.user.name %>
+      </p>
+    </div>
+
+    <p class="text-sm text-gray-500">
+      <%= comment.created_at.strftime("%Y/%m/%d") %>
+    </p>
+  </div>
+
+  <!-- 本文 -->
+  <div class="flex justify-between items-end gap-4 ml-13 -mt-3">
+    <p class="text-base font-normal text-gray-700 whitespace-pre-line leading-snug flex-1">
+      <%= comment.body %>
+    </p>
+
+    <% if comment.user == current_user %>
+      <%= link_to review_comment_path(@review, comment),
+            data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+            class: "text-gray-600 text-base hover:text-red-600 hover:font-medium transition leading-none" do %>
+        ×
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

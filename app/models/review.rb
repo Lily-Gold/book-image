@@ -6,6 +6,7 @@ class Review < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_users, through: :bookmarks, source: :user
+  has_many :comments, dependent: :destroy
 
   accepts_nested_attributes_for :book
 
