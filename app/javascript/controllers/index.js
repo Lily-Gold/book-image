@@ -7,6 +7,9 @@ import { application } from "./application"
 import AvatarPreviewController from "./avatar_preview_controller"
 application.register("avatar-preview", AvatarPreviewController)
 
+import ChartController from "./chart_controller"
+application.register("chart", ChartController)
+
 import ColorTagController from "./color_tag_controller"
 application.register("color-tag", ColorTagController)
 
