@@ -27,7 +27,7 @@ export default class extends Controller {
       options: {
         responsive: true,
         plugins: {
-          legend: { position: "bottom" },
+          legend: { display: false },
         },
       },
     });
