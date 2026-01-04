@@ -1,17 +1,21 @@
-// app/javascript/controllers/chart_controller.js
-import { Controller } from "@hotwired/stimulus";
-import Chart from "chart.js/auto";
+import { Controller } from "@hotwired/stimulus"
+import Chart from "chart.js/auto"
 
 export default class extends Controller {
-  static targets = ["canvas"];
+  static targets = ["canvas"]
   static values = {
     labels: Array,
     counts: Array,
     colors: Array,
-  };
+  }
 
   connect() {
-    if (!this.hasLabelsValue || this.countsValue.length === 0) return;
+    this.beforeCache = this.beforeCache.bind(this)
+    document.addEventListener("turbo:before-cache", this.beforeCache)
+  }
+
+  renderIfNeeded() {
+    if (this.chart) return
 
     this.chart = new Chart(this.canvasTarget, {
       type: "pie",
@@ -26,14 +30,25 @@ export default class extends Controller {
       },
       options: {
         responsive: true,
+        animation: {
+          duration: 800,
+          animateRotate: true,
+        },
         plugins: {
           legend: { display: false },
         },
       },
-    });
+    })
+  }
+
+  beforeCache() {
+    this.chart?.destroy()
+    this.chart = null
   }
 
   disconnect() {
-    this.chart?.destroy();
+    document.removeEventListener("turbo:before-cache", this.beforeCache)
+    this.chart?.destroy()
+    this.chart = null
   }
 }

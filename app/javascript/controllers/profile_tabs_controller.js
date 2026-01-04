@@ -1,11 +1,18 @@
-// app/javascript/controllers/profile_tabs_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["tab", "panel"]
 
   connect() {
-    // 保存されてたタブ index（なければ 0）
+    this.onTurboLoad = this.onTurboLoad.bind(this)
+    document.addEventListener("turbo:load", this.onTurboLoad)
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:load", this.onTurboLoad)
+  }
+
+  onTurboLoad() {
     const savedIndex = localStorage.getItem("profileTabIndex")
     const index = savedIndex !== null ? Number(savedIndex) : 0
 
@@ -14,10 +21,7 @@ export default class extends Controller {
 
   switch(event) {
     const index = Number(event.currentTarget.dataset.index)
-
-    // タブ位置を保存
     localStorage.setItem("profileTabIndex", index)
-
     this.activate(index)
   }
 
@@ -33,7 +37,25 @@ export default class extends Controller {
     })
 
     this.panelTargets.forEach((panel, i) => {
-      panel.classList.toggle("hidden", i !== index)
+      const isActive = i === index
+      panel.classList.toggle("hidden", !isActive)
+
+      if (!isActive) return
+
+      const chartElement = panel.querySelector('[data-controller="chart"]')
+      if (!chartElement) return
+
+      const chartController =
+        this.application.getControllerForElementAndIdentifier(
+          chartElement,
+          "chart"
+        )
+
+      if (!chartController) return
+
+      requestAnimationFrame(() => {
+        chartController.renderIfNeeded()
+      })
     })
   }
 }
