@@ -27,3 +27,6 @@
           locals: { panel_id: "bookmarks" } %>
   </div>
 <% end %>
+
+<%# ⑤ ブックマーク件数更新 %>
+<%= turbo_stream.update "bookmark-count", @bookmark_count %>

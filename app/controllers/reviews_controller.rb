@@ -38,7 +38,14 @@ class ReviewsController < ApplicationController
     @reviews = @reviews.order(created_at: :desc)
   end
 
-  def show; end
+  def show
+    session[:review_return_to] =
+      if request.referer&.include?(profile_path)
+        profile_path
+      else
+        reviews_path
+      end
+  end
 
   def new
     @review = Review.new
@@ -76,7 +83,9 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review.destroy
-    redirect_to reviews_path, notice: "レビューを削除しました。"
+
+    redirect_to session.delete(:review_return_to) || reviews_path,
+                notice: "レビューを削除しました。"
   end
 
   private

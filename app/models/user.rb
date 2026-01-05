@@ -64,6 +64,10 @@ class User < ApplicationRecord
     bookmarks.exists?(review_id: review.id)
   end
 
+  def bookmarks_count
+    bookmarks.count
+  end
+
   private
 
   # ▼ プロフィール画像のバリデーション
