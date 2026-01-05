@@ -27,3 +27,6 @@
           bookmarked_reviews: @bookmarked_reviews %>
   <% end %>
 <% end %>
+
+<%# ⑤ 件数更新 %>
+<%= turbo_stream.update "bookmark-count", @bookmark_count %>
