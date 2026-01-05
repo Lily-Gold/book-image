@@ -137,86 +137,87 @@
       </div>
 
       <!-- ▼ パネル:印象カラー傾向 -->
-      <div class="hidden text-gray-700 pl-7" data-profile-tabs-target="panel">
+      <div class="hidden text-gray-700" data-profile-tabs-target="panel">
 
         <% if @color_stats.present? %>
           <% top_colors = @color_stats.first(3) %>
           <% total_count = @color_stats.sum { |s| s[:count] } %>
 
-          <div
-            data-controller="chart"
-            data-chart-labels-value="<%= @color_stats.map { |s| s[:name] }.to_json %>"
-            data-chart-counts-value="<%= @color_stats.map { |s| s[:count] }.to_json %>"
-            data-chart-colors-value="<%= @color_stats.map { |s| s[:color] }.to_json %>"
-          >
+          <div class="pl-7">
+            <div
+              data-controller="chart"
+              data-chart-labels-value="<%= @color_stats.map { |s| s[:name] }.to_json %>"
+              data-chart-counts-value="<%= @color_stats.map { |s| s[:count] }.to_json %>"
+              data-chart-colors-value="<%= @color_stats.map { |s| s[:color] }.to_json %>"
+            >
 
-            <!-- 横並びレイアウト -->
-            <div class="max-w-4xl mx-auto py-6 pl-20 flex flex-col md:flex-row gap-10 items-center">
+              <!-- 横並びレイアウト -->
+              <div class="max-w-4xl mx-auto py-6 pl-20 flex flex-col md:flex-row gap-10 items-center">
 
-              <!-- グラフ＋総数 -->
-              <div class="flex flex-col items-center shrink-0 -mt-3">
+                <!-- グラフ＋総数 -->
+                <div class="flex flex-col items-center shrink-0 -mt-3">
 
-                <!-- 総数 -->
-                <p class="mb-6 text-2xl font-bold text-[#004865]">
-                  総合レビュー数：<%= total_count %>件
-                </p>
-
-                <!-- グラフ -->
-                <div class="w-[275px] h-[275px] mb-2">
-                  <canvas data-chart-target="canvas"></canvas>
-                </div>
-
-              </div>
-
-              <!-- 右側：分析結果 -->
-              <div class="w-full max-w-sm space-y-4 pl-20 -mt-8">
-
-                <!-- TOP3 -->
-                <div>
-                  <p class="text-lg font-medium text-[#004865] mb-2">
-                    あなたが選ぶ印象カラー
+                  <!-- 総数 -->
+                  <p class="mb-6 text-2xl font-bold text-[#004865]">
+                    総合レビュー数：<%= total_count %>件
                   </p>
 
-                  <ul class="space-y-3 text-lg">
-                    <% 3.times do |index| %>
-                      <% color = top_colors[index] %>
+                  <!-- グラフ -->
+                  <div class="w-[275px] h-[275px] mb-2">
+                    <canvas data-chart-target="canvas"></canvas>
+                  </div>
 
-                      <li class="flex items-center gap-3">
-                        <span class="text-base font-medium text-[#004865] w-5">
-                          <%= "#{index + 1}." %>
-                        </span>
-
-                        <% if color.present? %>
-                          <span
-                            class="w-4 h-4 rounded-full"
-                            style="background-color: <%= color[:color] %>">
-                          </span>
-
-                          <span class="flex-1">
-                            <%= color[:name] %>
-                          </span>
-
-                          <span class="text-sm text-gray-500">
-                            <%= color[:count] %>件
-                          </span>
-                        <% else %>
-                          <span class="w-4 h-4"></span>
-                          <span class="flex-1">
-                            ―
-                          </span>
-                          <span class="text-sm text-gray-500">
-                            0件
-                          </span>
-                        <% end %>
-                      </li>
-                    <% end %>
-                  </ul>
                 </div>
 
+                <!-- 右側：分析結果 -->
+                <div class="w-full max-w-sm space-y-4 pl-20 -mt-8">
+
+                  <!-- TOP3 -->
+                  <div>
+                    <p class="text-lg font-medium text-[#004865] mb-2">
+                      あなたが選ぶ印象カラー
+                    </p>
+
+                    <ul class="space-y-3 text-lg">
+                      <% 3.times do |index| %>
+                        <% color = top_colors[index] %>
+
+                        <li class="flex items-center gap-3">
+                          <span class="text-base font-medium text-[#004865] w-5">
+                            <%= "#{index + 1}." %>
+                          </span>
+
+                          <% if color.present? %>
+                            <span
+                              class="w-4 h-4 rounded-full"
+                              style="background-color: <%= color[:color] %>">
+                            </span>
+
+                            <span class="flex-1">
+                              <%= color[:name] %>
+                            </span>
+
+                            <span class="text-sm text-gray-500">
+                              <%= color[:count] %>件
+                            </span>
+                          <% else %>
+                            <span class="w-4 h-4"></span>
+                            <span class="flex-1">
+                              ―
+                            </span>
+                            <span class="text-sm text-gray-500">
+                              0件
+                            </span>
+                          <% end %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
-
         <% else %>
           <div class="text-center py-16 text-gray-500 leading-relaxed">
             まだ分析できる投稿がありません。<br>
