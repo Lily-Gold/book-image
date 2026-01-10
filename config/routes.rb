@@ -13,6 +13,12 @@ Rails.application.routes.draw do
     resources :comments, only: [ :create, :destroy ]
   end
 
+  namespace :api do
+    namespace :google_books do
+      get :search
+    end
+  end
+
   root "homes#index"
 
   if Rails.env.development?
