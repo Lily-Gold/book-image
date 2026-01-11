@@ -29,6 +29,14 @@
         value: "0",
         data: { "cover-preview-target": "removeField" } %>
 
+  <%= b.hidden_field :remove_cover_url,
+        value: "0",
+        data: { "cover-preview-target": "removeUrlField" } %>
+
+  <!-- プレビューフラグ -->
+  <%= b.hidden_field :cover_url,
+        data: { "cover-preview-target": "urlField" } %>
+
   <!-- プレビュー + 削除ボタン -->
   <div class="flex items-start gap-3 mt-5 mb-6">
 

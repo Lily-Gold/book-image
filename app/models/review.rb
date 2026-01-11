@@ -29,6 +29,19 @@ class Review < ApplicationRecord
 
   private
 
+  def assign_existing_book
+    return unless book&.google_books_id.present?
+
+    if book.remove_cover == "1" ||
+       book.remove_cover_url == "1" ||
+       book.cover.attached?
+      return
+    end
+
+  existing_book = Book.find_by(google_books_id: book.google_books_id)
+  self.book = existing_book if existing_book
+end
+
   def set_public_id
     return if public_id.present?
 

@@ -1,7 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "results"]
+
+  static values = {
+    noCoverUrl: String
+  }
+
+  static targets = [
+    "input",
+    "results",
+    "title",
+    "author",
+    "publisher",
+    "isbn",
+    "description",
+    "publishedOn",
+    "googleId",
+    "coverUrl"
+  ]
   
   connect() {
     console.log("BookSearch controller connected!")
@@ -101,39 +117,46 @@ export default class extends Controller {
   
   // ✅ サムネイル表示を別メソッドに
   renderThumbnail(book) {
-    if (book.thumbnail && book.thumbnail !== 'null') {
-      return `
-        <img 
-          src="${book.thumbnail}" 
-          alt="${this.escapeHtml(book.title)}"
-          class="w-12 h-16 object-cover rounded"
-          onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')"
-        />
-        <div class="w-12 h-16 bg-gray-200 rounded items-center justify-center hidden">
-          <span class="text-gray-400 text-xs">No Image</span>
-        </div>
-      `
-    } else {
-      return `
-        <div class="w-12 h-16 bg-gray-200 rounded flex items-center justify-center">
-          <span class="text-gray-400 text-xs">No Image</span>
-        </div>
-      `
-    }
+    const fallback = this.noCoverUrlValue
+
+    return `
+      <img
+        src="${book.thumbnail || fallback}"
+        alt="${this.escapeHtml(book.title)}"
+        class="w-12 h-16 object-cover rounded"
+        onerror="this.src='${fallback}'"
+      />
+    `
   }
   
   selectBook(event) {
-    const button = event.currentTarget
-    // ✅ Base64デコード
     const book = JSON.parse(
-      decodeURIComponent(atob(button.dataset.book))
+      decodeURIComponent(atob(event.currentTarget.dataset.book))
     )
-    
-    console.log("選択された本:", book)
-    
-    // TODO: フォームに自動入力する処理(次のステップ)
-    alert(`選択: ${book.title}`)
-    
+
+    // フォーム自動入力
+    this.titleTarget.value       = book.title || ""
+    this.authorTarget.value      = book.author || ""
+    this.publisherTarget.value   = book.publisher || ""
+    this.isbnTarget.value        = book.isbn || ""
+    this.descriptionTarget.value = book.description || ""
+    this.publishedOnTarget.value = book.published_on || ""
+    this.googleIdTarget.value    = book.google_books_id || ""
+    this.coverUrlTarget.value    = book.thumbnail || ""
+
+    const coverPreviewElement =
+      this.element.querySelector('[data-controller="cover-preview"]')
+
+    if (coverPreviewElement) {
+      const controller =
+        this.application.getControllerForElementAndIdentifier(
+          coverPreviewElement,
+          "cover-preview"
+        )
+
+      controller?.showExternal(book.thumbnail)
+    }
+
     this.hideResults()
   }
   

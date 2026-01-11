@@ -1,5 +1,13 @@
 <div data-controller="cover-preview">
 
+  <%= b.hidden_field :remove_cover,
+        value: "0",
+        data: { "cover-preview-target": "removeField" } %>
+
+  <%= b.hidden_field :remove_cover_url,
+        value: "0",
+        data: { "cover-preview-target": "removeUrlField" } %>
+
   <!-- ラベル + 対応形式 -->
   <div class="flex items-center gap-3 mb-1">
     <%= b.label :cover, "書影（画像ファイル）", class: "text-sm font-medium text-gray-700" %>
@@ -26,15 +34,46 @@
 
   <!-- プレビュー + 削除ボタン -->
   <div class="flex items-start gap-3 mt-5 mb-6">
-    <img data-cover-preview-target="preview"
-         class="hidden max-h-52 rounded shadow-sm">
 
-    <button type="button"
-            data-cover-preview-target="removeButton"
-            data-action="cover-preview#remove"
-            class="hidden -mt-1 text-gray-600 text-lg hover:text-black cursor-pointer select-none">
-      ×
-    </button>
+    <% if b.object.cover.attached? %>
+      <!-- アップロード画像がある場合 -->
+      <img src="<%= url_for(b.object.cover) %>"
+           data-cover-preview-target="preview"
+           class="max-h-52 rounded shadow-sm">
+
+      <button type="button"
+              data-cover-preview-target="removeButton"
+              data-action="cover-preview#remove"
+              class="text-gray-600 text-lg hover:text-black cursor-pointer select-none -mt-1">
+        ×
+      </button>
+
+    <% elsif b.object.cover_url.present? %>
+      <!-- API画像がある場合 -->
+      <img src="<%= b.object.cover_url %>"
+           data-cover-preview-target="preview"
+           class="max-h-52 rounded shadow-sm">
+
+      <button type="button"
+              data-cover-preview-target="removeButton"
+              data-action="cover-preview#remove"
+              class="text-gray-600 text-lg hover:text-black cursor-pointer select-none -mt-1">
+        ×
+      </button>
+
+    <% else %>
+      <!-- 画像がない場合 -->
+      <img data-cover-preview-target="preview"
+           class="hidden max-h-52 rounded shadow-sm">
+
+      <button type="button"
+              data-cover-preview-target="removeButton"
+              data-action="cover-preview#remove"
+              class="hidden text-gray-600 text-lg hover:text-black cursor-pointer select-none -mt-1">
+        ×
+      </button>
+    <% end %>
+
   </div>
 
 </div>

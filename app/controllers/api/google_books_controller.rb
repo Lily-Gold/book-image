@@ -105,18 +105,30 @@ class Api::GoogleBooksController < ApplicationController
 
   def format_book(item)
     info = item["volumeInfo"] || {}
-    thumbnail = info.dig("imageLinks", "thumbnail")
-    authors = info["authors"] || []
+    image_links = info["imageLinks"] || {}
+
+    cover_url =
+      image_links["extraLarge"] ||
+      image_links["large"] ||
+      image_links["medium"] ||
+      image_links["thumbnail"]
+
+    if cover_url
+      cover_url = cover_url
+        .gsub(/^http:/, "https:")
+        .gsub(/zoom=\d/, "zoom=3")
+        .gsub("&edge=curl", "")
+    end
 
     {
       google_books_id: item["id"],
       title: info["title"],
-      author: authors.join(", "),
+      author: (info["authors"] || []).join(", "),
       publisher: info["publisher"],
       published_on: parse_published_date(info["publishedDate"]),
       description: info["description"],
       isbn: extract_isbn(info["industryIdentifiers"]),
-      thumbnail: thumbnail&.gsub(/^http:/, "https:")
+      thumbnail: cover_url
     }
   end
 

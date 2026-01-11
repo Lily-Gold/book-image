@@ -5,7 +5,11 @@
       レビューの投稿
     </h2>
 
-    <div class="bg-white pt-8 pb-10 px-10 rounded-xl shadow-lg space-y-4">
+    <div
+      class="bg-white pt-8 pb-10 px-10 rounded-xl shadow-lg space-y-4"
+      data-controller="book-search"
+      data-book-search-no-cover-url-value="<%= asset_path('no_cover.png') %>"
+    >
 
       <%= render "book_search" %>
 
