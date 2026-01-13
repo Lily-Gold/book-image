@@ -3,12 +3,23 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 
   static values = {
-    noCoverUrl: String
+    noCoverUrl: String,
+    initialTitle: String,
+    initialAuthor: String,
+    initialApiCoverUrl: String
   }
 
   static targets = [
     "input",
     "results",
+
+    // ① 本の選択プレビュー用
+    "selected",
+    "selectedCover",
+    "selectedTitle",
+    "selectedAuthor",
+
+    // ② フォーム用
     "title",
     "author",
     "publisher",
@@ -22,6 +33,10 @@ export default class extends Controller {
   connect() {
     console.log("BookSearch controller connected!")
     this.searchTimeout = null
+
+    if (this.hasInitialTitleValue) {
+      this.showInitialSelectedBook()
+    }
   }
   
   search(event) {
@@ -128,13 +143,34 @@ export default class extends Controller {
       />
     `
   }
+
+  showInitialSelectedBook() {
+    // 表示
+    this.selectedTarget.classList.remove("hidden")
+
+    // ✅ 本の選択プレビュー用
+    this.selectedTitleTarget.textContent  = this.initialTitleValue || ""
+    this.selectedAuthorTarget.textContent = this.initialAuthorValue || ""
+
+    // 画像（API専用）
+    this.selectedCoverTarget.src =
+      this.initialApiCoverUrlValue || this.noCoverUrlValue
+  }
   
   selectBook(event) {
     const book = JSON.parse(
       decodeURIComponent(atob(event.currentTarget.dataset.book))
     )
 
-    // フォーム自動入力
+    // ① 本の選択プレビュー
+    this.selectedTarget.classList.remove("hidden")
+    this.selectedCoverTarget.src =
+      book.thumbnail || this.noCoverUrlValue
+
+    this.selectedTitleTarget.textContent  = book.title || ""
+    this.selectedAuthorTarget.textContent = book.author || ""
+
+    // ② フォーム用
     this.titleTarget.value       = book.title || ""
     this.authorTarget.value      = book.author || ""
     this.publisherTarget.value   = book.publisher || ""
@@ -143,23 +179,32 @@ export default class extends Controller {
     this.publishedOnTarget.value = book.published_on || ""
     this.googleIdTarget.value    = book.google_books_id || ""
     this.coverUrlTarget.value    = book.thumbnail || ""
-
-    const coverPreviewElement =
-      this.element.querySelector('[data-controller="cover-preview"]')
-
-    if (coverPreviewElement) {
-      const controller =
-        this.application.getControllerForElementAndIdentifier(
-          coverPreviewElement,
-          "cover-preview"
-        )
-
-      controller?.showExternal(book.thumbnail)
-    }
-
-    this.hideResults()
-  }
+        this.hideResults()
+      }
   
+  clearSelectedBook() {
+    // ① 本の選択プレビューを隠す
+    this.selectedTarget.classList.add("hidden")
+
+    // ② プレビュー表示をリセット
+    this.selectedCoverTarget.src = ""
+    this.selectedTitleTarget.textContent = ""
+    this.selectedAuthorTarget.textContent = ""
+
+    // ③ 自動入力されたフォームを全解除
+    this.titleTarget.value = ""
+    this.authorTarget.value = ""
+    this.publisherTarget.value = ""
+    this.isbnTarget.value = ""
+    this.descriptionTarget.value = ""
+    this.publishedOnTarget.value = ""
+    this.googleIdTarget.value = ""
+    this.coverUrlTarget.value = ""
+
+    // 検索欄に戻す
+    this.inputTarget.focus()
+  }
+
   showError() {
     this.resultsTarget.innerHTML = `
       <li class="p-4 text-red-500 text-center">
