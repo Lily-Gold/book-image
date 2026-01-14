@@ -83,6 +83,9 @@ class ReviewsController < ApplicationController
     if @review.update(rp)
       redirect_to @review, notice: "レビューを更新しました。"
     else
+
+      @review.assign_attributes(rp)
+      
       render :edit, status: :unprocessable_entity
     end
   end

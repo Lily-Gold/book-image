@@ -31,8 +31,9 @@ export default class extends Controller {
   ]
   
   connect() {
-    console.log("BookSearch controller connected!")
     this.searchTimeout = null
+    this.abortController = null
+    console.log("BookSearch controller connected!")
 
     if (this.hasInitialTitleValue) {
       this.showInitialSelectedBook()
@@ -41,14 +42,12 @@ export default class extends Controller {
   
   search(event) {
     const query = event.target.value.trim()
-    
-    console.log("検索語:", query)
-    
+
     if (query.length < 2) {
       this.hideResults()
       return
     }
-    
+
     clearTimeout(this.searchTimeout)
     this.searchTimeout = setTimeout(() => {
       this.performSearch(query)
@@ -56,15 +55,18 @@ export default class extends Controller {
   }
   
   async performSearch(query) {
-    console.log("API呼び出し開始:", query)
+
+    if (this.abortController) {
+      this.abortController.abort()
+    }
+    this.abortController = new AbortController()
     
     try {
       const response = await fetch(
         `/api/google_books/search?q=${encodeURIComponent(query)}`,
         {
-          headers: {
-            'Accept': 'application/json'
-          }
+          headers: { 'Accept': 'application/json' },
+          signal: this.abortController.signal
         }
       )
       
@@ -73,10 +75,10 @@ export default class extends Controller {
       }
       
       const books = await response.json()
-      console.log("取得した本:", books)
       
       this.displayResults(books)
     } catch (error) {
+      if (error.name === "AbortError") return
       console.error('Search error:', error)
       this.showError()
     }
@@ -158,6 +160,7 @@ export default class extends Controller {
   }
   
   selectBook(event) {
+
     const book = JSON.parse(
       decodeURIComponent(atob(event.currentTarget.dataset.book))
     )
@@ -179,14 +182,29 @@ export default class extends Controller {
     this.publishedOnTarget.value = book.published_on || ""
     this.googleIdTarget.value    = book.google_books_id || ""
     this.coverUrlTarget.value    = book.thumbnail || ""
-        this.hideResults()
-      }
+    
+    const coverPreviewElement =
+      this.element.querySelector('[data-controller="cover-preview"]')
+
+    if (coverPreviewElement) {
+      const controller =
+        this.application.getControllerForElementAndIdentifier(
+          coverPreviewElement,
+          "cover-preview"
+        )
+
+      controller.showExternal(book.thumbnail)
+    }
+
+    this.hideResults()
+  }
   
   clearSelectedBook() {
-    // ① 本の選択プレビューを隠す
-    this.selectedTarget.classList.add("hidden")
 
-    // ② プレビュー表示をリセット
+    this.hideResults()
+    
+    // ① 本の選択プレビューを消す
+    this.selectedTarget.classList.add("hidden")
     this.selectedCoverTarget.src = ""
     this.selectedTitleTarget.textContent = ""
     this.selectedAuthorTarget.textContent = ""
@@ -201,7 +219,21 @@ export default class extends Controller {
     this.googleIdTarget.value = ""
     this.coverUrlTarget.value = ""
 
+    const coverPreviewElement =
+      this.element.querySelector('[data-controller="cover-preview"]')
+
+    if (coverPreviewElement) {
+      const controller =
+        this.application.getControllerForElementAndIdentifier(
+          coverPreviewElement,
+          "cover-preview"
+        )
+
+      controller.remove()
+    }
+
     // 検索欄に戻す
+    this.inputTarget.value = ""
     this.inputTarget.focus()
   }
 

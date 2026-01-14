@@ -21,6 +21,10 @@ export default class extends Controller {
     const file = event.target.files[0]
     if (!file) return
 
+    if (this.hasUrlFieldTarget) {
+      this.urlFieldTarget.value = ""
+    }
+
     const reader = new FileReader()
     reader.onload = e => {
       this.previewTarget.src = e.target.result
@@ -43,6 +47,10 @@ export default class extends Controller {
   showExternal(url) {
     if (!url) return
 
+    if (this.hasUrlFieldTarget) {
+      this.urlFieldTarget.value = url
+    }
+
     this.previewTarget.src = url
     this.previewTarget.classList.remove("hidden")
     this.removeButtonTarget.classList.remove("hidden")
@@ -62,6 +70,10 @@ export default class extends Controller {
 
   remove() {
     this.inputTarget.value = ""
+
+    if (this.hasUrlFieldTarget) {
+      this.urlFieldTarget.value = ""
+    }
 
     this.previewTarget.src = ""
     this.previewTarget.classList.add("hidden")
