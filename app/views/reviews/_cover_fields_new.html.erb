@@ -1,4 +1,8 @@
-<div data-controller="cover-preview">
+<div data-controller="cover-preview"
+     data-cover-attached="<%= b.object.persisted? && b.object.cover.attached? %>">
+
+  <%= b.hidden_field :cover_url,
+        data: { "cover-preview-target": "urlField" } %>
 
   <%= b.hidden_field :remove_cover,
         value: "0",
