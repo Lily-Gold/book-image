@@ -1,4 +1,5 @@
-<div data-controller="cover-preview">
+<div data-controller="cover-preview"
+     data-cover-attached="<%= b.object.cover.attached? %>">
 
   <!-- ラベル + 対応形式 -->
   <div class="flex items-center gap-3 mb-1">
@@ -29,13 +30,22 @@
         value: "0",
         data: { "cover-preview-target": "removeField" } %>
 
+  <%= b.hidden_field :remove_cover_url,
+        value: "0",
+        data: { "cover-preview-target": "removeUrlField" } %>
+
+  <!-- プレビューフラグ -->
+  <%= b.hidden_field :cover_url,
+        data: { "cover-preview-target": "urlField" } %>
+
   <!-- プレビュー + 削除ボタン -->
   <div class="flex items-start gap-3 mt-5 mb-6">
 
-    <% if b.object.cover.attached? && b.object.cover.blob.persisted? %>
-      <!-- 編集（画像あり） -->
+    <% if b.object.cover.attached? %>
+      <!-- 編集(画像あり) -->
       <img src="<%= url_for(b.object.cover) %>"
            data-cover-preview-target="preview"
+           data-cover-preview-url="<%= url_for(b.object.cover) %>"
            class="max-h-52 rounded shadow-sm">
 
       <button type="button"

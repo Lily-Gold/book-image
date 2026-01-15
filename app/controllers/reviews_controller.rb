@@ -69,14 +69,23 @@ class ReviewsController < ApplicationController
   def edit; end
 
   def update
-    # ★ 画像削除チェック
-    if params.dig(:review, :book_attributes, :remove_cover) == "1"
+    rp = review_params.deep_dup
+    book_attrs = rp[:book_attributes] || {}
+
+    if book_attrs[:remove_cover] == "1"
       @review.book.cover.purge if @review.book.cover.attached?
     end
 
-    if @review.update(review_params)
+    if book_attrs[:remove_cover_url] == "1"
+      book_attrs[:cover_url] = nil
+    end
+
+    if @review.update(rp)
       redirect_to @review, notice: "レビューを更新しました。"
     else
+
+      @review.assign_attributes(rp)
+
       render :edit, status: :unprocessable_entity
     end
   end
@@ -106,8 +115,18 @@ class ReviewsController < ApplicationController
       :is_spoiler,
       :image_tag_id,
       book_attributes: %i[
-        id title author publisher published_on
-        isbn description cover remove_cover
+        id
+        title
+        author
+        publisher
+        published_on
+        isbn
+        description
+        google_books_id
+        cover_url
+        cover
+        remove_cover
+        remove_cover_url
       ]
     )
   end

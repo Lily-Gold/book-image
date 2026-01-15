@@ -9,7 +9,7 @@ class BookmarksController < ApplicationController
                                      .includes(:user, :book, :image_tag)
                                      .order(created_at: :desc)
 
-    @bookmark_count = Bookmark.where(user_id: current_user.id).count                                 
+    @bookmark_count = Bookmark.where(user_id: current_user.id).count
 
     respond_to do |format|
       format.turbo_stream

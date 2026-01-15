@@ -7,6 +7,7 @@ class Book < ApplicationRecord
   has_one_attached :cover
 
   attr_accessor :remove_cover
+  attr_accessor :remove_cover_url
 
   validates :title, presence: true, length: { maximum: 120 }
   validates :author, length: { maximum: 100 }
@@ -14,8 +15,9 @@ class Book < ApplicationRecord
   validates :google_books_id, length: { maximum: 80 }
   validates :publisher, length: { maximum: 100 }
 
-  # ★ 全角 → 半角の一括正規化
+  before_validation :apply_remove_cover_url
   before_validation :normalize_text_fields
+  before_validation :normalize_cover_url
 
   scope :search, ->(keyword) {
     where("title ILIKE :kw OR author ILIKE :kw OR isbn ILIKE :kw", kw: "%#{keyword}%") if keyword.present?
@@ -30,6 +32,12 @@ class Book < ApplicationRecord
 
   private
 
+  def apply_remove_cover_url
+    return unless remove_cover_url == "1"
+
+    self.cover_url = nil
+  end
+
   def normalize_text_fields
     %i[title author publisher description isbn].each do |field|
       next if self[field].blank?
@@ -40,6 +48,15 @@ class Book < ApplicationRecord
       # ISBN だけハイフン除去
       self[field] = self[field].delete("-") if field == :isbn
     end
+  end
+
+  def normalize_cover_url
+    return if cover_url.blank?
+
+    self.cover_url = cover_url
+      .gsub(/^http:/, "https:")
+      .gsub(/zoom=\d/, "zoom=3")
+      .gsub("&edge=curl", "")
   end
 
   # ▼ 画像チェック

@@ -5,7 +5,19 @@
       レビューの投稿
     </h2>
 
-    <div class="bg-white pt-8 pb-10 px-10 rounded-xl shadow-lg space-y-4">
+    <div
+      class="bg-white pt-8 pb-10 px-10 rounded-xl shadow-lg space-y-4"
+      data-controller="book-search"
+      data-book-search-no-cover-url-value="<%= asset_path('no_cover.png') %>"
+
+      <% if @review.book&.google_books_id.present? %>
+        data-book-search-initial-title-value="<%= @review.book.title %>"
+        data-book-search-initial-author-value="<%= @review.book.author %>"
+        data-book-search-initial-api-cover-url-value="<%= @review.book.cover_url %>"
+      <% end %>
+    >
+
+      <%= render "book_search" %>
 
       <div class="mb-2">
         <h3 class="text-xl font-semibold text-[#004865]">投稿する内容</h3>

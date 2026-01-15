@@ -16,7 +16,13 @@
         <div class="w-1/3">
           <div class="w-full aspect-[2/3] mx-auto mb-4">
 
-            <% cover_url = display_image_url(@review.book, size: :cover_detail, image_attribute: :cover) %>
+            <% cover_url =
+                 if @review.book.cover.attached?
+                   url_for(@review.book.cover)
+                 elsif @review.book.cover_url.present?
+                   @review.book.cover_url
+                 end
+            %>
 
             <% if cover_url.present? %>
               <%= image_tag cover_url,
