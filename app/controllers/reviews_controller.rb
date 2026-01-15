@@ -85,7 +85,7 @@ class ReviewsController < ApplicationController
     else
 
       @review.assign_attributes(rp)
-      
+
       render :edit, status: :unprocessable_entity
     end
   end
