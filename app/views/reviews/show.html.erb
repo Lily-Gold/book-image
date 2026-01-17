@@ -116,9 +116,9 @@
         </div>
       </div>
 
-      <!-- ▼ あらすじ -->
+      <!-- ▼ あらすじ・説明文 -->
       <div class="mb-10">
-        <p class="text-base font-normal text-gray-600 leading-tight">あらすじ</p>
+        <p class="text-base font-normal text-gray-600 leading-tight">あらすじ・説明文</p>
         <p class="text-base font-medium text-gray-800 leading-tight whitespace-pre-line">
           <%= @review.book.description.present? ? @review.book.description : "未設定" %>
         </p>
@@ -216,5 +216,30 @@
       <% end %>
 
     </div>
+  </div>
+</div>
+
+<!-- ▼ 同じ本のレビュー -->
+<div class="flex justify-center mb-8">
+  <div class="w-full max-w-3xl">
+
+    <h3 class="text-xl font-semibold text-[#004865] <%= @same_book_reviews.any? ? 'mb-6' : 'mb-0' %>">
+      この本の他のレビュー
+    </h3>
+
+    <% if @same_book_reviews.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% @same_book_reviews.each do |review| %>
+          <%= render "reviews/review_card_small",
+                review: review,
+                panel_id: "same-book" %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-base text-center py-16 leading-relaxed">
+        この本の他のレビューはまだありません。
+      </p>
+    <% end %>
+
   </div>
 </div>

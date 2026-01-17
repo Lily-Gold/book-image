@@ -78,7 +78,17 @@
         <% preview = truncate_for_two_lines(review.content) %>
         <% if review.is_spoiler %>
           <span class="text-red-500 font-semibold">[ネタバレ]</span>
-          <span><%= preview %></span>
+          <span
+            class="
+              opacity-10
+              hover:opacity-100
+              active:opacity-100
+              transition-opacity
+              duration-200
+            "
+          >
+            <%= preview %>
+          </span>
         <% else %>
           <%= preview %>
         <% end %>
