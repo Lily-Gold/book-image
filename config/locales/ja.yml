@@ -8,7 +8,7 @@ ja:
         published_on: 発行日
         isbn: ISBN
         google_books_id: Google Books ID
-        description: あらすじ
+        description: あらすじ・説明文
         cover: 書影
         cover_url: 書影URL
 

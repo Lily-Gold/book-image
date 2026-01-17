@@ -50,9 +50,9 @@
                  #{ b.object.errors[:isbn].present? ? 'border-red-500' : 'border-gray-300' }" %>
   </div>
 
-  <!-- あらすじ -->
+  <!-- あらすじ・説明文 -->
   <div>
-    <%= b.label :description, "あらすじ", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= b.label :description, "あらすじ・説明文", class: "block text-sm font-medium text-gray-700 mb-1" %>
 
     <% if b.object.errors[:description].present? %>
       <p class="text-red-600 text-sm font-medium mb-1">
