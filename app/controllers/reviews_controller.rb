@@ -39,6 +39,11 @@ class ReviewsController < ApplicationController
   end
 
   def show
+    @same_book_reviews =
+      Review.same_book(@review)
+            .includes(:user, :book, :image_tag)
+            .limit(4)
+
     session[:review_return_to] =
       if request.referer&.include?(profile_path)
         profile_path
