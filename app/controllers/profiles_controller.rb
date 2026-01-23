@@ -2,10 +2,17 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def show
+    @tab = params[:tab] || "posts"
+
     @reviews = current_user.reviews.order(created_at: :desc)
+                                   .page(params[:posts_page])
+                                   .per(6)
+
     @bookmarked_reviews = current_user.bookmarked_reviews
                                      .includes(:user, :book, :image_tag)
                                      .order("bookmarks.created_at DESC")
+                                     .page(params[:bookmarks_page])
+                                     .per(6)
 
     @color_stats = fetch_color_stats
   end
