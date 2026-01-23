@@ -7,7 +7,7 @@
 
   <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
     投稿一覧
-    <span class="text-lg text-[#004865] font-semibold">( <%= @reviews.count %> 件 )</span>
+    <span class="text-lg text-[#004865] font-semibold">( <%= @reviews.total_count %> 件 )</span>
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7">
@@ -17,4 +17,9 @@
     <% end %>
 
   </div>
+
+  <div class="flex justify-center -mt-9 mb-8">
+    <%= paginate @reviews %>
+  </div>
+
 </div>

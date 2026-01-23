@@ -36,6 +36,8 @@ class ReviewsController < ApplicationController
 
     # ▼ 並び順
     @reviews = @reviews.order(created_at: :desc)
+                 .page(params[:page])
+                 .per(9)
   end
 
   def show

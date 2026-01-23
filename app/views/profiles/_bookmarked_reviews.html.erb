@@ -22,4 +22,12 @@
     <% end %>
   </div>
 
+  <% if @bookmarked_reviews.any? %>
+    <div class="flex justify-center -mt-9">
+      <%= paginate @bookmarked_reviews,
+            params: { tab: "bookmarks" },
+            param_name: :bookmarks_page %>
+    </div>
+  <% end %>
+
 </div>

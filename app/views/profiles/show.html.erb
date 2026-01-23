@@ -79,7 +79,7 @@
           data-action="click->profile-tabs#switch"
           class="flex-1 px-4 py-2 text-center cursor-pointer
                  bg-[#004865] text-white text-sm font-medium">
-          投稿したレビュー（<%= @reviews.count %>）
+          投稿したレビュー（<%= @reviews.total_count %>）
         </button>
 
         <div class="w-px bg-[#CDD5DF]"></div>
@@ -127,6 +127,12 @@
                        review: review,
                        panel_id: "my_reviews" %>
           <% end %>
+        </div>
+
+        <div class="flex justify-center -mt-9">
+          <%= paginate @reviews,
+                params: { tab: "posts" },
+                param_name: :posts_page %>
         </div>
       <% end %>
       </div>
