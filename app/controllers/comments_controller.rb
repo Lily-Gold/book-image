@@ -9,6 +9,15 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      unless @review.user_id == current_user.id
+        Notification.create!(
+          user: @review.user,
+          actor: current_user,
+          review: @review,
+          comment: @comment,
+          action_type: "comment"
+        )
+      end
       @review.reload
       respond_to do |format|
         format.turbo_stream
@@ -32,6 +41,11 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    Notification.find_by(
+      comment: @comment,
+      action_type: "comment"
+    )&.destroy
+
     @comment.destroy
     @review.reload
 
