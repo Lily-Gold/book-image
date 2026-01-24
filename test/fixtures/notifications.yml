@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visitor_id: 1
+  visited_id: 1
+  review: one
+  action: MyString
+  is_checked: false
+
+two:
+  visitor_id: 1
+  visited_id: 1
+  review: two
+  action: MyString
+  is_checked: false

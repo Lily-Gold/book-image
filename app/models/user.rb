@@ -14,6 +14,12 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_reviews, through: :bookmarks, source: :review
   has_many :comments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :active_notifications,
+           class_name: "Notification",
+           foreign_key: "actor_id",
+           dependent: :destroy
+
 
   validates :name, presence: true, length: { maximum: 15 }
   validates :introduction, length: { maximum: 200 }

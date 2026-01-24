@@ -1,0 +1,53 @@
+<div class="flex justify-center">
+  <div class="w-full max-w-3xl my-[1.5rem] pb-[1.5rem]">
+
+    <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
+      通知
+    </h2>
+
+    <div class="bg-white pt-6 px-10 rounded-xl shadow-lg pb-6">
+
+      <% if @notifications.any? %>
+        <% @notifications.each do |notification| %>
+
+          <%= link_to notification_path(notification),
+                class: "block py-4 border-b border-gray-200 hover:bg-gray-50 transition" do %>
+
+            <div class="flex items-start justify-between gap-4">
+
+              <div class="flex items-start gap-3">
+
+                <!-- ▼ 未読のときだけ赤ぽち -->
+                <% unless notification.read %>
+                  <span class="mt-1 w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
+                <% end %>
+
+                <p class="text-gray-800">
+                  <%= notification.actor.name %>さんが
+                  「<%= notification.review.book.title %>」のレビューに
+                  <%= notification.action_type == "like" ? "いいねしました" : "コメントしました" %>
+                </p>
+              </div>
+
+              <p class="text-sm text-gray-500 whitespace-nowrap">
+                <%= notification.created_at.strftime("%Y/%m/%d") %>
+              </p>
+
+            </div>
+
+          <% end %>
+
+        <% end %>
+      <% else %>
+        <p class="text-gray-500 text-center py-12">
+          通知はありません。
+        </p>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-center -mt-9 mb-8">
+  <%= paginate @notifications %>
+</div>

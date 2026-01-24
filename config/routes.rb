@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "notifications/index"
   resources :books, only: [ :index, :show ]
   resource :profile, only: :show
   devise_for :users, controllers: {
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
     resource :bookmark, only: [ :create, :destroy ]
     resources :comments, only: [ :create, :destroy ]
   end
+
+  resources :notifications, only: [ :index, :show ]
 
   namespace :api do
     namespace :google_books do

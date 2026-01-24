@@ -19,6 +19,9 @@
       <%# ▼ プロフィール or ログイン %>
       <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
         <% if user_signed_in? %>
+          <!-- ▼ 通知ベル -->
+          <%= render "shared/notification_bell" %>
+
           <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
             <div
               data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
