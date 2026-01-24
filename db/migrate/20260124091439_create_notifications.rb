@@ -13,7 +13,7 @@ class CreateNotifications < ActiveRecord::Migration[8.0]
 
     # いいね通知は同一ユーザー×同一レビューで1回だけ
     add_index :notifications,
-              [:user_id, :actor_id, :review_id, :action_type],
+              [ :user_id, :actor_id, :review_id, :action_type ],
               unique: true,
               where: "action_type = 'like'",
               name: "index_notifications_unique_like"
