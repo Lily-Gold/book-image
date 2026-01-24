@@ -14,4 +14,10 @@ class NotificationsController < ApplicationController
 
     redirect_to review_path(notification.review)
   end
+
+  def mark_all_as_read
+    current_user.notifications.unread.update_all(read: true)
+
+    redirect_to notifications_path, notice: "すべての通知を既読にしました"
+  end
 end
