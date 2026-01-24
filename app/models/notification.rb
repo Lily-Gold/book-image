@@ -2,6 +2,7 @@ class Notification < ApplicationRecord
   belongs_to :user
   belongs_to :actor, class_name: "User"
   belongs_to :review
+  belongs_to :comment, optional: true
 
   validates :action_type, presence: true
 

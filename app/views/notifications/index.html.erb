@@ -18,9 +18,9 @@
               <div class="flex items-start gap-3">
 
                 <!-- ▼ 未読のときだけ赤ぽち -->
-                <% unless notification.read %>
-                  <span class="mt-1 w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
-                <% end %>
+                <span class="mt-1 w-2 h-2 rounded-full flex-shrink-0
+                             <%= notification.read ? 'bg-transparent' : 'bg-red-500' %>">
+                </span>
 
                 <p class="text-gray-800">
                   <%= notification.actor.name %>さんが
@@ -40,7 +40,7 @@
         <% end %>
       <% else %>
         <p class="text-gray-500 text-center py-12">
-          通知はありません。
+          通知はありません
         </p>
       <% end %>
 
