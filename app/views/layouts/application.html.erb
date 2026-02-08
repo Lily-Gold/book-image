@@ -9,8 +9,10 @@
     <%= csp_meta_tag %>
 
     <%= turbo_include_tags %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", type: "module", defer: true %>
+    <% unless Rails.env.test? %>
+      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag "application", type: "module", defer: true %>
+    <% end %>
 
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="<%= asset_path('favicon.png') %>" sizes="180x180">
