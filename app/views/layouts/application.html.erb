@@ -9,7 +9,9 @@
     <%= csp_meta_tag %>
 
     <%= turbo_include_tags %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <% unless Rails.env.test? %>
+      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <% end %>
     <%= javascript_include_tag "application", type: "module", defer: true %>
 
     <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" sizes="512x512">
