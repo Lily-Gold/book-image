@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  email: my@example.com
+  content: MyText
+
+two:
+  name: MyString
+  email: my@example.com
+  content: MyText

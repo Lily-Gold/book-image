@@ -1,0 +1,72 @@
+<% content_for :main_bg do %>
+  pb-18
+<% end %>
+<div class="flex justify-center bg-[#F4F4F4] mt-8">
+  <div class="bg-white pt-8 pb-8 px-8 rounded-xl shadow-lg w-full max-w-md mt-8">
+
+    <h2 class="text-3xl font-bold text-center text-[#004865] mb-6">
+      お問い合わせ
+    </h2>
+
+    <p class="text-center text-sm text-gray-600 mb-6">
+      不具合報告・ご意見・ご要望などをお送りください
+    </p>
+
+    <%= form_with model: @contact, url: contact_path, local: true, class: "space-y-4" do |f| %>
+
+      <!-- ▼ お名前 -->
+      <div class="field">
+        <%= f.label :name, "お名前", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+        <% if @contact.errors[:name].present? %>
+          <p class="text-red-600 text-sm font-medium mb-1">
+            <%= @contact.errors.full_messages_for(:name).first %>
+          </p>
+        <% end %>
+
+        <%= f.text_field :name,
+              class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                    (@contact.errors[:name].present? ? "border-red-500" : "border-gray-300") %>
+      </div>
+
+      <!-- ▼ メールアドレス -->
+      <div class="field">
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+        <% if @contact.errors[:email].present? %>
+          <p class="text-red-600 text-sm font-medium mb-1">
+            <%= @contact.errors.full_messages_for(:email).first %>
+          </p>
+        <% end %>
+
+        <%= f.email_field :email,
+              class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] " +
+                    (@contact.errors[:email].present? ? "border-red-500" : "border-gray-300") %>
+      </div>
+
+      <!-- ▼ お問い合わせ内容 -->
+      <div class="field">
+        <%= f.label :content, "お問い合わせ内容", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+        <% if @contact.errors[:content].present? %>
+          <p class="text-red-600 text-sm font-medium mb-1">
+            <%= @contact.errors.full_messages_for(:content).first %>
+          </p>
+        <% end %>
+
+        <%= f.text_area :content,
+              rows: 6,
+              class: "w-full border rounded-lg p-2 text-base focus:outline-none focus:ring-2 focus:ring-[#004865] resize-none " +
+                    (@contact.errors[:content].present? ? "border-red-500" : "border-gray-300") %>
+      </div>
+
+      <!-- ▼ 送信ボタン -->
+      <div class="actions mt-8">
+        <%= f.submit "送信する",
+              class: "w-full bg-[#986321] text-white text-lg py-2.5 rounded-lg hover:opacity-90 transition cursor-pointer" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

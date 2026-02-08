@@ -7,7 +7,10 @@
       <span class="relative cursor-pointer after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400 last:after:hidden">
         プライバシーポリシー
       </span>
-      <span class="cursor-pointer">お問い合わせ</span>
+
+      <%= link_to "お問い合わせ", new_contact_path,
+            class: "hover:underline cursor-pointer" %>
+
     </div>
     <p>© 2025 Book Image</p>
   </div>

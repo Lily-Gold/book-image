@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   resources :books, only: [ :index, :show ]
   resource :profile, only: :show
+
+  resource :contact, only: [ :new, :create ] do
+    get :thanks
+  end
+
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations",
