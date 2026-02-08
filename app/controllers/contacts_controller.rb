@@ -9,7 +9,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.save
-      ContactMailer.contact_mail(@contact).deliver_now
+      send_contact_mail(@contact)
       redirect_to thanks_contact_path
     else
       flash.now[:alert] = "お問い合わせの送信に失敗しました"
@@ -24,5 +24,13 @@ class ContactsController < ApplicationController
 
   def contact_params
     params.require(:contact).permit(:name, :email, :content)
+  end
+
+  def send_contact_mail(contact)
+    if Rails.env.production?
+      ContactMailer.contact_mail(contact).deliver_later
+    else
+      ContactMailer.contact_mail(contact).deliver_now
+    end
   end
 end
