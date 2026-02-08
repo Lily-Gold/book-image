@@ -9,6 +9,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.save
+      ContactMailer.contact_mail(@contact).deliver_now
       redirect_to thanks_contact_path
     else
       flash.now[:alert] = "お問い合わせの送信に失敗しました"
