@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :books, only: [ :index, :show ]
   resource :profile, only: :show
-  
-  resource :contact, only: [:new, :create] do
+
+  resource :contact, only: [ :new, :create ] do
     get :thanks
   end
 
