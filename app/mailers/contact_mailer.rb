@@ -4,7 +4,7 @@ class ContactMailer < ApplicationMailer
 
     mail(
       to: ENV.fetch("CONTACT_EMAIL"),
-      subject: "【お問い合わせ】新しいお問い合わせが届きました"
+      subject: "【お問い合わせ】新しいお問い合わせが届きました",
       reply_to: contact.email
     )
   end
