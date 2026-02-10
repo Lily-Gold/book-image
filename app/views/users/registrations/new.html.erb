@@ -89,6 +89,32 @@
                     (resource.errors[:password_confirmation].present? ? "border-red-500" : "border-gray-300") %>
       </div>
 
+      <div class="mt-6">
+
+        <% if resource.errors[:terms_accepted].any? %>
+          <p class="text-red-600 text-sm font-medium mb-2">
+            利用規約とプライバシーポリシーへの同意が必要です
+          </p>
+        <% end %>
+
+        <div class="field flex items-start gap-2">
+          <%= f.check_box :terms_accepted,
+                class: "accent-[#004865] w-4 h-4 mt-1" %>
+
+          <label class="text-sm text-gray-700 leading-relaxed select-none">
+            <%= link_to "利用規約", terms_path,
+                  class: "text-[#986321] underline hover:opacity-80",
+                  target: "_blank", rel: "noopener" %>
+            および
+            <%= link_to "プライバシーポリシー", privacy_path,
+                  class: "text-[#986321] underline hover:opacity-80",
+                  target: "_blank", rel: "noopener" %>
+           に同意します
+          </label>
+        </div>
+
+      </div>
+
       <div class="actions mt-8">
         <%= f.submit "登録",
               class: "w-full bg-[#986321] text-white text-lg py-2.5 rounded-lg hover:opacity-90 transition cursor-pointer" %>
@@ -101,18 +127,6 @@
             class: "text-sm text-[#986321] hover:underline hover:opacity-90" do %>
         すでにアカウントをお持ちの方はこちら
       <% end %>
-    </div>
-
-    <div class="mt-6 text-center text-xs text-gray-400 leading-relaxed">
-      <div class="inline-block text-left">
-        アカウント登録をもって、
-        <span class="text-gray-400 font-medium">利用規約</span>
-        および
-        <span class="text-gray-400 font-medium">プライバシーポリシー</span>
-        に<br>
-        同意したものとみなします。
-        <span class="text-gray-400">(※ 現在は未実装です)</span>
-      </div>
     </div>
 
   </div>

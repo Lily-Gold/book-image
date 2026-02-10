@@ -32,6 +32,9 @@ Rails.application.routes.draw do
 
   root "homes#index"
 
+  get "/terms", to: "pages#terms"
+  get "/privacy", to: "pages#privacy"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

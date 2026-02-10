@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   attr_accessor :remove_avatar
+  attr_accessor :terms_accepted
 
   has_many :books, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -24,6 +25,9 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 15 }
   validates :introduction, length: { maximum: 200 }
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: :from_omniauth?
+  validates :terms_accepted,
+            acceptance: true,
+            unless: :from_omniauth?
 
   validate :validate_avatar_format_and_size
 
