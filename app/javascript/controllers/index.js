@@ -25,6 +25,9 @@ application.register("dropdown", DropdownController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
 
