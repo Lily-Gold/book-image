@@ -59,4 +59,30 @@ export default class extends Controller {
     this.line2Target.classList.remove("opacity-0")
     this.line3Target.classList.remove("-rotate-45", "-translate-y-[6px]")
   }
+
+  closeAndVisit(event) {
+    event.preventDefault()
+
+    const raw = event.currentTarget.getAttribute("href")
+    const urlObj = new URL(raw, window.location.href)
+
+    const targetPath = urlObj.pathname + urlObj.search
+    const currentPath = window.location.pathname + window.location.search
+
+    if (targetPath === currentPath) {
+      this.close()
+      return
+    }
+
+    const isClosed = this.panelTarget.classList.contains("translate-x-full")
+    if (!isClosed) this.close()
+
+    setTimeout(() => {
+      if (window.Turbo) {
+       window.Turbo.visit(raw)
+      } else {
+        window.location.href = raw
+      }
+    }, isClosed ? 0 : 280)
+  }
 }

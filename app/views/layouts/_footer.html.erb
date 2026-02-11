@@ -1,18 +1,46 @@
-<footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-10">
-  <div class="flex justify-between items-center">
-    <div class="flex flex-wrap justify-center gap-4 text-[#004865] text-xs">
+<footer class="bg-[#E0E0E2] text-[#004865] text-xs border-t border-gray-300 py-3 px-6 md:px-10">
 
+  <div class="space-y-3 md:flex md:justify-between md:items-center md:space-y-0">
+
+    <!-- ▼ スマホ用レイアウト -->
+    <div class="space-y-2 md:flex md:items-center md:gap-4 md:space-y-0">
+
+      <!-- ① 利用規約 -->
       <%= link_to "利用規約", terms_path,
-            class: "relative hover:underline cursor-pointer after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400" %>
+            class: "block hover:underline cursor-pointer
+                    md:relative md:after:content-[''] md:after:absolute
+                    md:after:right-[-8px] md:after:top-1/2
+                    md:after:-translate-y-1/2 md:after:w-px
+                    md:after:h-3 md:after:bg-gray-400" %>
 
+      <!-- ② プライバシーポリシー（利用規約の下） -->
       <%= link_to "プライバシーポリシー", privacy_path,
-            class: "relative hover:underline cursor-pointer after:content-[''] after:absolute after:right-[-8px] after:top-1/2 after:-translate-y-1/2 after:w-px after:h-3 after:bg-gray-400" %>
+            class: "block hover:underline cursor-pointer
+                    md:relative md:after:content-[''] md:after:absolute
+                    md:after:right-[-8px] md:after:top-1/2
+                    md:after:-translate-y-1/2 md:after:w-px
+                    md:after:h-3 md:after:bg-gray-400" %>
 
-      <%= link_to "お問い合わせ", new_contact_path,
-            class: "hover:underline cursor-pointer" %>
+      <!-- ③ お問い合わせ + © を横並び -->
+      <div class="flex justify-between items-center">
+
+        <%= link_to "お問い合わせ", new_contact_path,
+              class: "hover:underline cursor-pointer" %>
+
+        <!-- スマホ用コピーライト -->
+        <p class="md:hidden whitespace-nowrap">
+          © 2025 Book Image
+        </p>
+
+      </div>
 
     </div>
 
-    <p>© 2025 Book Image</p>
+    <!-- PC用コピーライト -->
+    <p class="hidden md:block whitespace-nowrap">
+      © 2025 Book Image
+    </p>
+
   </div>
+
 </footer>
