@@ -28,6 +28,9 @@ application.register("hello", HelloController)
 import MobileMenuController from "./mobile_menu_controller"
 application.register("mobile-menu", MobileMenuController)
 
+import MobileSearchController from "./mobile_search_controller"
+application.register("mobile-search", MobileSearchController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
 
