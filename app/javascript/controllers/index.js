@@ -40,6 +40,9 @@ application.register("post-banner", PostBannerController)
 import ProfileTabsController from "./profile_tabs_controller"
 application.register("profile-tabs", ProfileTabsController)
 
+import SpoilerController from "./spoiler_controller"
+application.register("spoiler", SpoilerController)
+
 import SubmitController from "./submit_controller"
 application.register("submit", SubmitController)
 

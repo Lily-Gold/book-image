@@ -135,7 +135,12 @@
 
         <p class="text-base font-medium text-gray-800 leading-tight whitespace-pre-line mt-0">
           <% if @review.is_spoiler %>
-            <span class="opacity-10 hover:opacity-100 active:opacity-100 transition-opacity duration-200 inline-block leading-tight mt-[-20px]">
+            <span
+              data-controller="spoiler"
+              data-spoiler-target="content"
+              data-action="click->spoiler#toggle"
+              class="opacity-10 hover:opacity-100 transition-opacity duration-200 inline-block leading-tight mt-[-20px] cursor-pointer"
+            >
               <%= @review.content %>
             </span>
           <% else %>

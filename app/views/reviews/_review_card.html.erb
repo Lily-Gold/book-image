@@ -83,7 +83,12 @@
 
         <% if review.is_spoiler %>
           <span class="text-red-500 font-semibold">[ネタバレ]</span>
-          <span class="opacity-10 hover:opacity-100 active:opacity-100 transition-opacity duration-200">
+          <span
+            data-controller="spoiler"
+            data-spoiler-target="content"
+            data-action="click->spoiler#toggle"
+            class="opacity-10 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+          >
             <%= preview %>
           </span>
         <% else %>
