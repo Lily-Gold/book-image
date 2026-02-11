@@ -22,10 +22,24 @@
     人気のレビュー
   </h3>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7 pt-2">
-    <% @top_reviews.each do |review| %>
-      <%= render "reviews/review_card", review: review %>
-    <% end %>
+  <!-- ✅ スマホだけ：小カード -->
+  <div class="md:hidden max-w-5xl mx-auto px-1 pt-2">
+    <div class="grid grid-cols-1 gap-2">
+      <% @top_reviews.each do |review| %>
+        <%= render "reviews/review_card_small",
+              review: review,
+              panel_id: "top_reviews" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- ✅ PC：大カード -->
+  <div class="hidden md:block">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7 pt-2">
+      <% @top_reviews.each do |review| %>
+        <%= render "reviews/review_card", review: review %>
+      <% end %>
+    </div>
   </div>
 
   <div class="w-full flex justify-center mt-6">
@@ -34,3 +48,4 @@
         class: "px-6 py-3 bg-[#986321] text-white text-lg rounded-lg hover:opacity-90 transition" %>
   </div>
 </div>
+
