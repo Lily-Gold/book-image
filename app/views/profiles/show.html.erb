@@ -7,27 +7,76 @@
   <div class="max-w-5xl mx-auto px-1">
 
     <!-- プロフィールカード -->
-    <div class="bg-white rounded-xl shadow-md p-2 pl-6 flex items-center gap-6 mb-14 relative">
+    <div class="bg-white rounded-xl shadow-md
+                p-4 md:p-2 md:pl-6
+                flex flex-col md:flex-row
+                items-start md:items-center
+                gap-4 md:gap-6
+                mb-10 md:mb-14
+                relative">
 
-      <div class="shrink-0 ml-5">
+      <div class="shrink-0 ml-5 hidden md:block">
         <% if current_user.avatar.attached? %>
-          <%= image_tag display_image_url(current_user, size: :avatar_120, image_attribute: :avatar),
-                class: "w-[120px] h-[120px] rounded-full object-cover scale-90 border border-gray-400/60" %>
+          <%= image_tag(
+                display_image_url(current_user, size: :avatar_120, image_attribute: :avatar),
+                class: "
+                  w-16 h-16            <!-- スマホ -->
+                  md:w-[120px] md:h-[120px]  <!-- PC -->
+                  rounded-full
+                  object-cover
+                  scale-100 md:scale-90
+                  border border-gray-400/60
+                  -translate-y-3 md:translate-y-0
+                "
+              ) %>
         <% else %>
-          <%= image_tag "avatar.png",
-                class: "w-[120px] h-[120px] rounded-full object-cover scale-175" %>
+          <%= image_tag(
+                "avatar.png",
+                class: "
+                  w-16 h-16
+                  md:w-[120px] md:h-[120px]
+                  rounded-full
+                  object-cover
+                  scale-175 md:scale-175
+                  -translate-y-2 md:translate-y-0
+                "
+              ) %>
         <% end %>
       </div>
 
       <div class="flex-1 mt-[-2px] pl-6">
-        <p class="text-xl font-semibold text-[#004865]"><%= current_user.name %></p>
-        <p class="text-sm text-gray-600 mt-1"><%= current_user.email %></p>
 
-        <div class="text-sm text-gray-700 mt-4 leading-relaxed max-w-[700px]">
+        <!-- ★ スマホだけ：画像 + 名前・メルアドを横並び -->
+        <div class="flex items-start gap-4 md:block">
+
+          <!-- スマホ用アバター -->
+          <div class="shrink-0 md:hidden">
+            <% if current_user.avatar.attached? %>
+              <%= image_tag(
+                    display_image_url(current_user, size: :avatar_120, image_attribute: :avatar),
+                    class: "w-16 h-16 rounded-full object-cover border border-gray-400/60"
+                  ) %>
+            <% else %>
+              <%= image_tag(
+                    "avatar.png",
+                    class: "w-16 h-16 rounded-full object-cover scale-175"
+                  ) %>
+            <% end %>
+          </div>
+
+          <!-- 名前・メルアド（中身は今までと同じ） -->
+          <div class="min-w-0">
+            <p class="text-xl font-semibold text-[#004865]"><%= current_user.name %></p>
+            <p class="text-sm text-gray-600 mt-1 break-all"><%= current_user.email %></p>
+          </div>
+
+        </div>
+
+        <div class="text-sm text-gray-700 mt-4 leading-relaxed max-w-[700px] pr-[2em] md:pr-0">
           <%= simple_format(current_user.introduction, {}, wrapper_tag: "div") %>
         </div>
 
-        <div class="flex items-center gap-3 mt-4 -mt-18 text-sm text-gray-700">
+        <div class="hidden md:flex items-center gap-3 mt-4 text-sm text-gray-700">
           <span>登録日：<%= current_user.created_at.strftime('%Y/%m/%d') %></span>
 
           <!-- ▼ X シェアボタン（アプリ紹介） -->
@@ -53,8 +102,9 @@
         </div>
 
         <%= link_to edit_user_registration_path,
-              class: "absolute bottom-4 right-5
-                      flex items-center gap-1.5
+              class: "hidden md:flex
+                      absolute bottom-4 right-5
+                      items-center gap-1.5
                       text-sm text-gray-500
                       hover:text-[#986321]
                       hover:underline
@@ -63,6 +113,40 @@
           アカウント設定
         <% end %>
       </div>
+
+      <!-- スマホ専用：登録日 / X / アカウント設定 -->
+      <div class="md:hidden w-full flex items-center gap-4 px-6 pt-2 text-sm text-gray-700">
+        <!-- 登録日 -->
+        <span>登録日：<%= current_user.created_at.strftime('%Y/%m/%d') %></span>
+
+        <!-- X シェア -->
+        <%= link_to(
+              "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_app_text)}&url=#{ERB::Util.url_encode(root_url)}",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "inline-flex items-center justify-center
+                      w-8 h-8 bg-black rounded-md
+                      hover:opacity-80 transition"
+            ) do %>
+          <svg xmlns="http://www.w3.org/2000/svg"
+               fill="currentColor"
+               viewBox="0 0 24 24"
+               class="w-4 h-4 text-white">
+            <path d="M18.244 2H21.5l-7.42 8.495L23 22h-6.828l-5.364-7.044L4.896 22H1.64l7.93-9.073L2 2h6.91l4.713 6.231L18.244 2Z"/>
+          </svg>
+        <% end %>
+
+        <!-- アカウント設定 -->
+        <%= link_to edit_user_registration_path,
+              class: "ml-6 text-gray-500
+                      hover:text-[#986321]
+                      hover:underline
+                      underline-offset-4
+                      transition" do %>
+          アカウント設定
+        <% end %>
+      </div>
+
     </div>
 
 
@@ -149,7 +233,7 @@
           <% top_colors = @color_stats.first(3) %>
           <% total_count = @color_stats.sum { |s| s[:count] } %>
 
-          <div class="pl-7">
+          <div class="pl-0 md:pl-7">
             <div
               data-controller="chart"
               data-chart-labels-value="<%= @color_stats.map { |s| s[:name] }.to_json %>"
@@ -158,7 +242,15 @@
             >
 
               <!-- 横並びレイアウト -->
-              <div class="max-w-4xl mx-auto py-6 pl-20 flex flex-col md:flex-row gap-10 items-center">
+              <div class="
+                max-w-4xl
+                mx-0 md:mx-auto
+                py-6
+                px-4 md:px-0 md:pl-20
+                flex flex-col md:flex-row
+                gap-8 md:gap-10
+                items-center md:items-center
+              ">
 
                 <!-- グラフ＋総数 -->
                 <div class="flex flex-col items-center shrink-0 -mt-3">
@@ -176,11 +268,16 @@
                 </div>
 
                 <!-- 右側：分析結果 -->
-                <div class="w-full max-w-sm space-y-4 pl-20 -mt-8">
+                <div class="
+                  w-full max-w-sm
+                  space-y-4
+                  pl-0 md:pl-20
+                  md:-mt-8
+                ">
 
                   <!-- TOP3 -->
                   <div>
-                    <p class="text-lg font-medium text-[#004865] mb-2">
+                    <p class="text-lg font-medium text-[#004865] mb-2 text-center md:text-left">
                       あなたが選ぶ印象カラー
                     </p>
 
@@ -222,6 +319,7 @@
 
                 </div>
               </div>
+
             </div>
           </div>
         <% else %>
