@@ -10,7 +10,120 @@
 
     <div class="bg-white pt-8 px-10 rounded-xl shadow-lg <%= current_user == @review.user ? 'pb-8' : 'pb-1' %>">
 
-      <div class="flex gap-8 mb-10 items-start">
+      <!-- ▼ スマホ専用レイアウト -->
+      <% avatar_url = display_image_url(@review.user, size: :avatar_48, image_attribute: :avatar) %>
+      <% avatar_missing = avatar_url.blank? %>
+
+      <div class="md:hidden mb-8 space-y-5 <%= avatar_missing ? '-mt-3' : '' %>">
+
+        <!-- 名前 & 投稿日 -->
+        <div class="flex justify-between items-center">
+
+          <div class="flex items-center gap-2">
+
+            <% if avatar_url.present? %>
+              <%= image_tag avatar_url,
+                    class: "w-9 h-9 rounded-full object-cover border border-gray-400/60 scale-[0.9]" %>
+            <% else %>
+              <%= image_tag "avatar.png",
+                    class: "w-14 h-14 rounded-full object-cover -translate-x-2" %>
+            <% end %>
+
+            <p class="text-lg font-medium text-gray-800 <%= avatar_missing ? '-ml-5' : '' %>">
+              <%= @review.user.name %>
+            </p>
+
+          </div>
+
+          <p class="text-sm text-gray-600">
+            <%= @review.created_at.strftime("%Y/%m/%d") %>
+          </p>
+
+        </div>
+
+        <!-- いいね系 -->
+        <div class="flex gap-4 <%= avatar_missing ? '-mt-2' : '' %>">
+          <%= render "likes/button", review: @review %>
+          <%= render "bookmarks/button", review: @review %>
+          <%= render "comments/button", review: @review %>
+        </div>
+
+        <!-- 書影 + 情報 -->
+        <div class="flex gap-4 items-start">
+
+          <!-- 左カラム（書影 + 印象カラーを縦並び） -->
+          <div class="flex flex-col items-start">
+
+            <!-- 書影 -->
+            <div class="w-[110px] aspect-[2/3]">
+
+              <% cover_url =
+                   if @review.book.cover.attached?
+                     url_for(@review.book.cover)
+                   elsif @review.book.cover_url.present?
+                     @review.book.cover_url
+                   end %>
+
+              <%= image_tag(cover_url.presence || "no_cover.png",
+                class: "w-full h-full object-cover rounded shadow-md") %>
+            </div>
+
+            <!-- 印象カラー（書影の下） -->
+            <div class="mt-3 flex items-center gap-2">
+              <p class="text-sm font-normal text-gray-600">印象カラー：</p>
+              <span
+                class="w-4 h-4 rounded-full border border-gray-300 shadow-sm"
+                style="background-color:<%= @review.image_tag.color %>;">
+              </span>
+              <p class="text-sm font-medium text-gray-800">
+                <%= @review.image_tag.name %>
+              </p>
+            </div>
+
+          </div>
+
+          <!-- 右カラム -->
+          <div class="flex-1 space-y-3 -ml-8">
+
+            <div>
+              <p class="text-sm font-normal text-gray-600">本のタイトル</p>
+              <p class="text-base font-medium text-gray-800 pl-3">
+                <%= @review.book.title %>
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm font-normal text-gray-600">著者名</p>
+              <p class="text-base font-medium text-gray-800 pl-3">
+                <%= @review.book.author.presence || "未設定" %>
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 出版情報 -->
+        <div class="space-y-1 text-sm text-gray-800">
+          <div>
+            <p class="text-gray-600">出版社</p>
+            <p class="pl-3"><%= @review.book.publisher.presence || "未設定" %></p>
+          </div>
+
+          <div>
+            <p class="text-gray-600">発行日</p>
+            <p class="pl-3"><%= @review.book.published_on&.strftime("%Y年%m月%d日") || "未設定" %></p>
+          </div>
+
+          <div>
+            <p class="text-gray-600">ISBN</p>
+            <p class="pl-3"><%= @review.book.isbn.presence || "未設定" %></p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hidden md:flex gap-8 mb-10 items-start">
 
         <!-- ▼ 書影 -->
         <div class="w-1/3">
@@ -135,7 +248,12 @@
 
         <p class="text-base font-medium text-gray-800 leading-tight whitespace-pre-line mt-0">
           <% if @review.is_spoiler %>
-            <span class="opacity-10 hover:opacity-100 active:opacity-100 transition-opacity duration-200 inline-block leading-tight mt-[-20px]">
+            <span
+              data-controller="spoiler"
+              data-spoiler-target="content"
+              data-action="click->spoiler#toggle"
+              class="opacity-10 hover:opacity-100 transition-opacity duration-200 inline-block leading-tight mt-[-20px] cursor-pointer"
+            >
               <%= @review.content %>
             </span>
           <% else %>

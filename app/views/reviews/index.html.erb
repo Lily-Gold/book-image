@@ -7,15 +7,29 @@
 
   <h2 class="text-3xl font-bold text-center text-[#004865] mb-8">
     投稿一覧
-    <span class="text-lg text-[#004865] font-semibold">( <%= @reviews.total_count %> 件 )</span>
+    <span class="text-lg text-[#004865] font-semibold">
+      ( <%= @reviews.total_count %> 件 )
+    </span>
   </h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7">
+  <!-- ✅ スマホ専用（小カード・マイページと同じ幅） -->
+  <div class="md:hidden max-w-5xl mx-auto px-1">
+    <div class="grid grid-cols-1 gap-2">
+      <% @reviews.each do |review| %>
+        <%= render "reviews/review_card_small",
+              review: review,
+              panel_id: "index_reviews" %>
+      <% end %>
+    </div>
+  </div>
 
-    <% @reviews.each do |review| %>
-      <%= render "reviews/review_card", review: review %>
-    <% end %>
-
+  <!-- ✅ PCは完全に元のまま -->
+  <div class="hidden md:block">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-7">
+      <% @reviews.each do |review| %>
+        <%= render "reviews/review_card", review: review %>
+      <% end %>
+    </div>
   </div>
 
   <div class="flex justify-center -mt-9 mb-8">

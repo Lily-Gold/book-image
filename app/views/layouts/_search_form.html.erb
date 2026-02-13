@@ -1,7 +1,7 @@
 <div class="flex items-center gap-2">
 
   <%= form_with url: reviews_path, method: :get, local: true,
-        class: "flex items-center gap-2" do |f| %>
+        class: "flex flex-wrap items-center gap-2" do |f| %>
 
     <!-- ▼ 印象カラー絞り込み -->
     <%= f.select :color,
@@ -31,34 +31,36 @@
     %>
 
     <!-- ▼ 入力欄 -->
-    <%= f.text_field :q,
-      value: params[:q],
-      placeholder: "タイトル・著者名・ISBN",
-      class: "w-48 md:w-64 px-3 py-1.5 rounded-md text-sm
-              bg-white text-gray-800 placeholder-gray-400
-              border border-gray-300
-              focus:outline-none focus:ring-[1.5px] focus:ring-[#986321]"
-    %>
+    <div class="flex w-full md:w-auto gap-2">
 
-    <!-- ▼ 検索ボタン -->
-    <button type="submit"
-      class="px-3 py-1.5 bg-[#986321] text-white rounded-md
-             hover:opacity-90 transition flex items-center justify-center cursor-pointer">
+      <%= f.text_field :q,
+        value: params[:q],
+        placeholder: "タイトル・著者名・ISBN",
+        class: "flex-1 md:w-64 px-3 py-1.5 rounded-md text-sm
+                bg-white text-gray-800 placeholder-gray-400
+                border border-gray-300
+                focus:outline-none focus:ring-[1.5px] focus:ring-[#986321]"
+      %>
 
-      <svg xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 24 24"
-           width="20" height="20"
-           fill="none"
-           stroke="#FFFFFF"
-           stroke-width="2.6"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <circle cx="11" cy="11" r="6.5"></circle>
-        <line x1="15.8" y1="15.8" x2="21.2" y2="21.2"></line>
-      </svg>
+      <button type="submit"
+        class="px-3 py-1.5 bg-[#986321] text-white rounded-md
+               hover:opacity-90 transition flex items-center justify-center cursor-pointer">
 
-    </button>
 
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             width="20" height="20"
+             fill="none"
+             stroke="#FFFFFF"
+             stroke-width="2.6"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <circle cx="11" cy="11" r="6.5"></circle>
+          <line x1="15.8" y1="15.8" x2="21.2" y2="21.2"></line>
+        </svg>
+
+      </button>
+    </div>
   <% end %>
 
 </div>

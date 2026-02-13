@@ -1,70 +1,239 @@
-<!-- 固定ヘッダー -->
-<header class="bg-[#004865] text-white h-14 flex items-center shadow-md fixed top-0 left-0 w-full z-50">
-  <div class="w-full flex justify-between items-center px-10 py-3">
+<div data-controller="mobile-menu mobile-search">
 
-    <!-- ▼ ロゴ -->
-    <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
-      <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200 cursor-pointer" do %>
-        Book Image
-        <%= image_tag "logo.png", alt: "Book Image アイコン", class: "h-10 w-auto object-contain translate-y-[1px]" %>
-      <% end %>
-    </h1>
+  <header
+    class="bg-[#004865] text-white h-14 fixed top-0 left-0 w-full z-[100] shadow-md"
+  >
+    <div class="flex justify-between items-center h-full px-6 md:px-10">
 
-    <!-- ▼ 右側：検索フォーム置く場所 & プロフィール -->
-    <div class="flex items-center gap-6">
+      <!-- ▼ ロゴ -->
+      <h1 class="text-2xl font-bold font-['EB_Garamond'] tracking-wide flex items-center">
+        <%= link_to root_path, class: "flex items-center gap-1 hover:opacity-80 transition-opacity duration-200 cursor-pointer" do %>
+          Book Image
+          <%= image_tag "logo.png",
+                alt: "Book Image アイコン",
+                class: "h-10 w-auto object-contain translate-y-[1px]" %>
+        <% end %>
+      </h1>
 
-      <%# ▼ 検索フォーム %>
-      <%= render "layouts/search_form" %>
+      <!-- ===================================== -->
+      <!-- ▼ PC用（md以上で表示） -->
+      <!-- ===================================== -->
+      <div class="hidden md:flex items-center gap-6">
 
-      <%# ▼ プロフィール or ログイン %>
-      <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
-        <% if user_signed_in? %>
-          <!-- ▼ 通知ベル -->
-          <%= render "shared/notification_bell" %>
+        <%= render "layouts/search_form" %>
 
-          <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
-            <div
-              data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
-              class="relative"
-            >
+        <nav class="relative flex items-center gap-6 text-sm -mr-0.5">
+          <% if user_signed_in? %>
+
+            <%= render "shared/notification_bell" %>
+
+            <!-- プロフィール -->
+            <div data-controller="dropdown" class="relative flex items-center justify-end w-[5rem]">
               <div
-                class="transition duration-200 cursor-pointer"
-                style="width: 2.8rem; height: 2.8rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;"
+                data-action="mouseenter->dropdown#show mouseleave->dropdown#hide click->dropdown#toggle"
+                class="relative"
               >
-                <%= image_tag(
-                  display_image_url(
-                    current_user,
-                    size: :avatar_header,
-                    image_attribute: :avatar
-                  ) || asset_path('avatar.png'),
-                  alt: 'プロフィール画像',
-                  class: [
-                    'rounded-full cursor-pointer object-cover',
-                    (current_user.avatar.attached? ? 'w-11 h-11 border border-gray-400/60' : 'w-21.5 h-21.5')
-                  ].compact.join(' ')
-                ) %>
-              </div>
+                <div
+                  class="transition duration-200 cursor-pointer"
+                  style="width: 2.8rem; height: 2.8rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;"
+                >
+                  <%= image_tag(
+                    display_image_url(
+                      current_user,
+                      size: :avatar_header,
+                      image_attribute: :avatar
+                    ) || asset_path('avatar.png'),
+                    alt: 'プロフィール画像',
+                    class: [
+                     'rounded-full cursor-pointer object-cover',
+                      (current_user.avatar.attached? ? 'w-11 h-11 border border-gray-400/60' : 'w-21.5 h-21.5')
+                    ].compact.join(' ')
+                  ) %>
+                </div>
 
-              <div
-                data-dropdown-target="menu"
-                class="absolute left-[-5rem] top-[1.8rem] w-40 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden text-center transition transform opacity-0 scale-95 z-50"
-              >
-                <%= link_to edit_user_registration_path,
-                    class: "block px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2" do %>
-                  アカウント設定
-                <% end %>
-                <%= button_to 'ログアウト', destroy_user_session_path, method: :delete,
-                  class: 'w-full text-center px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2' %>
+                <div
+                  data-dropdown-target="menu"
+                  class="absolute left-[-5rem] top-[1.8rem] w-40 bg-white text-gray-700 rounded-md shadow-lg border border-gray-200 hidden text-center transition transform opacity-0 scale-95 z-50"
+                >
+                  <%= link_to edit_user_registration_path,
+                      class: "block px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2" do %>
+                    アカウント設定
+                  <% end %>
+
+                  <%= button_to 'ログアウト',
+                        destroy_user_session_path,
+                        method: :delete,
+                        class: 'w-full text-center px-4 py-2 cursor-pointer transition-colors duration-200 hover:text-[#986321] hover:underline hover:decoration-[#986321] hover:decoration-2 hover:underline-offset-2' %>
+                </div>
               </div>
             </div>
-          </div>
 
-        <% else %>
-          <%= link_to 'ログイン', new_user_session_path, class: 'hover:underline cursor-pointer' %>
-          <%= link_to '新規登録', new_user_registration_path, class: 'bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity duration-200 no-underline text-sm cursor-pointer' %>
+          <% else %>
+            <%= link_to 'ログイン',
+                  new_user_session_path,
+                  class: 'hover:underline cursor-pointer' %>
+
+            <%= link_to '新規登録',
+                  new_user_registration_path,
+                  class: 'bg-[#986321] text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity duration-200 no-underline text-sm cursor-pointer' %>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- ▼ スマホ用（md未満で表示） -->
+      <!-- ===================================== -->
+      <div class="flex items-center gap-4 md:hidden">
+
+        <!-- 🔍 -->
+        <button data-action="click->mobile-search#toggle">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+          </svg>
+        </button>
+
+        <!-- 🔔（ログイン時のみ） -->
+        <% if user_signed_in? %>
+          <%= render "shared/notification_bell" %>
         <% end %>
-      </nav>
+
+        <!-- ☰ -->
+        <button
+          data-action="click->mobile-menu#toggle"
+          class="w-7 h-7 flex items-center justify-center"
+        >
+          <svg
+            data-mobile-menu-target="icon"
+            class="w-7 h-7 transition-all duration-300 overflow-visible"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              data-mobile-menu-target="line1"
+              class="transition-all duration-300 [transform-box:fill-box] [transform-origin:center]"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16"
+            />
+            <path
+              data-mobile-menu-target="line2"
+              class="transition-all duration-300"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 12h16"
+            />
+            <path
+              data-mobile-menu-target="line3"
+              class="transition-all duration-300 [transform-box:fill-box] [transform-origin:center]"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 18h16"
+            />
+          </svg>
+        </button>
+
+      </div>
 
     </div>
+  </header>
+
+  <!-- ▼ スマホ検索オーバーレイ -->
+  <div
+    data-mobile-search-target="overlay"
+    data-action="click->mobile-search#close"
+    class="fixed inset-0 bg-black/30
+           opacity-0 pointer-events-none
+           transition-opacity duration-300
+           md:hidden z-[70]"
+  >
   </div>
-</header>
+
+  <!-- ▼ スマホ検索ボックス -->
+  <div
+    data-mobile-search-target="panel"
+    class="fixed top-14 left-0 w-full
+           bg-[#F4F4F4]
+           p-4
+           transform -translate-y-full
+           transition-transform duration-300
+           md:hidden z-[80]"
+  >
+    <%= render "layouts/search_form" %>
+
+    <button
+      class="mt-4 text-sm text-[#986321] underline underline-offset-4
+             hover:opacity-80 transition block ml-auto"
+      data-action="click->mobile-search#close">
+      閉じる
+    </button>
+  </div>
+
+  <!-- ▼ スマホスライドメニュー本体 -->
+  <div
+    data-mobile-menu-target="panel"
+    class="fixed top-14 right-0 w-64 h-full bg-[#F4F4F4] text-gray-800 shadow-lg
+            transform translate-x-full transition-transform duration-300
+            md:hidden z-[60]"
+  >
+    <nav class="flex flex-col p-6 text-base">
+
+      <!-- ===== コンテンツ系 ===== -->
+      <%= link_to "トップ", root_path,
+            class: "py-2 hover:text-[#986321] transition" %>
+
+      <%= link_to "投稿一覧", reviews_path,
+            class: "py-2 hover:text-[#986321] transition" %>
+
+      <% if user_signed_in? %>
+
+        <%= link_to "新規投稿", new_review_path,
+              class: "py-2 hover:text-[#986321] transition" %>
+
+        <%= link_to "マイページ", profile_path,
+              class: "py-2 hover:text-[#986321] transition" %>
+
+        <!-- 区切り線 -->
+        <div class="border-t border-gray-200 my-4"></div>
+
+        <!-- ===== アカウント系 ===== -->
+        <%= link_to "アカウント設定", edit_user_registration_path,
+              class: "py-2 hover:text-[#986321] transition" %>
+
+        <%= button_to "ログアウト",
+              destroy_user_session_path,
+              method: :delete,
+              class: "text-left py-2 hover:text-[#986321] transition" %>
+
+      <% else %>
+
+        <!-- 区切り線 -->
+        <div class="border-t border-gray-200 my-4"></div>
+
+        <%= link_to "ログイン", new_user_session_path,
+              class: "py-2 hover:text-[#986321] transition" %>
+
+        <%= link_to "新規登録", new_user_registration_path,
+              class: "py-2 hover:text-[#986321] transition" %>
+
+     <% end %>
+
+    </nav>
+  </div>
+
+  <!-- ▼ 背景オーバーレイ -->
+  <div
+    data-mobile-menu-target="overlay"
+    data-action="click->mobile-menu#close"
+    class="fixed inset-0 bg-black/30
+           opacity-0 pointer-events-none
+           transition-opacity duration-300
+           md:hidden z-[40]">
+  </div>
+</div>

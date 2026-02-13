@@ -25,6 +25,12 @@ application.register("dropdown", DropdownController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)
+
+import MobileSearchController from "./mobile_search_controller"
+application.register("mobile-search", MobileSearchController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
 
@@ -33,6 +39,9 @@ application.register("post-banner", PostBannerController)
 
 import ProfileTabsController from "./profile_tabs_controller"
 application.register("profile-tabs", ProfileTabsController)
+
+import SpoilerController from "./spoiler_controller"
+application.register("spoiler", SpoilerController)
 
 import SubmitController from "./submit_controller"
 application.register("submit", SubmitController)
