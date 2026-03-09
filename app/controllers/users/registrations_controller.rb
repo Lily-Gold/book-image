@@ -10,4 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     resource.update_without_password(params.except("current_password"))
   end
+
+  protected
+
+  def after_update_path_for(resource)
+    profile_path
+  end
 end
