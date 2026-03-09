@@ -31,8 +31,9 @@
              transform transition-all duration-300
              opacity-0 translate-y-[-10px]"
     >
-      <p class="font-medium"><%= message %></p>
-
+      <p class="text-sm sm:text-base font-medium leading-snug">
+        <%= message %>
+      </p>
       <% unless auto_close %>
         <button
           type="button"

@@ -4,7 +4,8 @@
 <% avatar_url = display_image_url(review.user, size: :avatar_40, image_attribute: :avatar) %>
 <% avatar_missing = avatar_url.blank? %>
 
-<div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-8"
+<div class="flex bg-white rounded-xl shadow-md overflow-hidden mb-8
+            transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
      style="transform: scale(0.92); transform-origin: top center;">
   
   <!-- 左：書影 -->
@@ -41,7 +42,7 @@
 
   <!-- 右：内容 -->
   <div class="w-2/3 px-5 pt-2 pb-5 flex flex-col relative
-              <%= avatar_missing ? 'top-[-6px]' : 'top-[4px]' %>">
+              <%= avatar_missing ? 'top-[-8px]' : 'top-[4px]' %>">
 
     <div class="flex flex-col gap-2.5">
 
@@ -55,10 +56,10 @@
                   class: "w-8 h-8 rounded-full object-cover border border-gray-400/60" %>
           <% else %>
             <%= image_tag "avatar.png",
-                  class: "w-14 h-14 rounded-full object-cover" %>
+                  class: "w-15 h-15 rounded-full object-cover" %>
           <% end %>
 
-          <p class="text-base font-medium text-gray-700 <%= avatar_missing ? '-translate-x-2' : '' %>">
+          <p class="text-base font-medium text-gray-700 <%= avatar_missing ? '-translate-x-3.5' : '' %>">
             <%= review.user.name %>
           </p>
         </div>
@@ -79,7 +80,7 @@
       </div>
 
       <p class="text-sm text-gray-700 mt-0.5">
-        <% preview = truncate_for_two_lines(review.content) %>
+        <% preview = truncate_for_two_lines(review.content, longer: !review.is_spoiler) %>
 
         <% if review.is_spoiler %>
           <span class="text-red-500 font-semibold">[ネタバレ]</span>
@@ -98,7 +99,7 @@
 
     </div>
 
-    <div class="flex items-center justify-between mt-auto">
+    <div class="flex items-center justify-between mt-auto <%= avatar_missing ? 'translate-y-3' : '' %>">
       <!-- 左：いいね＋ブックマーク -->
       <div class="flex items-center gap-3 text-[#986321]">
         <%= render "likes/button", review: review %>
