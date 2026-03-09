@@ -6,7 +6,8 @@
 <% avatar_missing = avatar_url.blank? %>
 
 <div id="review-card-<%= panel_id %>-<%= review.public_id %>"
-     class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top">
+     class="flex bg-white rounded-xl shadow-md overflow-hidden mb-4 scale-[0.925] origin-top
+            transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lg">
   
   <!-- 左：書影 -->
   <div class="w-1/3 p-3 flex flex-col items-center"
@@ -75,13 +76,15 @@
       </p>
 
       <p
-        class="text-[11px] text-gray-700 mt-3 line-clamp-2"
+        class="text-[11px] text-gray-700 mt-3"
         <% if review.is_spoiler %>
           data-controller="spoiler"
           data-action="click->spoiler#toggle"
         <% end %>
       >
-        <% preview = truncate_for_two_lines(review.content) %>
+        <% preview = truncate_for_two_lines(review.content,
+                                            longer: !review.is_spoiler,
+                                            compact: true) %>
 
         <% if review.is_spoiler %>
           <span class="text-red-500 font-semibold">[ネタバレ]</span>
